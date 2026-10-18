@@ -61,8 +61,8 @@ export const defaultTexts = {
     "Cuéntame qué tienes en mente. Demos juntos el próximo paso.",
   contactCta: "Escríbeme por WhatsApp",
   footerWordmark: "THONY PAULINO",
-  footerAlt: "Arquitectura residencial, fotografía ilustrativa",
-  footerNote: "Fotografía ilustrativa",
+  footerAlt: "Fotografía de una propiedad de Thony Paulino",
+  footerNote: "",
   footerDisclaimer:
     "Precios, disponibilidad y condiciones sujetos a confirmación con Thony.",
   entryCaption: "TU PRÓXIMO ESPACIO. TU PRÓXIMA HISTORIA.",
@@ -113,7 +113,7 @@ export const defaultSettings: SiteSettings = {
   texts: defaultTexts,
   assets: {
     hero: "/images/portada.jpg",
-    footer: "/images/villa.jpg",
+    footer: "",
     portrait: "/images/thony-paulino.jpg",
     logo: "",
     social: "",
@@ -259,8 +259,8 @@ export function parseSiteSettings(value: unknown): SiteSettings {
       throw new Error("Selecciona una imagen de la biblioteca de este sitio.");
     assets[key] = path;
   }
-  if (!assets.hero || !assets.footer || !assets.portrait)
-    throw new Error("Elige las imágenes de portada, pie y retrato.");
+  if (!assets.hero || !assets.portrait)
+    throw new Error("Elige las imágenes de portada y retrato.");
   const theme = {
     ...defaultSettings.theme,
     ...(input.theme === undefined ? {} : record(input.theme)),

@@ -1,6 +1,8 @@
 # Thony Paulino · Ramaldi
 
-Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y pie fotográfico. Las capas de profundidad, revelados 3D e interacciones se añaden sobre esa maqueta, con alternativas para movimiento reducido y ahorro de datos.
+Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y firma grande al pie. Las capas de profundidad, revelados 3D e interacciones se añaden sobre esa maqueta, con alternativas para movimiento reducido y ahorro de datos.
+
+El pie espera las fotografías de una propiedad publicada por un administrador: sin ellas se muestran solo firma, navegación y contactos, sin imagen ilustrativa ni hueco reservado. Se usa la primera foto del inventario público, excluyendo demostraciones y renders. La selección propia del panel es opcional y también requiere ese inventario; el recurso antiguo `villa.jpg` no se reactiva desde configuraciones anteriores. Guardar, ocultar o borrar propiedades actualiza el pie mediante la revalidación existente.
 
 La web pública obtiene **solo propiedades publicadas y no marcadas como demostración en Supabase**. Sin inventario, muestra una selección en preparación y contacto por WhatsApp o teléfono. Los datos locales de ejemplo son fixtures explícitas de pruebas fuera de Vercel. No se crean anuncios ni se escriben datos en Supabase durante esta evolución.
 
@@ -99,7 +101,7 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 ## Funcionalidades actuales
 
-- Portada y pie fotográficos de Claude con profundidad por capas; retrato oficial en presentación y entrada, carrusel cuando hay propiedades publicadas y firma grande al pie. Las fotos de portada/pie se identifican como ilustrativas.
+- Portada de Claude con profundidad por capas y aviso ilustrativo; retrato oficial en presentación y entrada, carrusel cuando hay propiedades publicadas y firma grande al pie. El pie espera fotografías del inventario público en lugar de usar una imagen ilustrativa.
 - Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
 - Entrada con hoja sólida, marco, espesor, tirador y retrato real. Una vez por sesión y solo al abrir inicialmente la home; 2,1 s en carga normal y máximo 5 s si el contenido crítico tarda. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica en [PRELOADER](docs/PRELOADER.md).
 - Catálogo publicado, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. Los importes provisionales y datos desconocidos no satisfacen filtros numéricos.

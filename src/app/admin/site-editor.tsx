@@ -409,6 +409,11 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
         )}
         {tab === "imagenes" && (
           <div className={styles.form}>
+            <p className={styles.hint}>
+              La foto del pie aparece cuando hay una propiedad publicada con
+              fotografías. Sin una selección propia se usa la primera foto de
+              esa propiedad; las demostraciones y los renders se excluyen.
+            </p>
             {(
               [
                 ["hero", "Foto de portada"],
@@ -422,7 +427,7 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
                 key={key}
                 label={label}
                 value={settings.assets[key]}
-                optional={key === "logo" || key === "social"}
+                optional={key === "logo" || key === "social" || key === "footer"}
                 onBusyChange={(value) =>
                   setUploads((count) => count + (value ? 1 : -1))
                 }

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { getSiteSettings } from "@/data/get-site-settings";
+import { getProperties } from "@/data/get-properties";
+import { footerPropertyImage } from "@/lib/footer-property-image";
 import { SiteFrame } from "@/components/site-frame";
 import "@/components/cinematic.css";
 export async function generateViewport(): Promise<Viewport> {
@@ -34,6 +36,13 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const settings = await getSiteSettings();
-  return <SiteFrame settings={settings}>{children}</SiteFrame>;
+  const [settings, properties] = await Promise.all([
+    getSiteSettings(),
+    getProperties(),
+  ]);
+  return (
+    <SiteFrame settings={settings} footerImage={footerPropertyImage(properties)}>
+      {children}
+    </SiteFrame>
+  );
 }

@@ -4,6 +4,7 @@ import type { Property } from "@/data/properties";
 import { parseSiteSettings, type SiteSettings } from "@/lib/site-settings";
 import { SiteFrame } from "@/components/site-frame";
 import { HomeContent } from "@/components/home-content";
+import { footerPropertyImage } from "@/lib/footer-property-image";
 import "@/components/cinematic.css";
 
 export function WebsitePreview({
@@ -32,7 +33,7 @@ export function WebsitePreview({
     return () => window.removeEventListener("message", receive);
   }, []);
   return (
-    <SiteFrame settings={settings}>
+    <SiteFrame settings={settings} footerImage={footerPropertyImage(properties)}>
       <HomeContent settings={settings} properties={properties} preview />
     </SiteFrame>
   );

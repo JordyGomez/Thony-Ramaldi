@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("sin inventario, la web conserva las fotos ilustrativas de Claude sin publicar anuncios ficticios", async ({
+test("sin inventario, el pie espera fotografías de propiedades publicadas", async ({
   page,
 }) => {
   await page.goto("/");
@@ -25,8 +25,11 @@ test("sin inventario, la web conserva las fotos ilustrativas de Claude sin publi
   ).toBeVisible();
   await expect(page.locator(".hero-image")).toHaveAttribute("src", /portada/);
   await expect(
-    page.locator(".hero .photo-note, .footer-image .photo-note"),
-  ).toHaveText(["Fotografía ilustrativa", "Fotografía ilustrativa"]);
+    page.locator(".hero .photo-note"),
+  ).toHaveText("Fotografía ilustrativa");
+  await expect(page.locator(".footer-image, .footer-photo")).toHaveCount(0);
+  await expect(page.locator(".footer-wordmark")).toHaveText("THONY PAULINO");
+  await expect(page.locator(".footer-socials")).toBeVisible();
   await expect(
     page.getByText(
       /Residencia Olivo|Apartamento Luz|Penthouse Horizonte|US\$1,000/,

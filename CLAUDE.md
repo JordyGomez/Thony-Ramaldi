@@ -14,6 +14,8 @@ Al iniciar cada tarea:
 
 Estado vigente: el usuario rechazó sustituir tu composición y pidió restaurarla, añadir 3D sobre ella, corregir las subidas y administrar el contenido de toda la web. Rama `feat/claude-design-full-admin`, desde main `3adaf47` (PR #6 fusionado). También autorizó expresamente llevar esta entrega a main al terminar. Ver HANDOFF y `docs/CLAUDE-ADMIN-REVIEW.md` para estado y pruebas reales.
 
+Corrección posterior: PR #7 fusionado en main `6ef6e98`. El propietario pidió quitar la foto ilustrativa del pie que muestra su captura. Ese bloque se oculta hasta disponer de una propiedad pública no demo con fotos (no renders); se mantiene la firma/contactos y se usa su primera foto. No restaurar `villa.jpg` como reserva. Portada y resto del diseño se conservan. El editor permite una selección propia opcional, que solo se muestra cuando existe ese inventario.
+
 Se recuperan portada fotográfica, Inter/carbón y pie de main 0742704, con profundidad y una búsqueda personal. La configuración publicada vive en site_content; los borradores y revisiones quedan privados y se guardan por RPC con control de conflictos. El panel añade Mi página web, Archivos y Configuración. La subida usa una ruta del mismo origen con sesión/rol, validación, progreso, diagnóstico y reintento. Las imágenes de biblioteca se conservan al borrar una ficha. La migración aditiva está en `supabase/migrations/20261018_site_editor.sql`; no asumir que está ejecutada en el proyecto real sin comprobarlo.
 
 ## Registro histórico — evolución cinematográfica del PR #6

@@ -394,6 +394,8 @@ test("publicar y borrar una ficha conserva sus fotos compartidas en la bibliotec
   request,
 }) => {
   await login(page);
+  await page.goto("/");
+  await expect(page.locator(".footer-image")).toHaveCount(0);
   await page.goto("/admin/nueva");
   await page
     .getByLabel("Nombre de la propiedad")
@@ -423,6 +425,16 @@ test("publicar y borrar una ficha conserva sus fotos compartidas en la bibliotec
   await expect(
     page.locator("main li").filter({ hasText: "Apartamento de prueba local" }),
   ).toBeVisible();
+  await page.goto("/");
+  await expect(page.locator(".footer-photo")).toBeVisible();
+  await expect(page.locator(".footer-photo")).toHaveAttribute(
+    "alt",
+    "Retrato de prueba para comprobar la subida, sin oferta inmobiliaria real.",
+  );
+  await expect(page.locator(".footer-image .photo-note")).toHaveText(
+    "Apartamento de prueba local",
+  );
+  await page.goto("/admin");
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Borrar", exact: true }).click();
   await expect(
@@ -432,4 +444,6 @@ test("publicar y borrar una ficha conserva sus fotos compartidas en la bibliotec
   expect(state.propertyCount).toBe(0);
   expect(state.files).toHaveLength(1);
   expect(state.removals).toBe(0);
+  await page.goto("/");
+  await expect(page.locator(".footer-image")).toHaveCount(0);
 });

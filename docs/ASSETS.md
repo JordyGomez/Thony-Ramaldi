@@ -1,6 +1,10 @@
 # Recursos visuales
 
-## Uso actual — composición de Claude con profundidad y editor
+## Uso actual — pie sin fotografía ilustrativa
+
+Petición posterior del propietario: retirar `villa.jpg` del pie por su calidad y esperar fotos de propiedades publicadas. Sin inventario público no demo con fotografías (no renders), se omite todo el bloque de imagen, manteniendo firma/contactos. Cuando existe, se utiliza la primera foto de ese inventario o la selección propia opcional del editor. El aviso automático identifica la propiedad, sin llamarla ilustrativa. El archivo histórico se conserva por las fixtures; no debe reaparecer en el pie desde una configuración antigua. La portada `portada.jpg` sigue con su aviso ilustrativo.
+
+## Registro anterior — composición de Claude con profundidad y editor
 
 Por instrucción posterior del propietario se restaura la portada `portada.jpg` elegida con Claude y el pie `villa.jpg`, conservando sus avisos de fotografía ilustrativa y créditos. No son anuncios ni inventario de Thony. La portada solicita una resolución apropiada al recorte vertical móvil mediante sizes; no se agranda ni reconstruye la fotografía con IA.
 
