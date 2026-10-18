@@ -1,0 +1,15 @@
+.fallback {
+  display: none;
+}
+.plainNav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+.plainNav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}

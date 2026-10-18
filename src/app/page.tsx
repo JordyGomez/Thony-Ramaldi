@@ -4,6 +4,7 @@ import { Catalog } from "@/components/catalog";
 import { Preloader } from "@/components/preloader";
 import { Reveal } from "@/components/reveal";
 import { Showcase } from "@/components/showcase";
+import { FeaturedRental } from "@/components/featured-rental";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
 import { propertyImages } from "@/data/properties";
@@ -37,6 +38,9 @@ export default function Home() {
             <a href="#presentacion" className="link-arrow">
               Descubrir <ArrowDown size={15} strokeWidth={1.25} />
             </a>
+            <a href={whatsappUrl()} className="link-arrow" target="_blank" rel="noopener noreferrer">
+              Hablar con Thony <ArrowUpRight size={15} strokeWidth={1.25} />
+            </a>
           </div>
         </div>
         <span className="photo-note">Fotografía ilustrativa</span>
@@ -56,6 +60,7 @@ export default function Home() {
         </Reveal>
       </section>
 
+      <FeaturedRental />
       <Showcase />
 
       <Catalog />

@@ -1,7 +1,6 @@
-# Recursos oficiales pendientes
+# Referencias de Ramaldi y archivos de marca
 
-Este directorio espera los dos logotipos originales proporcionados por el propietario.
-No se han recibido en esta sesión. No se ha creado un logotipo corporativo alternativo.
+El propietario compartió dos referencias visuales del logo Ramaldi en la conversación. Se usaron para ajustar la paleta, documentada en `docs/BRAND.md`. Este directorio todavía no contiene sus archivos originales reutilizables. El símbolo no se ha redibujado ni generado; el encabezado conserva la identidad tipográfica.
 
 Cuando estén disponibles:
 

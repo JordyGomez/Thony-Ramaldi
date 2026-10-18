@@ -1,0 +1,124 @@
+.root {
+  min-width: 0;
+}
+.sourceNote {
+  position: absolute;
+  top: calc(var(--header-h) + 14px);
+  left: var(--gutter);
+  z-index: 2;
+  max-width: calc(100% - 2 * var(--gutter));
+  padding: 8px 12px;
+  background: rgba(34, 34, 34, 0.86);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.root:focus-visible {
+  outline: 2px solid var(--brand-ink);
+  outline-offset: -4px;
+}
+.root :global(.gallery-main) {
+  touch-action: pan-y;
+}
+.imageLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.contained > img {
+  object-fit: contain;
+}
+.unavailable {
+  visibility: hidden;
+}
+.loading {
+  position: absolute;
+  top: calc(var(--header-h) + 20px);
+  left: var(--gutter);
+  padding: 10px 14px;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-size: 13px;
+  pointer-events: none;
+}
+.error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 30px 72px;
+  text-align: center;
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 15px;
+}
+.error button,
+.error a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+.error button {
+  border: 1px solid var(--line-strong);
+}
+.error a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.thumbIndex {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  padding: 2px 6px;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-size: 12px;
+}
+.help {
+  padding: 12px var(--gutter) 0;
+  font-size: 13px;
+  color: var(--brand-ink);
+}
+.root :global(.gallery-note) {
+  min-width: 0;
+  max-width: 1000px;
+  padding: 12px var(--gutter) 24px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.lightbox {
+  overflow: auto;
+}
+.lightbox :global(.lightbox-image) {
+  touch-action: pan-y;
+}
+.fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px var(--gutter);
+}
+.fallback a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--brand-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 620px) {
+  .error {
+    padding-inline: 60px;
+  }
+}

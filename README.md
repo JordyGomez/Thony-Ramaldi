@@ -2,7 +2,9 @@
 
 Primera versión del portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientada a República Dominicana. La experiencia sigue una dirección minimalista oscura inspirada en estudios de arquitectura (referencia: maddockdesign.com): fondo carbón, una sola tipografía sans fina, fotografía a pantalla completa y consultas directas al asesor.
 
-Todos los inmuebles de esta entrega son **DEMOSTRACIÓN**: nombres, precios, características y ubicaciones son ficticios. No constituyen anuncios ni ofertas reales. Los contactos sí son los proporcionados por el propietario.
+Esta integración conserva el diseño oscuro de Claude y añade **Alberobello Residences**, un alquiler real en preparación, junto a seis fichas **DEMOSTRACIÓN**. **US$1,000/mes es un importe provisional de maqueta autorizado, no una renta confirmada.** La unidad, características y condiciones están por confirmar. Los renders son del proyecto, no fotos actuales de la unidad. La entrega se realiza mediante un PR de `feat/ramaldi-alberobello-integrated` a `main`, con preview de Vercel antes de la fusión.
+
+Se incorporan selección Reales, filtros activos retirables, galerías con teclado/gestos y recuperación de errores, consulta móvil contextual y navegación sin JavaScript. El carrusel, el menú a pantalla completa, Inter, el fondo carbón y el pie conservan la composición de Claude. Ver [integración visual](docs/AUDIT-INTEGRATION.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md).
 
 ## Contacto oficial
 
@@ -18,7 +20,7 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografía Inter (variable) servida localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
 
-Los componentes de servidor generan la portada y las seis fichas. Los componentes de cliente gestionan filtros, menú, galería y animaciones. El catálogo utiliza datos locales tipados; no hay API, base de datos, autenticación ni servicios comerciales necesarios para ejecutar la aplicación. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
+Los componentes de servidor generan la portada y las siete fichas. Los componentes de cliente gestionan filtros, menú, galería y animaciones. El catálogo utiliza datos locales tipados; no hay API, base de datos, autenticación ni servicios comerciales necesarios para ejecutar la aplicación. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
 
 ```text
 src/
@@ -26,7 +28,7 @@ src/
     page.tsx                    Portada, presentación y contacto
     layout.tsx                  Metadatos, tipografías, encabezado y pie
     globals.css                 Identidad visual y adaptación responsive
-    propiedades/[slug]/page.tsx  Seis fichas estáticas y rutas 404
+    propiedades/[slug]/page.tsx  Siete fichas estáticas y rutas 404
     error.tsx / not-found.tsx    Recuperación y navegación de error
     opengraph-image.tsx          Imagen social generada localmente
     robots.ts / sitemap.ts      Indexación sin fichas ficticias
@@ -36,9 +38,9 @@ src/
 public/
   images/                       Fotografías ilustrativas locales
   brand/README.md               Incorporación de logotipos originales
-tests/site.spec.ts              Pruebas de navegador y accesibilidad
+tests/                          Regresiones, accesibilidad e integración
 docs/                           Memoria compartida y procedencia de recursos
-.github/workflows/ci.yml         Validación propuesta para GitHub Actions
+.github/workflows/ci.yml         Validación automática de PR y main
 ```
 
 ## Instalación y ejecución
@@ -75,14 +77,14 @@ Copiar `.env.example` a `.env.local` solo si se necesitan personalizaciones. El 
 
 Estas variables son públicas y se leen al compilar. No colocar contraseñas, tokens o claves en ellas. En un despliegue fuera de Vercel, definir el dominio público antes de compilar. Los contactos oficiales tienen valores públicos en `site.ts` y no necesitan variables.
 
-## Funcionalidades de la fase 1
+## Funcionalidades actuales
 
 - Portada con fotografía a pantalla completa, paleta carbón/blanco con acento dorado sutil, carrusel horizontal de propiedades y pie con el nombre a todo el ancho.
-- Header sticky, navegación móvil, control de foco y cierre con Escape.
-- Puerta CSS con perspectiva, duración máxima de 2,3 s y una reproducción por sesión; omitida con movimiento reducido. No muestra porcentajes ficticios ni impide acceder al contenido si falla JavaScript.
-- Catálogo de seis fichas de demostración, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos.
+- Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
+- Introducción tipográfica de Claude con detalle arquitectónico CSS, una reproducción por sesión y solo al abrir inicialmente la home. Dura 2,3 s en carga normal; si la imagen principal o las fuentes siguen pendientes, mantiene una espera suave con límite absoluto de 5 s. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica y capturas en [PRELOADER](docs/PRELOADER.md).
+- Catálogo de seis demostraciones y Alberobello en preparación, selección de destacados y reales, filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. La renta provisional y los datos desconocidos no satisfacen filtros numéricos.
 - Estado sin resultados y limpieza de filtros.
-- Fichas con galería, miniaturas, ampliación, navegación por teclado, características, precio y consulta contextual de WhatsApp, que reconoce que la ficha es ficticia.
+- Fichas con galería, miniaturas, ampliación, teclado, gestos, recuperación de imágenes y consulta contextual de WhatsApp. Las demostraciones se identifican como ficticias; Alberobello solicita confirmar renta, unidad y fotos actuales.
 - Presentación profesional de Thony y enlaces de llamada, correo, Instagram y WhatsApp.
 - Transiciones de interfaz y revelados de scroll respetando `prefers-reduced-motion`.
 - Imágenes optimizadas con Next, carga diferida, tipografías locales, foco visible y estructura semántica.
@@ -92,21 +94,20 @@ La galería avisa que las fotografías ilustrativas no representan un mismo inmu
 
 ## Identidad y recursos pendientes
 
-Los dos logotipos originales y el retrato de Thony **no se recibieron en esta sesión**. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, configurando `site.logo` y `site.portrait`.
+Se recibieron dos referencias del logo Ramaldi en la conversación y se usaron para acentos de marca. Falta un archivo reutilizable de logo en el checkout y el retrato de Thony. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, configurando `site.logo` y `site.portrait`.
 
 La presentación del servicio es una propuesta editorial que el propietario puede revisar; no pretende ser una biografía verificada. Incorporar contenido e inventario aprobados antes de un lanzamiento comercial. Procedencia y condiciones pendientes de las fotografías: [docs/ASSETS.md](docs/ASSETS.md).
 
-| Color | Variable CSS | Valor aproximado |
+| Uso | Variable CSS | Valor |
 | --- | --- | --- |
-| Petróleo | `--petroleum` | `#477D79` |
-| Petróleo profundo para contraste | `--petroleum-deep` | `#285651` |
-| Dorado | `--gold` | `#D99A00` |
-| Dorado claro | `--gold-light` | `#F0CA55` |
-| Marfil | `--ivory` | `#F8F6F0` |
-| Carbón | `--charcoal` | `#192B2B` |
-| Blanco | `--white` | `#FFFFFF` |
+| Fondo carbón de Claude | `--bg` | `#2B2B2B` |
+| Texto | `--text` | `#FFFFFF` |
+| Verde de referencia | `--petroleum` | `#437976` |
+| CTA verde profundo | `--petroleum-deep` | `#285651` |
+| Texto verde claro sobre carbón | `--brand-ink` | `#ACD7CF` |
+| Dorado de referencia / claro | `--gold` / `--gold-light` | `#DEA900` / `#F5E8B3` |
 
-Son aproximaciones proporcionadas en el brief, no códigos certificados de Ramaldi. No se utilizó ninguna web externa como referencia corporativa. La referencia estética Maddock no pudo capturarse: el entorno respondió HTTP 403.
+Los colores de marca se aproximan visualmente al logo aportado, sin sustituir el tema oscuro. No son códigos corporativos certificados. La referencia Maddock se inspeccionó en las sesiones previas; no se copiaron sus recursos. Procedencia en ASSETS y resultados actuales en AUDIT-INTEGRATION.
 
 ## Comprobaciones
 
@@ -120,7 +121,9 @@ npm test
 
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
-`npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las seis rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El caso específico de menú móvil se omite en el proyecto de escritorio por no aplicar. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
+`npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
+
+La continuación del preloader añade pruebas de entrada por una ficha y retorno SPA, carga lenta real, error, límite de seguridad y salida por teclado. La suite local completa de esta entrega tiene 72 pruebas aprobadas; ver PRELOADER para su alcance y límites.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 
@@ -131,15 +134,18 @@ npm run build
 npm run start
 ```
 
-## Despliegue posterior en Vercel
+## Publicación en Vercel
 
-1. Importar **el único repositorio oficial**, `JordyGomez/Thony-Ramaldi`, en Vercel.
-2. Seleccionar Next.js, raíz del repositorio y Node 24. Instalar con `npm ci`; compilar con `npm run build`; mantener el directorio de salida predeterminado.
-3. Definir el dominio público en `NEXT_PUBLIC_SITE_URL` si se necesita reemplazar la detección automática de Vercel. Añadir Facebook únicamente después de confirmar su URL. No hacen falta credenciales de una base de datos.
-4. Habilitar Preview Deployments para ramas/PR y revisar móvil, contactos, fotografías y metadatos en la preview.
-5. Incorporar activos y datos autorizados, confirmar derechos de las fotografías, medir rendimiento en el despliegue y obtener autorización antes de publicar producción.
+El repositorio oficial `JordyGomez/Thony-Ramaldi` ya está conectado al proyecto [thony-ramaldi de Vercel](https://vercel.com/los-yordis/thony-ramaldi). La integración GitHub existente genera los despliegues; no hace falta importar otro proyecto ni añadir tokens de Vercel al repositorio.
 
-No se ha desplegado automáticamente ni conectado una cuenta de Vercel desde esta sesión. El workflow de GitHub Actions se añade como configuración; sus resultados remotos deben comprobarse cuando la rama se publique.
+1. Guardar cambios en commits y subir la rama a GitHub; abrir su PR contra `main`. Esta entrega utiliza `feat/ramaldi-alberobello-integrated`, basada en el main del PR #3 de Claude.
+2. GitHub Actions ejecuta instalación, lint, tipos, build y pruebas de navegador. Vercel compila una **Preview** y añade el enlace al PR. Nuevos commits en la rama actualizan esa preview automáticamente. Si Vercel pide iniciar sesión, acceder con una cuenta autorizada del equipo.
+3. Revisar la preview y los checks del PR. Para actualizar el sitio público, pulsar **Merge pull request** y confirmar la fusión a `main` en GitHub.
+4. Vercel despliega automáticamente el nuevo `main` en [thony-ramaldi.vercel.app](https://thony-ramaldi.vercel.app/). Comprobar el resultado del despliegue y el sitio antes de darlo por publicado.
+
+**Guardar/publicar la configuración del entorno cloud configura las tareas de Codex; no fusiona el PR de la aplicación.** La actualización de producción se activa cuando los cambios llegan a `main`. El PR #2 anterior corresponde a otra rama y no contiene esta integración.
+
+Se conserva Next.js como framework, raíz del repositorio, instalación con `npm ci`, build con `npm run build` y salida predeterminada. `NEXT_PUBLIC_SITE_URL` permite reemplazar la detección del dominio de Vercel; no hacen falta credenciales de una base de datos. Antes del lanzamiento comercial, confirmar los datos provisionales de Alberobello, fotografías, recursos de marca y contenido con el propietario. Esta tarea publica una rama y su PR para revisión; no fusiona automáticamente a producción.
 
 ## Convenciones y colaboración
 
