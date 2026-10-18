@@ -1,5 +1,38 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Fase 2 de experiencia
+
+### Base y auditoría
+
+- Se consultaron todas las ramas y PR. Main avanzó mediante el merge `106e9ce` del PR #1, sin diferencias adicionales de código respecto a la fase 1. No se detectaron cambios atribuibles a Claude/Yordi Lewis ni conflictos.
+- Se creó `feat/thony-phase-two` desde origin/main, conservando la aplicación existente.
+- Se capturaron y revisaron portada, catálogo y ficha de producción y local, además de Maddock como referencia estética. La validación TLS se mantuvo a través del proxy disponible. La evidencia Vercel/GitHub y sus límites están en `AUDIT-PHASE-2.md`.
+
+### Cambios reales
+
+- Hero inmersivo con CTA claros y movimiento coordinado con la puerta CSS existente; parallax acotado por dispositivo/preferencia/visibilidad.
+- Iluminación, marco y profundidad de la puerta, manteniendo duración y sesión; salida segura ante almacenamiento bloqueado o cambio a movimiento reducido.
+- Menú animado con foco, fondo inerte y alternativa sin JS. Variantes de Reveal y constantes compartidas de Motion.
+- Filtros activos removibles, conteos derivados, resultados animados inaccesibles durante salida y mejoras de tarjetas/precios/controles.
+- Galería con carga/error/reintento real, teclado normal/ampliado y gesto horizontal; CTA contextual persistente en móvil y mejoras editoriales de fichas.
+- Reordenadas dos imágenes ilustrativas para coherencia de tipología, conservando seis fichas y datos. Sin nuevas dependencias, mapas, ofertas reales, biografía, logos inventados ni motor 3D.
+
+### Archivos
+
+Modificados `src/app/page.tsx`, `src/app/propiedades/[slug]/page.tsx`, componentes existentes de navegación, entrada, catálogo, tarjetas, galería y Reveal, y `src/data/properties.ts`. Añadidos `hero.tsx`, `src/lib/motion.ts`, módulos CSS acotados, tres archivos de pruebas de fase 2, auditoría y capturas. README, CLAUDE, HANDOFF y ROADMAP se actualizan conservando el registro anterior. No se reemplaza la aplicación ni se eliminan componentes funcionales.
+
+### Validación
+
+- Lint, TypeScript y build de producción aprobados.
+- Playwright/Chromium: **43 aprobadas, 1 omitida por no aplicar y 0 fallidas**. Se mantienen las pruebas anteriores y se añaden estados nuevos.
+- Axe sin infracciones en estados probados de portada, ficha y menú móvil. Sin overflow en 360, 390, 768, 844 y 1440 px; teclado, foco, no JS y movimiento reducido comprobados.
+- Se corrigió un overflow del noscript del encabezado detectado en la primera ronda. Los fixtures Touch y búsqueda noscript se corrigieron según el DOM real, sin retirar aserciones.
+- Capturas posteriores aceptadas tras decodificar imágenes. Laboratorio local documentado con el mismo protocolo inicial; no equivale a Web Vitals de campo ni Safari/dispositivos físicos.
+
+### Commits y continuidad
+
+Código: `1b2b57e` y `464bbbe`. La actualización documental posterior se consulta en Git. Publicación en rama de trabajo; no se fusiona a main ni se despliega manualmente a producción. La siguiente revisión requiere contenido e imágenes autorizados y comprobar la preview y checks del PR.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Corrección de caché de imágenes
 
 - En la revisión visual posterior se detectaron imágenes optimizadas anteriores pese a haber sustituido los archivos locales. Se utilizan importaciones estáticas para que Next genere URLs con hash del contenido en portada, catálogo y galerías.

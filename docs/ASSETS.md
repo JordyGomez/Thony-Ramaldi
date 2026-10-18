@@ -21,7 +21,7 @@ Copias locales del proyecto público [Homeverse de codewithsadee](https://github
 
 Los nombres de archivo son identificadores internos; las descripciones alternativas explican el contenido real. Se ha normalizado el formato a JPEG mediante Sharp y se sirve con `next/image`, importaciones estáticas con hash del contenido, tamaños responsive y carga diferida. El hash cambia al sustituir el archivo y evita conservar fotografías antiguas en la caché de optimización. No se requieren peticiones del navegador a un proveedor externo de fotografías. Las fotos de una galería son referencias independientes, no un reportaje del mismo inmueble.
 
-Se intentó acceder a `maddockdesign.com/?ref=minimal.gallery` para revisar la referencia indicada, pero el entorno devolvió HTTP 403. No se ha inspeccionado visualmente ese sitio ni copiado sus imágenes, código o diseño. La composición implementada parte del brief del propietario.
+En la fase 1, el intento de acceder a Maddock devolvió HTTP 403. En la fase 2 sí se inspeccionó visualmente como referencia estética mediante el transporte documentado en [la auditoría](AUDIT-PHASE-2.md). No se copiaron sus imágenes, código ni identidad. Se conservan las fotografías locales ilustrativas y su caché por hash; solo se reordenaron dos imágenes principales entre las fichas de demostración.
 
 ## Tipografías e iconos
 
