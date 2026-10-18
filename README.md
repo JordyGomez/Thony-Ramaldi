@@ -81,7 +81,7 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 - Portada con fotografía a pantalla completa, paleta carbón/blanco con acento dorado sutil, carrusel horizontal de propiedades y pie con el nombre a todo el ancho.
 - Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
-- Introducción tipográfica de Claude, duración máxima de 2,3 s y una reproducción por sesión; omitida con movimiento reducido. El contenido está disponible si falla JavaScript.
+- Introducción tipográfica de Claude con detalle arquitectónico CSS, una reproducción por sesión y solo al abrir inicialmente la home. Dura 2,3 s en carga normal; si la imagen principal o las fuentes siguen pendientes, mantiene una espera suave con límite absoluto de 5 s. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica y capturas en [PRELOADER](docs/PRELOADER.md).
 - Catálogo de seis demostraciones y Alberobello en preparación, selección de destacados y reales, filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. La renta provisional y los datos desconocidos no satisfacen filtros numéricos.
 - Estado sin resultados y limpieza de filtros.
 - Fichas con galería, miniaturas, ampliación, teclado, gestos, recuperación de imágenes y consulta contextual de WhatsApp. Las demostraciones se identifican como ficticias; Alberobello solicita confirmar renta, unidad y fotos actuales.
@@ -122,6 +122,8 @@ npm test
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
 `npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
+
+La continuación del preloader añade pruebas de entrada por una ficha y retorno SPA, carga lenta real, error, límite de seguridad y salida por teclado. La suite local completa de esta entrega tiene 72 pruebas aprobadas; ver PRELOADER para su alcance y límites.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 

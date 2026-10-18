@@ -1,6 +1,16 @@
 # Transferencia de contexto
 
-## Estado actual — entrega por PR sobre Claude, 2026-10-18
+## Estado actual — mejora exclusiva del preloader, 2026-10-18
+
+El usuario aportó un texto de preloader y pidió descartar cualquier instrucción que reemplazara lo ya construido. Se revisaron GitHub, el PR #4 y el código: no había cambios remotos nuevos de main ni modificaciones locales desconocidas. La continuación parte de c3e256e en la misma rama `feat/ramaldi-alberobello-integrated`, conservando íntegros Alberobello, catálogo y diseño de Claude. Implementación: **a5ae5b8**.
+
+Únicos cambios de aplicación: preloader.tsx y su bloque en globals.css. Se mantiene la entrada tipográfica y se añade un marco con apertura CSS de fondo, en vez de sustituir la composición. No se instala nada. `site.logo` está preparado, pero sigue faltando el archivo real; se conserva el texto original y se recupera si falla una imagen de logo futura.
+
+Entrada inicial por home y una vez por sesión; se evita también la primera llegada SPA a la home desde una ficha. Duración normal 2,3 s; espera del hero decodificado y fuentes con respiración de línea si se retrasan, sin repetir la puerta. Límite absoluto 5 s, salida por interacción/ocultar pestaña/movimiento reducido, fallback CSS y ningún overlay sin JS. No se espera el resto de imágenes lazy. Mantener la regla existente de no repetir al refrescar durante la misma sesión.
+
+Lint, tipos, build y **72 pruebas locales aprobadas, 0 omitidas, 0 fallidas** en Chromium escritorio/móvil. Diez ejecuciones nuevas en tests/preloader.spec.ts y todas las regresiones anteriores conservadas. Capturas antes/después y decisiones en [PRELOADER.md](PRELOADER.md). No se afirma validación de Safari, equipos físicos o rendimiento de campo. Esta entrega actualiza el PR #4 y su preview; comprobar los checks del nuevo commit antes de fusionar. No se fusiona main automáticamente. Las rutas temporales de respaldos citadas en entradas anteriores pertenecen a su instancia original: comprobar su existencia antes de usarlas.
+
+## Entrega anterior — integración sobre Claude, 2026-10-18
 
 El usuario pidió conservar el diseño de Claude y añadir nuestras mejoras; después autorizó expresamente guardar, subir y crear un PR para Vercel. La base de esta rama es **main `d0f5f093d018bff6f4ac284d5fab64a4a5d3a1bb`**, merge del PR #3 de Claude. Rama de entrega: **`feat/ramaldi-alberobello-integrated`**, creada en el mismo checkout, sin otro repositorio o worktree. Código, pruebas y activos: commit **`6260099`**. La documentación posterior registra la entrega mediante PR contra main y su flujo de despliegue.
 

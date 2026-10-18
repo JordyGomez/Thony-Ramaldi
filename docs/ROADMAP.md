@@ -19,6 +19,7 @@
 - Selección Reales, filtros activos, carrusel con etiquetas correctas, teclado/gestos, error/reintento, no JS y contacto móvil contextual.
 - Acentos Ramaldi legibles dentro del tema carbón, sin recrear el logo ni reactivar el diseño claro anterior.
 - Código, pruebas y activos en 6260099; entrega autorizada mediante PR de esta rama a main, con Preview automática de Vercel. Validación local final de 62 pruebas y capturas en AUDIT-INTEGRATION; resultados remotos en los checks del PR.
+- Continuación exclusiva del preloader en a5ae5b8: conserva la composición, suma apertura CSS discreta, espera real acotada y protección de entrada SPA; 72 pruebas locales aprobadas y evidencia actual en PRELOADER. Actualiza el mismo PR #4.
 
 ## En desarrollo
 

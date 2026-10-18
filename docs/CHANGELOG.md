@@ -1,5 +1,13 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Mejora exclusiva del preloader
+
+- Se revisaron remoto, PR #4 y texto adjunto antes de editar. Sin cambios remotos nuevos respecto al main d0f5f09 y la rama publicada c3e256e; se continúa sobre la integración existente. El usuario priorizó mejoras aditivas y conservar el diseño.
+- Implementación a5ae5b8: composición tipográfica de Claude conservada y detalle de marco/apertura 3D mediante CSS. Solo se modifica preloader.tsx y su bloque en globals.css; no se alteran portada, catálogo, fichas, navegación, datos ni dependencias.
+- Espera real de hero decodificado y fuentes, respiración de línea al retrasarse, límite absoluto de 5 s, fallback CSS y salida por interacción, pestaña oculta o movimiento reducido. Se mantiene una vez por sesión y se evita activar al llegar por SPA desde una ficha. La decisión tolera el ciclo adicional de efectos de Strict Mode.
+- Preparado para el archivo autorizado mediante site.logo; no se inventa logo ni se sustituye la marca tipográfica actual. Se descarta rehacer el diseño, recuperar la antigua puerta del tema claro o prometer rendimiento universal sin medición.
+- Lint, typecheck y build aprobados. Suite completa: **72 aprobadas, 0 omitidas, 0 fallidas**, escritorio y móvil. Diez ejecuciones nuevas de carga lenta, imagen fallida, límite, navegación SPA y teclado; 62 regresiones previas preservadas. Capturas actuales inspeccionadas y límites en PRELOADER.md. Entrega mediante el PR #4 existente, sin fusión automática a producción.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Integración sobre el diseño de Claude
 
 - El usuario autorizó posteriormente guardar commits, subir la rama y crear su PR contra main para activar la Preview de Vercel. Implementación: `6260099`. README documenta la conexión GitHub/Vercel ya existente, la revisión del PR y el despliegue de producción al fusionar a main; guardar la configuración cloud no realiza esa fusión. Consultar los checks del PR para su resultado remoto. No se fusiona automáticamente a main.
