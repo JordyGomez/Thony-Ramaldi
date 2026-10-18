@@ -74,8 +74,8 @@ Copiar `.env.example` a `.env.local` solo si se necesitan personalizaciones. El 
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Dominio público HTTPS para canonical, Open Graph y sitemap | Se detecta a partir de `VERCEL_PROJECT_PRODUCTION_URL` o `VERCEL_URL`; sin dominio configurado se utiliza una base local de desarrollo y sitemap vacío |
 | `NEXT_PUBLIC_FACEBOOK_URL` | URL HTTPS confirmada de `facebook.com` | Vacío: muestra “Enlace por confirmar”, sin botón falso |
-| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto de Supabase para el panel `/admin` | Vacío: panel pendiente de activar y datos locales |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública (anon / publishable) de Supabase | Vacío |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto de Supabase para el panel `/admin` | Proyecto oficial (`uowylfdlirlfqksvdeer`) definido en `src/lib/supabase/env.ts`; vacía desactiva Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública (publishable) de Supabase | La del proyecto oficial; vacía desactiva Supabase |
 
 Estas variables son públicas y se leen al compilar. No colocar contraseñas, tokens o claves en ellas. En un despliegue fuera de Vercel, definir el dominio público antes de compilar. Los contactos oficiales tienen valores públicos en `site.ts` y no necesitan variables.
 
@@ -98,7 +98,8 @@ La galería avisa que las fotografías ilustrativas no representan un mismo inmu
 
 Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los datos, las fotos y el inicio de sesión viven en **Supabase** (Postgres, Storage y Auth). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
 
-- **Sin configurar** (estado actual): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
+- **Proyecto oficial**: `uowylfdlirlfqksvdeer`, con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts` (no hace falta configurar Vercel).
+- **Desactivado** (variables vacías, como en CI y en las pruebas): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
 - **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
 - **Si Supabase falla o la tabla está vacía**, se usan los datos locales; la web nunca queda vacía. En cuanto haya al menos una propiedad publicada, el panel pasa a ser la única fuente. El panel vacío ofrece **Importar propiedades actuales**, que copia las siete fichas, sus fotos y el folleto de Alberobello.
 
@@ -108,10 +109,10 @@ Cada propiedad tiene un estado: **Demostración**, **Ficha en preparación** (co
 
 Activación pendiente:
 
-1. Crear un proyecto gratuito en [supabase.com](https://supabase.com).
+1. Proyecto creado: `uowylfdlirlfqksvdeer`.
 2. En **SQL Editor**, pegar y ejecutar `supabase/schema.sql`, cambiando antes el correo de la última línea por el de Thony.
 3. En **Authentication → Users → Add user**, crear el usuario de Thony con ese correo y una contraseña. En **Authentication → Sign In / Providers**, desactivar *Allow new users to sign up*.
-4. En **Project Settings → API**, copiar la URL y la clave *anon public* (o *publishable*) y definirlas como `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en el proyecto de Vercel (equipo `los-yordis`). Son públicas: también pueden fijarse como valor por defecto en `src/lib/supabase/env.ts`. Volver a desplegar.
+4. URL y clave publishable ya están en `src/lib/supabase/env.ts`. Para otro proyecto, cambiarlas allí o definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel y volver a desplegar.
 5. Entrar en `/admin`, pulsar **Importar propiedades actuales** y revisar las fichas.
 
 Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, la web mostraría los datos locales hasta reactivarlo desde su panel.
@@ -138,10 +139,12 @@ Los colores de marca se aproximan visualmente al logo aportado, sin sustituir el
 ```bash
 npm run lint
 npm run typecheck
-npm run build
+NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npm run build
 npx playwright install chromium
 npm test
 ```
+
+Las pruebas se ejecutan sobre una compilación con Supabase desactivado (variables vacías), igual que en CI, para que no dependan de lo publicado en el panel.
 
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
