@@ -1,3 +1,13 @@
+import type { StaticImageData } from "next/image";
+import hero from "../../public/images/hero.jpg";
+import living from "../../public/images/living.jpg";
+import villa from "../../public/images/villa.jpg";
+import bedroom from "../../public/images/bedroom.jpg";
+import pool from "../../public/images/pool.jpg";
+import kitchen from "../../public/images/kitchen.jpg";
+
+export const propertyImages = { hero, living, villa, bedroom, pool, kitchen };
+
 export type Property = {
   slug: string;
   reference: string;
@@ -12,7 +22,7 @@ export type Property = {
   bathrooms: number;
   area: number;
   parking: number;
-  images: { src: string; alt: string }[];
+  images: { src: string | StaticImageData; alt: string }[];
   description: string;
   amenities: string[];
   featured: boolean;
@@ -24,8 +34,8 @@ export type Property = {
   };
 };
 
-const image = (name: string, alt: string) => ({
-  src: `/images/${name}.jpg`,
+const image = (name: keyof typeof propertyImages, alt: string) => ({
+  src: propertyImages[name],
   alt,
 });
 

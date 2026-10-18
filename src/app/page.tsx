@@ -13,6 +13,7 @@ import { Preloader } from "@/components/preloader";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
+import { propertyImages } from "@/data/properties";
 
 export default function Home() {
   return (
@@ -47,7 +48,7 @@ export default function Home() {
         </div>
         <div className="hero-image-frame">
           <Image
-            src="/images/hero.jpg"
+            src={propertyImages.hero}
             alt="Residencia con piscina, fotografía ilustrativa de inspiración"
             fill
             sizes="100vw"
@@ -101,7 +102,7 @@ export default function Home() {
         <div className="about-grid">
           <Reveal className="about-visual">
             <Image
-              src={site.portrait || "/images/living.jpg"}
+              src={site.portrait || propertyImages.living}
               alt={
                 site.portrait
                   ? "Thony Paulino, asesor inmobiliario"

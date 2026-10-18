@@ -5,6 +5,9 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import type { Property } from "@/data/properties";
 
+const imageKey = (source: Property["images"][number]["src"]) =>
+  typeof source === "string" ? source : source.src;
+
 export function Gallery({ images }: { images: Property["images"] }) {
   const [index, setIndex] = useState(0);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -47,7 +50,7 @@ export function Gallery({ images }: { images: Property["images"] }) {
     <div className="gallery">
       <div className="gallery-main">
         <Image
-          key={images[index].src}
+          key={imageKey(images[index].src)}
           src={images[index].src}
           alt={images[index].alt}
           fill
@@ -73,7 +76,7 @@ export function Gallery({ images }: { images: Property["images"] }) {
       >
         {images.map((image, i) => (
           <button
-            key={image.src}
+            key={imageKey(image.src)}
             onClick={() => setIndex(i)}
             aria-label={`Ver imagen ${i + 1}`}
             aria-pressed={index === i}

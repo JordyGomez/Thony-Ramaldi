@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Corrección de caché de imágenes
+
+- En la revisión visual posterior se detectaron imágenes optimizadas anteriores pese a haber sustituido los archivos locales. Se utilizan importaciones estáticas para que Next genere URLs con hash del contenido en portada, catálogo y galerías.
+- Se actualiza la comprobación de TypeScript para ejecutar `next typegen` antes de `tsc`, manteniendo `next-env.d.ts` como archivo generado e ignorado incluso en un checkout nuevo.
+- Archivos: `src/data/properties.ts`, `src/app/page.tsx`, `src/components/gallery.tsx`, `package.json`, `docs/ASSETS.md`, HANDOFF y este registro.
+- La rama se publicó mediante Git. Commit de implementación previo: `d6247bf`. El acceso a la API para crear PR sigue bloqueado; descripción preparada en `docs/PULL_REQUEST.md`.
+- Validación de esta corrección: lint, TypeScript con generación de tipos y build aprobados; suite completa repetida sobre la nueva compilación: 17 aprobadas, 1 omitida por no aplicar y 0 fallidas.
+- Se añadió `api.github.com` al borrador de dominios permitidos, conservando los presets existentes. El proxy actual rechaza el túnel HTTPS con 403; guardar el borrador no aplica la política a la instancia ni crea un PR.
+
 ## 2026-10-18 — Codex / Yordi Gómez
 
 ### Inspección y colaboración

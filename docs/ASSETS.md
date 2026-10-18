@@ -19,7 +19,7 @@ Copias locales del proyecto público [Homeverse de codewithsadee](https://github
 | `pool.jpg` | `blog-3.jpg` | Balcón con vegetación tropical |
 | `kitchen.jpg` | `blog-1.png` | Sala con sofá oscuro |
 
-Los nombres de archivo son identificadores internos; las descripciones alternativas explican el contenido real. Se ha normalizado el formato a JPEG mediante Sharp y se sirve con `next/image`, tamaños responsive y carga diferida. No se requieren peticiones del navegador a un proveedor externo de fotografías. Las fotos de una galería son referencias independientes, no un reportaje del mismo inmueble.
+Los nombres de archivo son identificadores internos; las descripciones alternativas explican el contenido real. Se ha normalizado el formato a JPEG mediante Sharp y se sirve con `next/image`, importaciones estáticas con hash del contenido, tamaños responsive y carga diferida. El hash cambia al sustituir el archivo y evita conservar fotografías antiguas en la caché de optimización. No se requieren peticiones del navegador a un proveedor externo de fotografías. Las fotos de una galería son referencias independientes, no un reportaje del mismo inmueble.
 
 Se intentó acceder a `maddockdesign.com/?ref=minimal.gallery` para revisar la referencia indicada, pero el entorno devolvió HTTP 403. No se ha inspeccionado visualmente ese sitio ni copiado sus imágenes, código o diseño. La composición implementada parte del brief del propietario.
 

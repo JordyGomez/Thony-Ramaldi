@@ -4,7 +4,7 @@
 
 Fase 1 técnica implementada por **Codex**, en la sesión de **Yordi Gómez** según el brief proporcionado. No se han observado cambios atribuibles a Claude o Yordi Lewis. El único commit remoto encontrado y revisado al inicio y durante la tarea fue `6032a98216c0c841b56b8b1ab5c725441a65cbb8` (`Initial commit`, autor Git: JordyGomez). Ese autor por sí solo no demuestra el uso de un asistente.
 
-Rama de trabajo: `feat/thony-phase-one`. El commit de entrega se identifica en Git por el mensaje `feat: implement Thony Paulino real estate phase one`; no se inventa un SHA antes de crearlo. Consultar `git log -1` y comparar con el remoto al iniciar la siguiente tarea.
+Rama de trabajo: `feat/thony-phase-one`, publicada en el remoto oficial. Commit inicial de implementación: `d6247bf` (`feat: implement Thony Paulino real estate phase one`). Se prepara una corrección posterior de invalidación de imágenes; consultar `git log -1` y comparar con el remoto al iniciar la siguiente tarea. La API de GitHub está bloqueada para crear el PR; `docs/PULL_REQUEST.md` contiene su descripción preparada.
 
 ## Funcionalidades completadas
 
@@ -50,6 +50,8 @@ Al reinstalar dependencias mientras un servidor de desarrollo estaba abierto, Tu
 
 `next-env.d.ts` queda ignorado conforme a la guía incluida en Next.js; `next dev` y `next build` lo regeneran. No editarlo ni incorporarlo como código fuente.
 
+Las fotos usan importaciones estáticas: Next añade un hash de contenido a sus URLs para que reemplazar un archivo local invalide también las versiones optimizadas. Se detectó que las rutas públicas de nombre fijo conservaban imágenes anteriores durante esta sesión y se corrigió. `npm run typecheck` ejecuta primero `next typegen` para disponer de los tipos generados incluso en un checkout nuevo.
+
 No se han medido Core Web Vitals de campo ni validado Safari, Android/iPhone físicos, entrega de mensajes, llamadas o correos reales. Se verifican destinos públicos y codificación; no se envían mensajes al asesor durante las pruebas.
 
 ## Pendientes y límites
@@ -70,4 +72,4 @@ La siguiente tarea recomendada es incorporar la identidad y contenido autorizado
 
 ## Entorno reutilizable
 
-Se guardaron `install_script` y `start_skill` en el borrador de configuración del entorno. El script probado instala con lockfile, conserva la caché generada de desarrollo fuera del checkout y ejecuta lint, build y TypeScript. El arranque de desarrollo se comprobó con respuestas 200 y contenido esperado en portada y ficha. El guardado no publica, aplica cambios de red ni inicia procesos en una tarea nueva; el usuario debe revisar y guardar la configuración y después publicar el entorno. No se ha verificado restauración en una tarea nueva.
+Se guardaron `install_script` y `start_skill` en el borrador de configuración del entorno. El script probado instala con lockfile, conserva la caché generada de desarrollo fuera del checkout y ejecuta lint, build y TypeScript. El arranque de desarrollo se comprobó con respuestas 200 y contenido esperado en portada y ficha. También se agregó `api.github.com` a los dominios personalizados permitidos del borrador, conservando los presets, para permitir la API requerida por el PR; el proxy actual rechazó el túnel HTTPS con 403. El guardado no publica, aplica cambios de red ni inicia procesos en una tarea nueva; el usuario debe revisar y guardar la configuración y después publicar el entorno. No se ha verificado restauración en una tarea nueva.
