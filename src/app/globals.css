@@ -798,6 +798,16 @@ strong {
   text-align: center;
   color: var(--muted);
 }
+.catalog-empty h2 {
+  font-size: clamp(30px, 3.6vw, 52px);
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+}
+.catalog-empty p {
+  max-width: 520px;
+}
 .empty-state h3 {
   font-size: 26px;
   font-weight: 300;

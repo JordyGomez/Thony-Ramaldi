@@ -62,7 +62,8 @@ export function PropertyCard({
             </p>
             {property.priceProvisional && (
               <small className="provisional-price-note">
-                Renta provisional · por confirmar
+                {property.operation === "Alquiler" ? "Renta" : "Precio"}{" "}
+                provisional · por confirmar
               </small>
             )}
           </div>

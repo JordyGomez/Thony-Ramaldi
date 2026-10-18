@@ -2,7 +2,9 @@
 
 ## Estado actual — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
 
-Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex), PR #5. Panel propio en `/admin` construido pero **sin conectar**: no hay proyecto de Supabase y el entorno cloud no tiene permitidos sus dominios. Sin configuración la web se comporta como antes con `src/data/properties.ts`. Sanity se probó y se descartó por decisión del usuario.
+**Actualización:** por petición del usuario la web pública muestra solo las fichas publicadas en el panel (sin respaldo local con Supabase activo; ver CHANGELOG). Proyecto Supabase: `uowylfdlirlfqksvdeer`, configurado por defecto en `src/lib/supabase/env.ts`. El usuario ejecutó `supabase/schema.sql` sin cambiar el correo de ejemplo; se le indicó reemplazarlo por `yordilewis@gmail.com` en `admin_users` y crear ese usuario en Auth. Al fusionar el PR #5, la web principal quedará sin propiedades hasta que se importe Alberobello o se publiquen fichas: conviene hacerlo en la preview antes de fusionar.
+
+Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex), PR #5. Panel propio en `/admin` apuntando al proyecto `uowylfdlirlfqksvdeer`, **sin probar contra él desde este entorno**: la red cloud no tiene permitidos los dominios de Supabase. Con las variables vacías (CI) la web usa los datos de ejemplo. Sanity se probó y se descartó por decisión del usuario.
 
 Siguiente paso al activarlo (detalle en README, sección del panel): crear el proyecto, ejecutar `supabase/schema.sql` con el correo de Thony, crear su usuario y desactivar registros, definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` (el proyecto de Vercel es del equipo `los-yordis`; alternativa: valores por defecto en `src/lib/supabase/env.ts`, son públicos), desplegar e **importar las propiedades actuales** desde el panel vacío antes de crear fichas nuevas. Verificar entonces login, subida de fotos, guardado, borrado e importación, que no se pudieron probar contra un proyecto real. Para probar desde la nube hay que permitir `*.supabase.co` en la red del entorno.
 

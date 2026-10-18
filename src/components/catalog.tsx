@@ -24,6 +24,7 @@ import {
 } from "@/data/properties";
 import { propertyTypes } from "@/data/property-options";
 import { editorialEase, motionTiming } from "@/lib/motion";
+import { whatsappUrl } from "@/lib/site";
 import { PropertyCard } from "./property-card";
 import styles from "./catalog.module.css";
 
@@ -128,6 +129,32 @@ export function Catalog({ properties }: { properties: Property[] }) {
     if (select?.getClientRects().length) select.focus({ preventScroll: true });
     else filterToggle.current?.focus({ preventScroll: true });
   };
+  // Panel vacío: aún no hay fichas publicadas en /admin.
+  if (!properties.length)
+    return (
+      <section
+        id="propiedades"
+        className={`catalog section-pad ${styles.catalog}`}
+      >
+        <div className="empty-state catalog-empty">
+          <h2>
+            Pronto publicaremos <strong>nuevas propiedades.</strong>
+          </h2>
+          <p>
+            Mientras tanto, cuéntale a Thony qué buscas y te ayudará a
+            encontrar opciones para vivir o invertir.
+          </p>
+          <a
+            className="button button-solid"
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Escribir a Thony <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </section>
+    );
   return (
     <section
       id="propiedades"

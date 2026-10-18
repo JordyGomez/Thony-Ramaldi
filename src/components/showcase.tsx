@@ -23,6 +23,7 @@ export function Showcase({ properties }: { properties: Property[] }) {
       behavior: reduced.matches ? "auto" : "smooth",
     });
   };
+  if (!ordered.length) return null;
   return (
     <section className="showcase" aria-labelledby="showcase-title">
       <div className="showcase-head">

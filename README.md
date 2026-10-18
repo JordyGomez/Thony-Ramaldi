@@ -20,7 +20,7 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografía Inter (variable) servida localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
 
-Los componentes de servidor generan la portada y las siete fichas. Los componentes de cliente gestionan filtros, menú, galería y animaciones. El catálogo utiliza datos locales tipados; no hay API, base de datos, autenticación ni servicios comerciales necesarios para ejecutar la aplicación. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
+Los componentes de servidor generan la portada y las fichas a partir de las propiedades publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú, galería y animaciones. Con Supabase desactivado la aplicación funciona con datos de ejemplo, sin servicios externos. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
 
 ```text
 src/
@@ -99,9 +99,10 @@ La galería avisa que las fotografías ilustrativas no representan un mismo inmu
 Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los datos, las fotos y el inicio de sesión viven en **Supabase** (Postgres, Storage y Auth). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
 
 - **Proyecto oficial**: `uowylfdlirlfqksvdeer`, con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts` (no hace falta configurar Vercel).
-- **Desactivado** (variables vacías, como en CI y en las pruebas): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
+- **La web muestra solo lo publicado en el panel.** Sin fichas publicadas, el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Si Supabase falla, la página lanza un error y Next conserva la última versión publicada (en un build, el despliegue falla en lugar de publicar una web vacía).
+- **Desactivado** (variables vacías, como en CI y en las pruebas): `/admin` muestra “Panel pendiente de activar” y la web usa los datos de ejemplo `sampleProperties` de `src/data/properties.ts`, que nunca se muestran con Supabase activo.
 - **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
-- **Si Supabase falla o la tabla está vacía**, se usan los datos locales; la web nunca queda vacía. En cuanto haya al menos una propiedad publicada, el panel pasa a ser la única fuente. El panel vacío ofrece **Importar propiedades actuales**, que copia las siete fichas, sus fotos y el folleto de Alberobello.
+- El panel vacío ofrece **Importar Alberobello**, que copia esa ficha real con sus renders y su folleto. Las seis demostraciones ficticias no se importan.
 
 Seguridad (`supabase/schema.sql`): lectura pública solo de fichas publicadas; crear, editar, borrar y subir archivos solo para correos de la tabla `admin_users`. La clave del navegador es pública por diseño; nunca usar ni guardar la clave `service_role` en el proyecto.
 
@@ -113,9 +114,9 @@ Activación pendiente:
 2. En **SQL Editor**, pegar y ejecutar `supabase/schema.sql`, cambiando antes el correo de la última línea por el de Thony.
 3. En **Authentication → Users → Add user**, crear el usuario de Thony con ese correo y una contraseña. En **Authentication → Sign In / Providers**, desactivar *Allow new users to sign up*.
 4. URL y clave publishable ya están en `src/lib/supabase/env.ts`. Para otro proyecto, cambiarlas allí o definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel y volver a desplegar.
-5. Entrar en `/admin`, pulsar **Importar propiedades actuales** y revisar las fichas.
+5. Entrar en `/admin`, pulsar **Importar Alberobello** (opcional) y publicar las demás propiedades desde **Nueva propiedad**.
 
-Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, la web mostraría los datos locales hasta reactivarlo desde su panel.
+Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, las páginas seguirían mostrando su última versión generada hasta reactivarlo desde su panel.
 
 ## Identidad y recursos pendientes
 

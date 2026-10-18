@@ -112,10 +112,9 @@ export default async function AdminPage() {
           !error && (
             <div className={styles.empty}>
               <p>
-                Mientras el panel esté vacío, la web sigue mostrando las
-                propiedades actuales. Impórtalas para poder editarlas aquí, o
-                crea la primera desde cero: en cuanto haya una, la web mostrará
-                solo las del panel.
+                La web solo muestra las propiedades publicadas aquí, así que
+                ahora mismo no aparece ninguna. Importa la ficha de Alberobello
+                (con sus fotos y su folleto) o crea la primera desde cero.
               </p>
               <div className={styles.emptyActions}>
                 <ImportButton />
@@ -143,7 +142,7 @@ function PendingSetup() {
           proyecto, ejecutar <code>supabase/schema.sql</code> y definir{" "}
           <code>NEXT_PUBLIC_SUPABASE_URL</code> y{" "}
           <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>. Mientras tanto, la web
-          muestra las propiedades actuales.
+          muestra datos de ejemplo.
         </p>
       </main>
     </>

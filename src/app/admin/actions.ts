@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createAdminClient, getAdminUser } from "@/lib/supabase/server";
 import { STORAGE_BUCKET } from "@/lib/supabase/env";
-import { properties as localProperties } from "@/data/properties";
+import { sampleProperties } from "@/data/properties";
 import type { PropertyRow, StoredImage } from "@/data/property-row";
 import {
   inputToRow,
@@ -86,9 +86,13 @@ export async function deleteProperty(id: string): Promise<ActionResult> {
   return { ok: true, message: "Propiedad borrada." };
 }
 
+// Fichas reales que existían en el código antes del panel (hoy, Alberobello).
+// Las demostraciones ficticias no se importan.
+const importable = sampleProperties.filter((property) => !property.demo);
+
 /**
- * Copia las propiedades que hoy están en el código (fotos y folleto incluidos)
- * a Supabase. Solo funciona con la tabla vacía, para no duplicar fichas.
+ * Copia esas fichas (fotos y folleto incluidos) a Supabase. Solo funciona con
+ * la tabla vacía, para no duplicar fichas.
  */
 export async function importLocalProperties(): Promise<ActionResult> {
   const { supabase, user } = await getAdminUser();
@@ -116,7 +120,7 @@ export async function importLocalProperties(): Promise<ActionResult> {
   };
 
   try {
-    for (const [order, property] of localProperties.entries()) {
+    for (const [order, property] of importable.entries()) {
       const images: StoredImage[] = [];
       for (const [index, image] of property.images.entries()) {
         const src = typeof image.src === "string" ? image.src : image.src.src;
@@ -172,6 +176,6 @@ export async function importLocalProperties(): Promise<ActionResult> {
   refreshSite();
   return {
     ok: true,
-    message: `Se importaron ${localProperties.length} propiedades.`,
+    message: `Se importó ${importable.map((property) => property.title).join(", ")}.`,
   };
 }

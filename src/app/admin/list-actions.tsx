@@ -50,7 +50,7 @@ export function ImportButton() {
           })
         }
       >
-        {pending ? "Importando… (puede tardar un minuto)" : "Importar propiedades actuales"}
+        {pending ? "Importando… (puede tardar un minuto)" : "Importar Alberobello"}
       </button>
       {message && (
         <p role="status" className={styles.hint}>

@@ -1,5 +1,15 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — La web muestra solo las propiedades del panel
+
+- Solicitud de Yordi Lewis: quitar las propiedades estáticas para que todas las que aparezcan sean las subidas al panel.
+- `getProperties()` ya no recurre a datos locales con Supabase activo: tabla vacía = sin propiedades; error de lectura = excepción, para que Next conserve la última página generada (y un build falle en lugar de publicar una web vacía). Los datos locales pasan a `sampleProperties`, usados solo con Supabase desactivado (CI y pruebas) y para importar.
+- Proyecto oficial `uowylfdlirlfqksvdeer` con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts`; CI compila con las variables vacías.
+- La importación del panel copia solo fichas reales (Alberobello); las seis demostraciones ficticias no se importan. Textos del panel vacío actualizados.
+- Estados vacíos: el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Descripción del sitio, Open Graph y aviso del pie ya no nombran Alberobello ni las demostraciones. La tarjeta dice “Precio provisional” en venta y “Renta provisional” en alquiler.
+- Validación: lint, typecheck y build (Supabase desactivado) aprobados; `npm test` 76 aprobadas, 0 fallidas; estado vacío revisado con una captura mediante una ruta temporal no incluida. Sigue sin probarse contra el proyecto real desde este entorno (red bloqueada).
+
+
 ## 2026-10-18 — Claude / Yordi Lewis — Panel de propiedades propio con Supabase
 
 - Solicitud de Yordi Lewis: un apartado para que Thony publique propiedades sin tocar código. Primero se preparó con Sanity (commit `bd507a5`, nunca fusionado); el usuario prefirió no depender de un gestor de contenido externo y eligió Supabase con un panel construido a medida. Sanity y sus dependencias se eliminaron.

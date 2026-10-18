@@ -19,7 +19,7 @@ Repetir la revisión remota después de una tarea significativa y antes del comm
 
 - Next.js App Router, TypeScript estricto, componentes con nombres descriptivos y separación entre datos, configuración y UI.
 - Usar los componentes de servidor por defecto; `use client` solo para interacción.
-- Contacto centralizado en `src/lib/site.ts`. Las páginas obtienen los inmuebles con `getProperties()` (`src/data/get-properties.ts`): Supabase si está configurado (panel propio en `/admin`), o `src/data/properties.ts` como respaldo. Mantener alineados el tipo `Property`, `supabase/schema.sql`, `src/data/property-row.ts` y `src/app/admin/property-input.ts`. Nunca usar la clave `service_role` en el proyecto.
+- Contacto centralizado en `src/lib/site.ts`. Las páginas obtienen los inmuebles con `getProperties()` (`src/data/get-properties.ts`): solo las fichas publicadas en Supabase (panel propio en `/admin`); `sampleProperties` de `src/data/properties.ts` son datos de ejemplo para pruebas con Supabase desactivado y para importar Alberobello, y nunca se muestran en producción. Mantener alineados el tipo `Property`, `supabase/schema.sql`, `src/data/property-row.ts` y `src/app/admin/property-input.ts`. Nunca usar la clave `service_role` en el proyecto.
 - Mantener la dirección visual minimalista oscura (carbón, Inter fina, fotografía protagonista; ver `docs/ASSETS.md`), adaptación móvil, semántica y foco visible. Ningún texto por debajo de 12 px.
 - Respetar `prefers-reduced-motion`. El contenido debe permanecer disponible si falla una animación o JavaScript.
 - Cada propiedad ficticia debe mostrar “Demostración”, también en su ficha y en el mensaje de WhatsApp. No inventar anuncios reales, biografía, logros, estadísticas, testimonios, mapas ni recorridos.

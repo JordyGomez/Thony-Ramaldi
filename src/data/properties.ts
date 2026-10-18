@@ -55,7 +55,10 @@ const image = (name: keyof typeof propertyImages, alt: string) => ({
   alt,
 });
 
-export const properties: Property[] = [
+// Datos de ejemplo: la web pública NO los muestra cuando Supabase está activo.
+// Solo se usan con Supabase desactivado (desarrollo y pruebas automáticas) y
+// como origen de la importación de fichas reales (Alberobello) desde /admin.
+export const sampleProperties: Property[] = [
   {
     slug: "alberobello-residences",
     reference: "ALB-001",
