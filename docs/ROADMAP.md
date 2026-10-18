@@ -12,6 +12,14 @@
 - Metadatos, imagen Open Graph, estado 404 y exclusión de fichas ficticias de indexación.
 - Documentación compartida y pruebas automatizadas.
 
+## Integración sobre Claude — entrega mediante PR
+
+- Base main d0f5f09, rama feat/ramaldi-alberobello-integrated; conserva la composición oscura de Claude.
+- Alberobello con cuatro renders y PDF original, renta provisional autorizada y unidad por confirmar; seis demostraciones preservadas.
+- Selección Reales, filtros activos, carrusel con etiquetas correctas, teclado/gestos, error/reintento, no JS y contacto móvil contextual.
+- Acentos Ramaldi legibles dentro del tema carbón, sin recrear el logo ni reactivar el diseño claro anterior.
+- Código, pruebas y activos en 6260099; entrega autorizada mediante PR de esta rama a main, con Preview automática de Vercel. Validación local final de 62 pruebas y capturas en AUDIT-INTEGRATION; resultados remotos en los checks del PR.
+
 ## En desarrollo
 
 - Ninguna funcionalidad adicional abierta; las verificaciones de la entrega se registran en HANDOFF y CHANGELOG.
@@ -23,7 +31,7 @@
 - Recibir fotografías autorizadas y datos verificables de propiedades reales.
 - Confirmar URL de Facebook.
 - Revisar todos los mensajes y datos con el propietario.
-- Configurar Vercel, revisar Preview Deployment y autorizar el lanzamiento comercial.
+- Revisar la Preview del nuevo PR en el proyecto Vercel ya conectado y fusionar a main cuando corresponda publicar; confirmar contenido antes del lanzamiento comercial.
 - Medir Lighthouse/Core Web Vitals y probar Safari/iPhone y Android reales antes de publicar.
 
 ## Planificada — Representación 3D con IA, fase posterior

@@ -1,19 +1,13 @@
-# feat: implementar la fase 1 de Thony Paulino · Ramaldi
+# Incorporar Alberobello y mejoras de interacción sobre el diseño oscuro
 
-## Descripción
+El catálogo del diseño oscuro contenía solo seis demostraciones y trataba todos los registros como ficticios. Esta entrega incorpora un alquiler real en preparación de Alberobello, con bloque destacado, cuatro renders del folleto, descarga del PDF y consulta contextual. Conserva Inter, fondo carbón, portada, carrusel, menú completo, galerías grandes y pie existentes; Ramaldi aparece mediante acentos de marca.
 
-El repositorio inicial solo contenía un README. Esta entrega incorpora una aplicación Next.js preparada para Vercel: portada editorial, entrada de puerta CSS 3D por sesión, navegación adaptable, catálogo local con cinco filtros, seis fichas de demostración y galerías accesibles. Las consultas por WhatsApp incluyen la referencia de la ficha y dejan claro que los datos son ficticios.
+Se añaden selección Reales, filtros activos retirables, conteos derivados, foco y salidas accesibles, teclado/gestos en galería, carga/error/reintento y alternativas sin JavaScript. El carrusel distingue el alquiler de las demostraciones. El contacto móvil reserva espacio para no tapar el pie.
 
-Los datos oficiales de contacto están centralizados. No se añaden backend, autenticación, mapas ni recorridos 3D. Los logotipos originales, retrato, Facebook y publicaciones reales permanecen pendientes de material confirmado. Se documenta la procedencia de las imágenes ilustrativas.
+**US$1,000/mes es un importe provisional de maqueta autorizado; no es una renta confirmada.** Los datos desconocidos de la unidad se muestran Por confirmar, las tipologías se atribuyen al proyecto y los renders no se presentan como fotografías actuales. La ficha permanece noindex y excluida del sitemap. Antes de un lanzamiento comercial se deben confirmar renta, unidad, condiciones y fotografías actuales.
 
-Se incorporan README, reglas comunes para Codex/Claude, CHANGELOG, HANDOFF, ROADMAP, pruebas y configuración de CI. No existe división de archivos por asistente.
+Validación local: npm ci con lockfile, lint, tipos y build aprobados; 62 pruebas de Chromium en escritorio y móvil. Incluye las seis demostraciones preservadas, filtros, carrusel, teclado, movimiento reducido, no JS, errores de imagen, WhatsApp, PDF original verificado por hash, axe y responsive. No equivale a validación de Safari, dispositivos físicos o Web Vitals de campo.
 
-## Validación local
+Capturas actuales en docs/AUDIT-INTEGRATION.md. No se añaden dependencias respecto al main del diseño oscuro, backend, mapas ni motor 3D.
 
-- Instalación mediante `npm ci`, lint, TypeScript y build de producción aprobados.
-- Playwright/Chromium: 17 pruebas aprobadas, 1 omitida porque el menú móvil no aplica al proyecto de escritorio; 0 fallidas.
-- Filtros combinados, vacío, destacados, las seis fichas, 404, contacto, galería, teclado, foco, movimiento reducido y contenido sin JavaScript.
-- Sin desbordamiento horizontal en los anchos probados de 360 a 1440 px.
-- axe sin infracciones en los estados de portada, ficha y menú móvil probados.
-
-Revisar contenido autorizado y derechos de fotografías antes de un lanzamiento comercial. Los resultados locales no constituyen un despliegue ni una ejecución remota de GitHub Actions. No fusionar automáticamente.
+La rama parte directamente de main `d0f5f09` (PR #3 de Claude). El PR #2 de la fase anterior no contiene esta integración. Vercel ya está conectado al repositorio: este PR genera una Preview y fusionarlo a main actualiza https://thony-ramaldi.vercel.app/. Guardar/publicar la configuración del entorno Codex no fusiona el PR. No se realiza una fusión automática.

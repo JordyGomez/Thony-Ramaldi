@@ -1,5 +1,16 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Integración sobre el diseño de Claude
+
+- El usuario autorizó posteriormente guardar commits, subir la rama y crear su PR contra main para activar la Preview de Vercel. Implementación: `6260099`. README documenta la conexión GitHub/Vercel ya existente, la revisión del PR y el despliegue de producción al fusionar a main; guardar la configuración cloud no realiza esa fusión. Consultar los checks del PR para su resultado remoto. No se fusiona automáticamente a main.
+
+- A petición del usuario, se parte de main `d0f5f09` (PR #3 de Claude) en `feat/ramaldi-alberobello-integrated`, en el mismo checkout. Se conservan carbón, Inter, composición de portada, carrusel, menú completo, galerías grandes y pie. AGENTS, dependencias, lockfile, 404, icono y Open Graph de Claude se mantienen.
+- El borrador anterior se protege en un stash identificado y respaldo temporal completo; no se sobrescribe ni elimina trabajo. El PR #2 anterior no se modifica ni se publica como si estuviera integrado.
+- Se incorporan Alberobello, PDF y cuatro renders, renta provisional autorizada de US$1,000, datos de unidad por confirmar, selección Reales, filtros activos retirables, conteos derivados y contactos contextuales. El carrusel distingue la ficha real de las demostraciones.
+- Se conservan mejoras de teclado, gestos, carga/error/reintento, no JS, foco y salidas inertes. La introducción sigue siendo tipográfica, como la de Claude, con memoria por sesión y salida segura. Menú y sus pruebas aplican a todos los tamaños.
+- La paleta Ramaldi aparece en acentos legibles y CTA contextual; no reemplaza el fondo carbón ni la tipografía. Renders identificados desde la apertura de galería.
+- Validación local final de integración: npm ci, lint, tipos y build aprobados; 62 pruebas aprobadas, 0 omitidas y 0 fallidas, sobre la compilación final. Capturas y límites en AUDIT-INTEGRATION.md; detalles de continuidad en HANDOFF.
+
 ## 2026-10-18 — Claude / Yordi Lewis — Rediseño minimalista oscuro
 
 - Solicitud de Yordi Lewis: tomar maddockdesign.com como referencia de diseño. Se revisó la referencia con capturas reales (escritorio, móvil, ficha y listado de proyectos) tras habilitar `maddockdesign.com` y `www.datocms-assets.com` en la red del entorno. Decisiones confirmadas por el usuario: tema oscuro y una sola tipografía sans fina.
@@ -68,3 +79,76 @@
 ### Commit
 
 La entrada se prepara antes del commit de esta entrega. Consultar el commit real con mensaje `feat: implement Thony Paulino real estate phase one` en Git; no se declara un SHA inexistente.
+
+
+## Entradas conservadas del borrador anterior
+
+Los estados locales y de publicación de estas entradas corresponden a su momento de ejecución, anterior a esta integración.
+
+## 2026-10-18 — Codex / Yordi Gómez — Revisión de compatibilidad previa a publicación
+
+- Nuevo fetch: detectado el rediseño de Claude en `79da3d3`, fusionado mediante PR #3 en main `d0f5f09`.
+- Revisados sus cambios, documentación, dependencias y checks, y comparados con la fase 2 y Alberobello local mediante simulaciones sin modificar código ni ramas.
+- Detectados 17 archivos compartidos modificados y 13 con conflictos de texto al considerar el borrador; también hay riesgos de etiquetar Alberobello como demostración y representar datos desconocidos como null en los componentes remotos.
+- Informe y pasos pendientes en `REVIEW-CLAUDE.md`. No se efectuaron integración, commit, push ni despliegue. El resultado de pruebas anterior no se atribuye a una versión combinada.
+
+## 2026-10-18 — Codex / Yordi Gómez — Identidad Ramaldi y Alberobello, continuación local
+
+### Alcance y colaboración
+
+- Se continúa sobre `feat/thony-phase-two`, base `e82367a`, conservando la fase 2 existente y las seis demostraciones. La consulta remota no mostró commits nuevos respecto de la base revisada.
+- El PR #2 corresponde a la entrega anterior. Esta continuación permanece sin commit, push, actualización del PR ni despliegue, según la indicación del usuario de que todavía no se subirá.
+
+### Cambios reales
+
+- Paleta aproximada a las referencias de logo Ramaldi aportadas: verde `#437976`, dorado `#DEA900` y dorado claro `#F5E8B3`, con variantes para contraste. Se ajustan superficies, acciones, puerta y metadatos visuales. No se inventa un logotipo; falta el archivo reutilizable.
+- Ficha real en preparación de Alberobello Residences, referencia `ALB-001`, bloque destacado en portada y selección **Reales** en el catálogo. Se conservan las seis fichas ficticias y sus advertencias.
+- El usuario desconoce renta y datos de unidad y autorizó un precio para la maqueta. Se muestran **US$1,000/mes provisionales**, claramente señalados en sus superficies de precio; la cifra no procede del PDF ni constituye una renta confirmada.
+- Superficie, habitaciones, baños y parqueos de la unidad permanecen `null`; la cifra provisional y los valores desconocidos no se usan como datos confirmados en filtros de presupuesto y habitaciones.
+- Se separan las características y tipologías publicitadas del proyecto de los datos pendientes de la unidad. Cuatro renders extraídos del folleto conservan su identificación como renders, con galería accesible y descarga del PDF original sin alterar sus bytes.
+- Contacto contextual a Thony para confirmar condiciones y solicitar fotografías actuales. La ficha lleva `noindex`, queda fuera del sitemap y no expone una renta confirmada como dato estructurado. Sin nuevas dependencias, backend o motor 3D.
+
+### Archivos y validación
+
+Modificados datos, configuración de contacto, estilos compartidos, portada, catálogo, tarjetas, galería, ficha y metadatos. Añadidos `src/components/featured-rental.tsx` y su módulo CSS, `tests/alberobello.spec.ts`, cuatro WebP del folleto, PDF original y `docs/ALBEROBELLO.md` / `docs/BRAND.md`. Se actualizan pruebas existentes, README, CLAUDE, ASSETS, guía de marca, HANDOFF y ROADMAP; se conserva el historial anterior.
+
+- Lint, generación/comprobación de tipos y build de producción aprobados.
+- Suite final de navegador: **57 aprobadas, 1 omitida por no aplicar, 0 fallidas**. Incluye las seis demostraciones y el nuevo alquiler en preparación, renders, precio provisional, datos null, filtros, PDF original, no JS y contacto contextual.
+- Axe sin infracciones en los estados probados y sin overflow en los cinco anchos de regresión. No se afirma compatibilidad con Safari, dispositivos físicos ni accesibilidad completa.
+- Revisión visual actual en escritorio y móvil: se compactaron título y aviso de la ficha móvil para adelantar el render; capturas y notas en `AUDIT-ALBEROBELLO.md`.
+- En la primera ronda se alineó la advertencia no comercial y se corrigió una expresión de alt que rechazaba «de la»; se conservaron las aserciones y se repitió la suite completa sobre la compilación final.
+
+No hay un SHA de commit de esta continuación. Archivo de logo reutilizable, retrato, Facebook, datos y fotos actuales de la unidad siguen pendientes. El estado local y los requisitos antes de publicar se documentan en HANDOFF y ALBEROBELLO.
+
+## 2026-10-18 — Codex / Yordi Gómez — Fase 2 de experiencia
+
+### Base y auditoría
+
+- Se consultaron todas las ramas y PR. Main avanzó mediante el merge `106e9ce` del PR #1, sin diferencias adicionales de código respecto a la fase 1. No se detectaron cambios atribuibles a Claude/Yordi Lewis ni conflictos.
+- Se creó `feat/thony-phase-two` desde origin/main, conservando la aplicación existente.
+- Se capturaron y revisaron portada, catálogo y ficha de producción y local, además de Maddock como referencia estética. La validación TLS se mantuvo a través del proxy disponible. La evidencia Vercel/GitHub y sus límites están en `AUDIT-PHASE-2.md`.
+
+### Cambios reales
+
+- Hero inmersivo con CTA claros y movimiento coordinado con la puerta CSS existente; parallax acotado por dispositivo/preferencia/visibilidad.
+- Iluminación, marco y profundidad de la puerta, manteniendo duración y sesión; salida segura ante almacenamiento bloqueado o cambio a movimiento reducido.
+- Menú animado con foco, fondo inerte y alternativa sin JS. Variantes de Reveal y constantes compartidas de Motion.
+- Filtros activos removibles, conteos derivados, resultados animados inaccesibles durante salida y mejoras de tarjetas/precios/controles.
+- Galería con carga/error/reintento real, teclado normal/ampliado y gesto horizontal; CTA contextual persistente en móvil y mejoras editoriales de fichas.
+- Reordenadas dos imágenes ilustrativas para coherencia de tipología, conservando seis fichas y datos. Sin nuevas dependencias, mapas, ofertas reales, biografía, logos inventados ni motor 3D.
+
+### Archivos
+
+Modificados `src/app/page.tsx`, `src/app/propiedades/[slug]/page.tsx`, componentes existentes de navegación, entrada, catálogo, tarjetas, galería y Reveal, y `src/data/properties.ts`. Añadidos `hero.tsx`, `src/lib/motion.ts`, módulos CSS acotados, tres archivos de pruebas de fase 2, auditoría y capturas. README, CLAUDE, HANDOFF y ROADMAP se actualizan conservando el registro anterior. No se reemplaza la aplicación ni se eliminan componentes funcionales.
+
+### Validación
+
+- Lint, TypeScript y build de producción aprobados.
+- Playwright/Chromium: **43 aprobadas, 1 omitida por no aplicar y 0 fallidas**. Se mantienen las pruebas anteriores y se añaden estados nuevos.
+- Axe sin infracciones en estados probados de portada, ficha y menú móvil. Sin overflow en 360, 390, 768, 844 y 1440 px; teclado, foco, no JS y movimiento reducido comprobados.
+- Se corrigió un overflow del noscript del encabezado detectado en la primera ronda. Los fixtures Touch y búsqueda noscript se corrigieron según el DOM real, sin retirar aserciones.
+- Capturas posteriores aceptadas tras decodificar imágenes. Laboratorio local documentado con el mismo protocolo inicial; no equivale a Web Vitals de campo ni Safari/dispositivos físicos.
+
+### Commits y continuidad
+
+Código: `1b2b57e` y `464bbbe`. La actualización documental posterior se consulta en Git. Publicación en rama de trabajo; no se fusiona a main ni se despliega manualmente a producción. La siguiente revisión requiere contenido e imágenes autorizados y comprobar la preview y checks del PR.

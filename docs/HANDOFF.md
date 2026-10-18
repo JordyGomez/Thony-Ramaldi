@@ -1,5 +1,33 @@
 # Transferencia de contexto
 
+## Estado actual — entrega por PR sobre Claude, 2026-10-18
+
+El usuario pidió conservar el diseño de Claude y añadir nuestras mejoras; después autorizó expresamente guardar, subir y crear un PR para Vercel. La base de esta rama es **main `d0f5f093d018bff6f4ac284d5fab64a4a5d3a1bb`**, merge del PR #3 de Claude. Rama de entrega: **`feat/ramaldi-alberobello-integrated`**, creada en el mismo checkout, sin otro repositorio o worktree. Código, pruebas y activos: commit **`6260099`**. La documentación posterior registra la entrega mediante PR contra main y su flujo de despliegue.
+
+### Conservado y añadido
+
+Se mantienen fondo carbón, Inter variable, hero a pantalla completa, introducción centrada, carrusel nativo, menú completo en todos los tamaños, galerías inmersivas, tabla de ficha y pie de Claude. Su AGENTS, package.json/lockfile, icono, páginas de error y Open Graph no se sustituyen. La puerta CSS del borrador anterior no se reactiva: el usuario eligió conservar el diseño de Claude y su introducción tipográfica.
+
+Se añaden bloque Alberobello, ficha real en preparación, cuatro renders extraídos del PDF, folleto original, datos desconocidos como null/Por confirmar y US$1,000/mes provisional autorizado. No es una renta confirmada; el PDF no indica precio ni identifica la unidad. Ficha noindex y fuera del sitemap. El carrusel ya no llama Demostración a todos los registros; seis demostraciones y sus rutas permanecen.
+
+Se portan filtros activos y selección Reales, conteos derivados, exclusión del importe provisional del presupuesto, salidas inaccesibles, foco, galería normal/ampliada con teclado, gestos y recuperación de errores, contenido sin JS y CTA móvil contextual con reserva al pie. Los acentos de Ramaldi se adaptan al tema oscuro, con texto legible de al menos 12 px. El símbolo del logo no se redibuja; falta archivo reutilizable y retrato.
+
+### Comprobaciones y publicación
+
+Validación final: npm ci, lint, tipos y build aprobados; 62 pruebas aprobadas, 0 omitidas y 0 fallidas, sobre la compilación final. Se instalaron las dependencias del lockfile de Claude mediante npm ci con caché en /workspace/.cache/npm. Revisar AUDIT-INTEGRATION.md para capturas actuales y límites. No atribuir a esta integración los informes históricos de la versión clara ni los resultados antiguos de los PR.
+
+La rama anterior feat/thony-phase-two y su PR #2 siguen separados; ese PR conserva sus conflictos con main. La integración actual parte directamente del nuevo main, evitando aplicar la combinación conflictiva antigua. Se volvió a consultar el remoto antes de los commits: main continúa en d0f5f09. Consultar el PR asociado a feat/ramaldi-alberobello-integrated para los resultados remotos de Calidad y Vercel; no usar el PR #2 para publicar estos cambios.
+
+El proyecto de Vercel ya está conectado al repositorio: los pushes de esta rama generan Preview y la fusión a main genera producción en https://thony-ramaldi.vercel.app/. README documenta los pasos. Guardar/publicar la configuración del entorno Codex no fusiona el PR. Esta entrega no fusiona main; la revisión y publicación de producción quedan en GitHub. Los resultados locales anteriores no sustituyen los checks del nuevo PR.
+
+El borrador previo está protegido en el stash “safety: preserve local Alberobello before Claude integration” y en /tmp/thony-integration-safety/before-integration.tar.gz. No aplicar ese stash sobre esta rama sin comparar, porque contiene el diseño claro anterior. Su memoria íntegra se conserva en docs/archive/HANDOFF-before-Claude-integration.md. No se eliminan esos respaldos durante esta tarea.
+
+Pendientes comerciales: confirmar unidad, precio/moneda, mantenimiento, parqueos, mobiliario, disponibilidad y condiciones; recibir fotos actuales. Facebook y retrato siguen pendientes. No se enviaron mensajes ni se añadieron backend, mapas o motor 3D.
+
+---
+
+## Registro conservado de Claude y fase 1
+
 ## Actualización 2026-10-18 — Claude / Yordi Lewis: rediseño minimalista oscuro
 
 Estado: `main` (con la fase 1 fusionada mediante el PR #1) está desplegado en Vercel en https://thony-ramaldi.vercel.app; el proyecto de Vercel pertenece a otro equipo (`los-yordis`) según el bot de Vercel en el PR #1. Los cambios que llegan a `main` se publican allí; las ramas generan vistas previas.

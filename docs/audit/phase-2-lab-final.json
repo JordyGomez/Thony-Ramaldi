@@ -1,0 +1,72 @@
+{
+  "url": "http://localhost:3400/",
+  "scope": "Chromium sin throttling, nueva sesión/contexto por ejecución; 3 escritorio + 3 móvil emulado; networkidle + 2800 ms; laboratorio local, no Lighthouse ni Web Vitals de campo; cls suma observada, no score oficial por ventanas de sesión",
+  "runs": [
+    {
+      "name": "desktop",
+      "run": 1,
+      "lcp": 336,
+      "cls": 0.0015694919765142745,
+      "nav": {
+        "ttfb": 50.200000000186265,
+        "domContentLoaded": 125.70000000018626,
+        "load": 374.5
+      }
+    },
+    {
+      "name": "desktop",
+      "run": 2,
+      "lcp": 352,
+      "cls": 0.0015694919765142745,
+      "nav": {
+        "ttfb": 5.399999999906868,
+        "domContentLoaded": 95.8000000002794,
+        "load": 378.20000000018626
+      }
+    },
+    {
+      "name": "desktop",
+      "run": 3,
+      "lcp": 212,
+      "cls": 0.0015694919765142745,
+      "nav": {
+        "ttfb": 9.600000000093132,
+        "domContentLoaded": 167.20000000018626,
+        "load": 276.8000000002794
+      }
+    },
+    {
+      "name": "mobile",
+      "run": 1,
+      "lcp": 268,
+      "cls": 0,
+      "nav": {
+        "ttfb": 4.899999999906868,
+        "domContentLoaded": 96.70000000018626,
+        "load": 293.89999999990687
+      }
+    },
+    {
+      "name": "mobile",
+      "run": 2,
+      "lcp": 236,
+      "cls": 0,
+      "nav": {
+        "ttfb": 16.299999999813735,
+        "domContentLoaded": 188.89999999990687,
+        "load": 258
+      }
+    },
+    {
+      "name": "mobile",
+      "run": 3,
+      "lcp": 200,
+      "cls": 0,
+      "nav": {
+        "ttfb": 4.699999999720603,
+        "domContentLoaded": 151.79999999981374,
+        "load": 203.1999999997206
+      }
+    }
+  ]
+}
