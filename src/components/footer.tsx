@@ -1,8 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Instagram, Mail, Phone } from "lucide-react";
 import { site, whatsappUrl } from "@/lib/site";
-import { propertyImages } from "@/data/properties";
 import { WhatsAppIcon } from "./icons";
 
 const links = [
@@ -25,15 +23,9 @@ export function Footer() {
       <p className="footer-wordmark" aria-hidden="true">
         THONY PAULINO
       </p>
-      <div className="footer-image">
-        <Image
-          src={propertyImages.villa}
-          alt=""
-          fill
-          sizes="100vw"
-          className="footer-photo"
-        />
-        <span className="photo-note">Fotografía ilustrativa</span>
+      <div className="footer-image footer-architecture" aria-hidden="true">
+        <span /><span /><span />
+        <p>ESPACIOS PARA TU HISTORIA.</p>
       </div>
       <div className="footer-bottom">
         <span>
@@ -67,8 +59,6 @@ export function Footer() {
       </div>
       <p className="footer-disclaimer">
         Precios, disponibilidad y condiciones sujetos a confirmación con Thony.
-        Las fichas marcadas como “Demostración” o “Ficha en preparación”
-        contienen datos ilustrativos o pendientes de confirmar.
       </p>
     </footer>
   );

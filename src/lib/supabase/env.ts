@@ -5,8 +5,8 @@ const DEFAULT_URL = "https://uowylfdlirlfqksvdeer.supabase.co";
 const DEFAULT_KEY = "sb_publishable_NHbFhrEug1Zn4zkzMKVwZQ_cpB74xXZ";
 
 // Las variables de entorno permiten usar otro proyecto. Definirlas vacías
-// desactiva Supabase (lo hacen CI y las pruebas para usar datos locales): el
-// panel muestra un aviso y la web usa src/data/properties.ts.
+// desactiva Supabase: el panel muestra un aviso y el catálogo queda vacío.
+// Solo pruebas explícitas con THONY_TEST_FIXTURES=1 fuera de Vercel usan fixtures.
 export const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? DEFAULT_URL;
 export const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? DEFAULT_KEY;

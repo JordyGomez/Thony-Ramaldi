@@ -4,8 +4,8 @@ async function holdHero(page: Page, fail = false) {
   let release!: () => void;
   const pending = new Promise<void>((resolve) => { release = resolve; });
   await page.route((url) =>
-    // Imagen de la portada (public/images/portada.jpg).
-    /\/portada\.[^/]+\.jpg$/.test(url.searchParams.get("url") || url.pathname),
+    // El recurso crítico de la portada es ahora el retrato autorizado.
+    /\/thony-paulino\.[^/]+\.jpg$/.test(url.searchParams.get("url") || url.pathname),
   async (route) => {
     await pending;
     if (fail) await route.abort("failed");

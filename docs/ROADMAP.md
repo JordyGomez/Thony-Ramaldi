@@ -1,5 +1,13 @@
 # Roadmap
 
+## Terminada — evolución cinematográfica sobre main 0742704
+
+- Entrada de puerta sólida CSS y retrato real, adaptación desktop/móvil, relevo al hero, sesión y espera acotada.
+- Hero, fotografía, menú, revelados, tarjetas, contacto y pie con movimiento moderado; sin motor 3D ni nuevas dependencias.
+- Inventario solo publicado no demo; estado vacío profesional y fixtures explícitas aisladas de Vercel.
+- Panel Supabase y políticas existentes conservados. Lectura pública real y acceso anónimo comprobados, sin escrituras.
+- Regresiones y revisión de laboratorio/capturas en CINEMATIC-REVIEW; entrega en rama feat/cinematic-ramaldi-experience para Preview y PR.
+
 ## Terminadas — Fase 1 técnica
 
 - Aplicación Next.js con TypeScript y estructura compartida.
@@ -23,7 +31,7 @@
 
 ## En desarrollo
 
-- Panel de propiedades propio en `/admin` con Supabase: construido y probado sin conexión; pendiente de crear el proyecto, ejecutar `supabase/schema.sql`, crear el usuario de Thony, definir las variables en Vercel e importar las siete fichas actuales.
+- Verificar operaciones autenticadas del panel Supabase con el propietario. El proyecto ya responde a lectura pública; no importar las demostraciones ni crear inventario para llenar el catálogo. Publicar únicamente material real y autorizado.
 
 
 ## Planificadas — Contenido y lanzamiento
@@ -33,7 +41,7 @@
 - Recibir fotografías autorizadas y datos verificables de propiedades reales.
 - Revisar todos los mensajes y datos con el propietario.
 - Revisar la Preview del nuevo PR en el proyecto Vercel ya conectado y fusionar a main cuando corresponda publicar; confirmar contenido antes del lanzamiento comercial.
-- Medir Lighthouse/Core Web Vitals y probar Safari/iPhone y Android reales antes de publicar.
+- Completar medición de campo y pruebas Safari/iPhone/Android reales. Primera comparación Lighthouse móvil simulado registrada en CINEMATIC-REVIEW; no sustituye esas comprobaciones.
 
 ## Planificada — Representación 3D con IA, fase posterior
 

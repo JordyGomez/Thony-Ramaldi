@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Catalog } from "@/components/catalog";
 import { Preloader } from "@/components/preloader";
 import { Reveal } from "@/components/reveal";
@@ -7,8 +7,8 @@ import { Showcase } from "@/components/showcase";
 import { FeaturedRental } from "@/components/featured-rental";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
-// Unsplash: Salman Saqib (licencia Unsplash). Ver docs/ASSETS.md.
-import heroPhoto from "../../../public/images/portada.jpg";
+import { Hero } from "@/components/hero";
+import { DepthPlane } from "@/components/depth-plane";
 import { getProperties } from "@/data/get-properties";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí).
@@ -25,35 +25,10 @@ export default async function Home() {
   return (
     <main id="contenido">
       <Preloader />
-      <section className="hero" aria-labelledby="hero-title">
-        <Image
-          src={heroPhoto}
-          alt="Casa moderna blanca entre palmeras al anochecer, fotografía ilustrativa"
-          fill
-          sizes="100vw"
-          preload
-          className="hero-image"
-        />
-        <div className="hero-shade" />
-        <div className="hero-content">
-          <h1 id="hero-title">
-            Tu próximo espacio. <strong>Tu próxima historia.</strong>
-          </h1>
-          <div className="hero-meta">
-            <span>Asesoría inmobiliaria · República Dominicana</span>
-            <a href="#presentacion" className="link-arrow">
-              Descubrir <ArrowDown size={15} strokeWidth={1.25} />
-            </a>
-            <a href={whatsappUrl()} className="link-arrow" target="_blank" rel="noopener noreferrer">
-              Hablar con Thony <ArrowUpRight size={15} strokeWidth={1.25} />
-            </a>
-          </div>
-        </div>
-        <span className="photo-note">Fotografía ilustrativa</span>
-      </section>
+      <Hero />
 
       <section className="intro section-pad" id="presentacion">
-        <Reveal>
+        <Reveal variant="soft">
           <p className="intro-text">
             Hay un lugar para lo que viene. Encuéntralo con el acompañamiento de
             Thony Paulino, asesor inmobiliario de Ramaldi en República
@@ -100,7 +75,8 @@ export default async function Home() {
             <ArrowUpRight size={16} strokeWidth={1.25} />
           </a>
         </Reveal>
-        <Reveal className="about-visual">
+        <Reveal className="about-visual" variant="image">
+          <DepthPlane className="about-portrait-plane">
           <Image
             src={site.portrait}
             alt="Thony Paulino, asesor inmobiliario de Ramaldi"
@@ -108,12 +84,15 @@ export default async function Home() {
             sizes="(max-width: 900px) 92vw, 46vw"
             className="about-portrait"
           />
+          </DepthPlane>
           <span className="photo-note">Thony Paulino · Ramaldi</span>
+          <span className="about-photo-index label" aria-hidden="true">Una búsqueda personal.<br />Un asesor a tu lado.</span>
         </Reveal>
       </section>
 
       <section id="contacto" className="contact-section section-pad">
-        <Reveal className="contact-head">
+        <Reveal className="contact-head" variant="soft">
+          <p className="label">El siguiente paso es conversar</p>
           <h2>
             Todo comienza con una buena <strong>conversación</strong>
           </h2>
@@ -127,7 +106,7 @@ export default async function Home() {
             <WhatsAppIcon width={18} height={18} /> Escríbeme por WhatsApp
           </a>
         </Reveal>
-        <div className="contact-details">
+        <Reveal className="contact-details" variant="image" delay={0.1}>
           <a href={site.phoneHref}>
             <small>Teléfono</small>
             <span>{site.phone}</span>
@@ -148,7 +127,7 @@ export default async function Home() {
             <span>{site.phone}</span>
             <ArrowUpRight size={17} strokeWidth={1.25} />
           </a>
-        </div>
+        </Reveal>
       </section>
       <a
         className="floating-whatsapp"

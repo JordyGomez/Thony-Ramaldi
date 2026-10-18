@@ -1,5 +1,13 @@
 # Recursos visuales
 
+## Uso actual — evolución cinematográfica
+
+La entrada, el hero y Sobre Thony usan el retrato oficial entregado por el propietario. La puerta, sus materiales y las composiciones de marca del hero/pie son geometría CSS, no viviendas ni recorridos comercializados. No se generan fotografías, personas, videos ni propiedades. El retrato se revela como un plano fotográfico; no se simulan movimientos corporales ni se inventa un cuerpo.
+
+El nuevo brief pide evitar viviendas ilustrativas en portada. `portada.jpg`, elegida previamente por Yordi Lewis, y los recursos históricos se conservan con su procedencia, pero ya no se renderizan como portada ni pie públicos. Las fotografías de las fichas públicas proceden únicamente de publicaciones no marcadas como demostración en Supabase; las imágenes de ejemplo quedan en las pruebas aisladas.
+
+El usuario volvió a adjuntar las dos referencias del logo Ramaldi, clara y verde/dorada. Se ven en el chat, pero sus bytes no están disponibles como archivos reutilizables en el checkout; no se trazaron ni reconstruyeron. `site.logo` sigue preparado para el SVG/PNG autorizado, preferiblemente con transparencia y versión apta para fondo oscuro. La ausencia de un video real no se sustituye con una persona sintética: la escena utiliza el retrato autorizado.
+
 ## Identidad
 
 Dirección visual vigente (desde el rediseño minimalista del 2026-10-18): carbón `#2B2B2B`, superficies `#333333` y `#222222`, blanco `#FFFFFF`, grises de texto `#B0B0B0`/`#9E9E9E` (contraste AA sobre carbón) y acento dorado `#C9A96A` solo para avisos de demostración. Paleta original indicada por el propietario, conservada como referencia para cuando lleguen los logotipos: petróleo `#477D79`, dorado `#D99A00`, dorado claro `#F0CA55`, marfil `#F8F6F0`, carbón `#192B2B`, blanco `#FFFFFF`. El petróleo profundo `#285651` mejora el contraste del texto pequeño y botones. Ajustar la paleta cuando lleguen los logotipos originales; no se han declarado colores certificados.
