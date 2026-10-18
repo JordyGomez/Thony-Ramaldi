@@ -1,5 +1,22 @@
 # Transferencia de contexto
 
+## Estado vigente — diseño de Claude + 3D + editor, 2026-10-18
+
+El usuario rechazó la portada arquitectónica del PR #6 y pidió la composición de Claude con animaciones y novedades, corregir el error de fotos y controlar el contenido desde el panel. **Autorizó explícitamente llevar esta entrega a main al terminar**. Base revisada: main `3adaf47`; implementación **f164bd3** en `feat/claude-design-full-admin`. Se conserva el checkout; no se crea worktree ni se aplica la antigua rama del PR #2.
+
+Se recuperan portada `portada.jpg`, Inter/carbón, estructura y pie fotográfico de `0742704`. El 3D se aplica a capas de imagen, revelados, menú, tarjetas, galería, controles y búsqueda personal. Se mantiene el retrato oficial, los avisos ilustrativos, la sesión/espera del preloader, a11y y las alternativas de movimiento. No se debe volver a reemplazar la portada de Claude por geometría/retrato. El panel ya permite incorporar un logo original sin editar código.
+
+`getSiteSettings()` lee solo `site_content`. Defaults, tipos y validación: `src/lib/site-settings.ts`; contexto cliente: `useSite`. Edición `/admin/web`, biblioteca `/admin/archivos`, diagnóstico `/admin/configuracion`, preview privada `/admin/vista-previa`. Los borradores (`site_drafts`) y el historial (`site_revisions`) son privados; RPC con revisión/locks, publicación atómica y revalidación. No introducir HTML/CSS ejecutable ni lecturas públicas de borradores.
+
+Fotos: `/api/admin/media`, cookies verificadas en servidor, `is_admin`, origen por Host, tamaño/firma, progreso y reintento. Diferenciar permisos de conexión. Fotos hasta 2400 px y 3 MB, PNG transparente y PDF hasta 3 MB; HEIC se exporta a JPG. Los archivos `media/` se comparten y no se borran al eliminar una propiedad. Las políticas de almacenamiento y las nuevas tablas se preparan en la migración aditiva `supabase/migrations/20261018_site_editor.sql`.
+
+**Prerrequisito externo real:** la migración todavía debe ejecutarse en SQL Editor del proyecto existente. La lectura anónima encontró `properties` 200/0 filas y tablas nuevas 404/PGRST205. La sesión dispone de lectura pública; no de DDL ni de una sesión real de administración. El editor informa de la activación y no simula guardar. No se crearon cuentas, roles, publicaciones o archivos en el proyecto real. La carga nueva puede usar el bucket/políticas anteriores; el diagnóstico explica cualquier permiso pendiente de la cuenta.
+
+Validación: npm ci, lint, tipos y builds; **84 regresiones + 6 públicas + 12 de panel + 9 PostgreSQL embebido: 111 aprobadas**, sin omitidas ni fallidas. El panel usa un doble HTTP exclusivamente en loopback; su flag se bloquea con VERCEL_ENV. La suite recompila .next: volver a compilar para el modo que se vaya a ejecutar. PGlite es solo de desarrollo, sin motor/DB nueva en producción. Ver `docs/CLAUDE-ADMIN-REVIEW.md`, capturas y README. No se afirman operaciones reales autenticadas, Safari o rendimiento de campo.
+
+La entrega prepara PR, comprueba sus checks, integra a main por autorización del usuario y verifica el Vercel existente. Consultar GitHub para el estado remoto final y repetir la lectura de tablas antes de afirmar activación. Los registros siguientes describen entregas anteriores.
+
+
 ## Estado actual — evolución cinematográfica, 2026-10-18 (Codex / Yordi Gómez)
 
 Nueva rama `feat/cinematic-ramaldi-experience` desde main **0742704**, merge del PR #5 de Claude. Implementación: **7ce368a**. PR #4 y #5 ya estaban fusionados al empezar. Se revisaron ambos, sus assets y arquitectura antes de editar; no se aplica la antigua rama de fase 2. El nuevo brief autoriza ampliar la capa visual completa preservando el trabajo de Claude.

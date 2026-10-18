@@ -263,7 +263,7 @@
   margin: 0;
 }
 .site-experience .footer-wordmark {
-  font-size: calc((100vw - 2 * var(--gutter)) / var(--signature-ratio, 7.72));
+  font-size: max(12px, calc((100vw - 2 * var(--gutter)) / var(--signature-ratio, 7.72)));
 }
 .site-experience .footer-photo {
   inset: -5% !important;

@@ -1,5 +1,15 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Diseño de Claude con 3D y administración integral
+
+- Petición posterior del propietario: recuperar la composición de Claude, añadir 3D sobre ella, reparar las subidas y administrar el contenido. Base main `3adaf47` (PR #6); implementación **f164bd3**, rama `feat/claude-design-full-admin`. Se revisó el remoto sin avances nuevos antes de integrar; el usuario autorizó expresamente llevar la entrega a main al terminar.
+- Restauradas portada `portada.jpg`, Inter/carbón y pie fotográfico de `0742704`, con avisos de fotografías ilustrativas. Profundidad por eventos, revelados y controles en perspectiva, menú escalonado, galerías y búsqueda personal por intención/zona/presupuesto/plazo con WhatsApp. No se crea inventario ni se generan personas, logos o viviendas.
+- Panel ampliado: contenido/contactos/menú/SEO, imágenes/logo, orden y visibilidad, pasos, paleta y movimiento; biblioteca, diagnóstico, previsualización móvil/escritorio, borrador y publicación separados, historial y control de conflictos. SQL aditivo en `supabase/migrations/20261018_site_editor.sql`, con RLS privado y RPC transaccional.
+- Subida al mismo origen con sesión/rol, comprobación de origen compatible con proxy, bytes y tamaño; optimización/transparencia, progreso, mensajes específicos y reintento. Borrar una ficha conserva los archivos compartidos de la biblioteca.
+- Validación local: instalación congelada 402 paquetes, lint/tipos/builds aprobados; **84 regresiones + 6 públicas + 12 del panel + 9 SQL = 111 aprobadas**, sin omitidas ni fallidas. PGlite 0.5.10 se usa solo en desarrollo. Las operaciones de panel se prueban con un doble HTTP local; no se hicieron login, migración ni escrituras en el Supabase real.
+- En la lectura real: propiedades 200 y cero filas; tablas nuevas aún 404/PGRST205. El propietario debe ejecutar la migración para activar guardado/publicación del editor. Hasta entonces la web conserva los valores de Claude y el panel explica la activación. Informe, capturas y límites en CLAUDE-ADMIN-REVIEW; los checks remotos y Vercel se comprueban al publicar.
+
+
 ## 2026-10-18 — Codex / Yordi Gómez — Evolución cinematográfica y contenido auténtico
 
 - Se parte del main 0742704 (PR #5 de Claude), con PR #4 ya fusionado, en feat/cinematic-ramaldi-experience. Se revisaron las nuevas rutas agrupadas, Supabase, panel, retrato, nueva portada y eliminación de Facebook. Se repitió fetch antes del commit: main sin avances adicionales.
