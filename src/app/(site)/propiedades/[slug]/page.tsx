@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Phone } from "lucide-react";
-import { properties, formatPrice } from "@/data/properties";
+import { formatPrice, listingStatus } from "@/data/properties";
+import { getProperties } from "@/data/get-properties";
 import { Gallery } from "@/components/gallery";
 import { PropertyCard } from "@/components/property-card";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
 import styles from "./property-detail.module.css";
 
-export function generateStaticParams() {
+// Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí). Las
+// fichas nuevas del panel se generan bajo demanda (dynamicParams por defecto).
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const properties = await getProperties();
   return properties.map((property) => ({ slug: property.slug }));
 }
 
@@ -19,15 +26,24 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const properties = await getProperties();
   const property = properties.find((p) => p.slug === slug);
+  const status = property && listingStatus(property);
+  const operation = property?.operation.toLowerCase();
   return property
     ? {
-        title: property.demo
-          ? `${property.title} · Demostración`
-          : `${property.title} en alquiler · Ficha en preparación`,
-        description: property.demo
-          ? `Ficha de demostración de ${property.type.toLowerCase()} en ${property.location}. Datos e imágenes ilustrativos, sin oferta comercial.`
-          : `Apartamento en alquiler en ${property.title}, ${property.location}. Ficha en preparación con renta y unidad por confirmar; renders del proyecto.`,
+        title:
+          status === "demo"
+            ? `${property.title} · Demostración`
+            : status === "preparation"
+              ? `${property.title} en ${operation} · Ficha en preparación`
+              : `${property.title} en ${operation}`,
+        description:
+          status === "demo"
+            ? `Ficha de demostración de ${property.type.toLowerCase()} en ${property.location}. Datos e imágenes ilustrativos, sin oferta comercial.`
+            : status === "preparation"
+              ? `${property.type} en ${operation} en ${property.title}, ${property.location}. Ficha en preparación con precio y unidad por confirmar${property.imagesAreRenders ? "; renders del proyecto" : ""}.`
+              : `${property.type} en ${operation} en ${property.location}. ${property.neighborhood}.`,
         robots: { index: false, follow: true },
         ...(site.url
           ? {
@@ -46,8 +62,12 @@ export default async function PropertyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const properties = await getProperties();
   const property = properties.find((p) => p.slug === slug);
   if (!property) notFound();
+  const status = listingStatus(property);
+  const isDemo = status === "demo";
+  const isRental = property.operation === "Alquiler";
   const details = [
     ["Habitaciones", property.bedrooms],
     ["Baños", property.bathrooms],
@@ -58,40 +78,64 @@ export default async function PropertyPage({
     <main className={`property-page ${styles.page}`} id="contenido">
       <Gallery
         images={property.images}
-        kind={property.demo ? "illustrative" : "project-render"}
+        kind={
+          isDemo
+            ? "illustrative"
+            : property.imagesAreRenders
+              ? "project-render"
+              : "photo"
+        }
+        projectName={property.projectName ?? property.title}
       />
       <div className="property-body section-pad">
         <Link className="back-link" href="/#propiedades">
           <ArrowLeft size={16} strokeWidth={1.25} />
           Volver a propiedades
         </Link>
-        <div
-          className={property.demo ? "demo-alert" : "preparation-alert"}
-          role="note"
-        >
-          <span>{property.demo ? "Demostración" : "FICHA EN PREPARACIÓN"}</span>
-          {property.demo
-            ? "Esta ficha contiene datos ficticios e imágenes ilustrativas. No representa una propiedad disponible ni una oferta comercial."
-            : property.confirmationNote}
-        </div>
+        {(status !== "available" || property.confirmationNote) && (
+          <div
+            className={isDemo ? "demo-alert" : "preparation-alert"}
+            role="note"
+          >
+            <span>
+              {isDemo
+                ? "Demostración"
+                : status === "preparation"
+                  ? "FICHA EN PREPARACIÓN"
+                  : "A TENER EN CUENTA"}
+            </span>
+            {isDemo
+              ? "Esta ficha contiene datos ficticios e imágenes ilustrativas. No representa una propiedad disponible ni una oferta comercial."
+              : property.confirmationNote}
+          </div>
+        )}
         <div className="detail-grid">
           <section className="detail-description">
             <h1>
               {property.title}
-              {!property.demo && " en alquiler"}
+              {!isDemo && ` en ${property.operation.toLowerCase()}`}
             </h1>
             <p className="detail-location">
               {property.location} · {property.type} ·{" "}
-              {property.demo ? "Demostración" : "Ficha en preparación"} /{" "}
+              {isDemo
+                ? "Demostración"
+                : status === "preparation"
+                  ? "Ficha en preparación"
+                  : "Disponible"}{" "}
+              /{" "}
               {property.reference}
             </p>
             <p>{property.description}</p>
             <h2 className="label">
-              {property.demo
+              {isDemo
                 ? "Características de ejemplo"
-                : "Características del proyecto según folleto"}
+                : property.projectFacts
+                  ? "Características del proyecto según folleto"
+                  : "Características"}
             </h2>
-            <ul className={`amenities${property.demo ? "" : " project-facts"}`}>
+            <ul
+              className={`amenities${property.projectFacts ? " project-facts" : ""}`}
+            >
               {(property.projectFacts ?? property.amenities).map((amenity) => (
                 <li key={amenity}>{amenity}</li>
               ))}
@@ -99,11 +143,13 @@ export default async function PropertyPage({
             {property.projectTypologies && (
               <>
                 <h2 className="label">Tipologías del proyecto</h2>
-                <p>
-                  El folleto presenta estas opciones. No identifican la unidad
-                  que está alquilando Thony ni confirman su distribución o
-                  superficie.
-                </p>
+                {status === "preparation" && (
+                  <p>
+                    El folleto presenta estas opciones. No identifican la unidad
+                    que está {isRental ? "alquilando" : "ofreciendo"} Thony ni
+                    confirman su distribución o superficie.
+                  </p>
+                )}
                 <ul className="amenities project-facts">
                   {property.projectTypologies.map((typology) => (
                     <li key={typology}>{typology}</li>
@@ -112,15 +158,19 @@ export default async function PropertyPage({
               </>
             )}
             <h2 className="label">
-              {property.demo
+              {isDemo
                 ? "Ubicación de referencia"
-                : "Ubicación del proyecto"}
+                : status === "preparation"
+                  ? "Ubicación del proyecto"
+                  : "Ubicación"}
             </h2>
             <p className="detail-note">
               {property.location}. {property.neighborhood}.{" "}
-              {property.demo
+              {isDemo
                 ? "No se proporciona dirección ni coordenadas porque esta ficha es de demostración."
-                : "La unidad y el nivel del apartamento se confirmarán con Thony."}
+                : status === "preparation"
+                  ? "La unidad y el nivel del apartamento se confirmarán con Thony."
+                  : null}
             </p>
             {property.brochure && (
               <>
@@ -134,7 +184,8 @@ export default async function PropertyPage({
                   <ArrowUpRight size={17} aria-hidden="true" />
                 </a>
                 <p className="detail-note">
-                  Folleto original del promotor; consulta el alquiler con Thony.
+                  Folleto original del promotor; consulta{" "}
+                  {isRental ? "el alquiler" : "la compra"} con Thony.
                 </p>
               </>
             )}
@@ -143,11 +194,15 @@ export default async function PropertyPage({
             <div className="detail-price">
               <span>
                 {property.priceProvisional
-                  ? "Renta provisional · por confirmar"
-                  : "PRECIO ILUSTRATIVO · USD"}
+                  ? `${isRental ? "Renta" : "Precio"} provisional · por confirmar`
+                  : isDemo
+                    ? "PRECIO ILUSTRATIVO · USD"
+                    : isRental
+                      ? "RENTA MENSUAL"
+                      : "PRECIO DE VENTA"}
               </span>
               <p>
-                {!property.demo && "USD "}
+                {!isDemo && "USD "}
                 {formatPrice(property.price)}
                 {property.operation === "Alquiler" && <small> / mes</small>}
               </p>
@@ -171,21 +226,37 @@ export default async function PropertyPage({
             </dl>
             <aside className="advisor-card" aria-label="Consulta con tu asesor">
               <h2>
-                {property.demo ? (
+                {isDemo ? (
                   <>
                     ¿Buscas algo <strong>como esto?</strong>
                   </>
                 ) : (
                   <>
-                    Consulta sobre <strong>este alquiler.</strong>
+                    Consulta sobre{" "}
+                    <strong>
+                      {isRental ? "este alquiler." : "esta propiedad."}
+                    </strong>
                   </>
                 )}
               </h2>
               <p>
-                {property.demo
+                {isDemo
                   ? "Cuéntame qué te gusta de este espacio y exploremos opciones reales para ti."
-                  : "Confirma con Thony la disponibilidad, la unidad, la renta mensual y las condiciones del alquiler."}
+                  : status === "preparation"
+                    ? isRental
+                      ? "Confirma con Thony la disponibilidad, la unidad, la renta mensual y las condiciones del alquiler."
+                      : "Confirma con Thony la disponibilidad, la unidad, el precio y las condiciones de compra."
+                    : "Pregúntale a Thony por la disponibilidad, las visitas y las condiciones."}
               </p>
+              <div className="advisor-identity">
+                <span className="advisor-photo">
+                  <Image src={site.portrait} alt="" fill sizes="112px" />
+                </span>
+                <span>
+                  Thony Paulino
+                  <small>Asesor inmobiliario · Ramaldi</small>
+                </span>
+              </div>
               <a
                 className="button button-solid"
                 href={whatsappUrl(property)}
@@ -199,9 +270,11 @@ export default async function PropertyPage({
                 {site.phone}
               </a>
               <small className="advisor-note">
-                {property.demo
+                {isDemo
                   ? "La consulta hará referencia a esta ficha de demostración y a opciones reales similares."
-                  : "La consulta identifica Alberobello y pide confirmar los datos de la unidad. El importe mostrado es provisional."}
+                  : status === "preparation"
+                    ? `La consulta identifica ${property.projectName ?? property.title} y pide confirmar los datos de la unidad.${property.priceProvisional ? " El importe mostrado es provisional." : ""}`
+                    : "La consulta incluirá el nombre y la referencia de esta propiedad."}
               </small>
             </aside>
           </div>

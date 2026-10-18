@@ -66,9 +66,9 @@ export function Footer() {
         </div>
       </div>
       <p className="footer-disclaimer">
-        Alberobello: alquiler en preparación, con renta y unidad por confirmar.
-        Los renders son del proyecto. Las fichas “Demostración” contienen datos
-        ficticios y no constituyen ofertas comerciales.
+        Precios, disponibilidad y condiciones sujetos a confirmación con Thony.
+        Las fichas marcadas como “Demostración” o “Ficha en preparación”
+        contienen datos ilustrativos o pendientes de confirmar.
       </p>
     </footer>
   );

@@ -1,7 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { formatPrice, type Property } from "@/data/properties";
+import {
+  formatPrice,
+  listingStatus,
+  listingStatusLabel,
+  type Property,
+} from "@/data/properties";
 
 export function PropertyCard({
   property,
@@ -9,6 +14,7 @@ export function PropertyCard({
   property: Property;
   index?: number;
 }) {
+  const status = listingStatus(property);
   const known = [property.bedrooms, property.bathrooms, property.area].every(
     (value) => value !== null,
   );
@@ -20,7 +26,7 @@ export function PropertyCard({
       <Link
         href={`/propiedades/${property.slug}`}
         className="property-image-link"
-        aria-label={`Ver ${property.title}, ${property.demo ? "demostración" : "ficha en preparación"}`}
+        aria-label={`Ver ${property.title}, ${listingStatusLabel[status].toLowerCase()}`}
       >
         <Image
           src={property.images[0].src}
@@ -31,8 +37,8 @@ export function PropertyCard({
         />
         <span className="property-badges">
           <span>{property.operation}</span>
-          <span className={property.demo ? "demo-badge" : "preparation-badge"}>
-            {property.demo ? "Demostración" : "Ficha en preparación"}
+          <span className={`${status}-badge`}>
+            {listingStatusLabel[status]}
           </span>
         </span>
       </Link>
@@ -56,7 +62,8 @@ export function PropertyCard({
             </p>
             {property.priceProvisional && (
               <small className="provisional-price-note">
-                Renta provisional · por confirmar
+                {property.operation === "Alquiler" ? "Renta" : "Precio"}{" "}
+                provisional · por confirmar
               </small>
             )}
           </div>

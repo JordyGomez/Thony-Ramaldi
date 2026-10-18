@@ -1,5 +1,45 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — Nueva fotografía de portada
+
+- La imagen anterior (`hero.jpg`, 800 px de ancho) se veía borrosa a pantalla completa. Se buscaron fotos gratuitas en Unsplash (excluyendo Unsplash+), se mostraron cuatro candidatas sobre la portada real y el usuario eligió la casa blanca con palmeras al anochecer de Salman Saqib.
+- `public/images/portada.jpg` (2400×1350, 474 KB) con importación estática; crédito y licencia en `docs/ASSETS.md`. Se conserva el aviso “Fotografía ilustrativa”.
+- `tests/preloader.spec.ts` interceptaba la imagen del hero por su nombre de archivo (`hero.*.jpg`); el patrón pasa a `portada.*.jpg` sin cambiar lo que comprueban las pruebas.
+- Validación: lint, typecheck y build aprobados; `npm test` 76 aprobadas, 0 fallidas; capturas a 1440 y 390 px. La imagen del pie (`villa.jpg`, 850 px) tiene el mismo problema de resolución y queda pendiente de decisión.
+
+
+## 2026-10-18 — Claude / Yordi Lewis — Retrato de Thony y sin Facebook
+
+- Yordi Lewis entregó la foto oficial de Thony y confirmó que no tiene Facebook.
+- Retrato en `public/images/thony-paulino.jpg` (importación estática en `site.portrait`): “Sobre Thony” lo muestra anclado arriba para no recortar el rostro, y la tarjeta de consulta de cada ficha añade un recorte circular con nombre y cargo.
+- Se elimina Facebook: `site.facebook`, la variable `NEXT_PUBLIC_FACEBOOK_URL` y el marcador “Enlace por confirmar”. Su lugar en el bloque de contacto lo ocupa WhatsApp.
+- Prueba ajustada: en lugar de exigir “Enlace por confirmar”, comprueba que no aparezca Facebook y que el retrato esté presente.
+- Validación: lint, typecheck y build aprobados; `npm test` 76 aprobadas, 0 fallidas; capturas a 1440 y 390 px del retrato, el contacto y la tarjeta de consulta.
+
+
+## 2026-10-18 — Claude / Yordi Lewis — La web muestra solo las propiedades del panel
+
+- Solicitud de Yordi Lewis: quitar las propiedades estáticas para que todas las que aparezcan sean las subidas al panel.
+- `getProperties()` ya no recurre a datos locales con Supabase activo: tabla vacía = sin propiedades; error de lectura = excepción, para que Next conserve la última página generada (y un build falle en lugar de publicar una web vacía). Los datos locales pasan a `sampleProperties`, usados solo con Supabase desactivado (CI y pruebas) y para importar.
+- Proyecto oficial `uowylfdlirlfqksvdeer` con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts`; CI compila con las variables vacías.
+- La importación del panel copia solo fichas reales (Alberobello); las seis demostraciones ficticias no se importan. Textos del panel vacío actualizados.
+- Estados vacíos: el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Descripción del sitio, Open Graph y aviso del pie ya no nombran Alberobello ni las demostraciones. La tarjeta dice “Precio provisional” en venta y “Renta provisional” en alquiler.
+- Validación: lint, typecheck y build (Supabase desactivado) aprobados; `npm test` 76 aprobadas, 0 fallidas; estado vacío revisado con una captura mediante una ruta temporal no incluida. Sigue sin probarse contra el proyecto real desde este entorno (red bloqueada).
+
+
+## 2026-10-18 — Claude / Yordi Lewis — Panel de propiedades propio con Supabase
+
+- Solicitud de Yordi Lewis: un apartado para que Thony publique propiedades sin tocar código. Primero se preparó con Sanity (commit `bd507a5`, nunca fusionado); el usuario prefirió no depender de un gestor de contenido externo y eligió Supabase con un panel construido a medida. Sanity y sus dependencias se eliminaron.
+- Se revisó el remoto antes de editar: el PR #4 de Codex se fusionó a main (`dfdeb8e`) a petición del usuario y esta rama parte de ese main. El PR #2 sigue abierto y obsoleto según la propia documentación de Codex.
+- Panel en `src/app/admin/`: inicio de sesión (Supabase Auth), lista con estado/publicación/destacada, crear, editar, ocultar y borrar (con sus archivos), e importación única de las siete fichas locales con fotos y folleto. Formulario en español con validación, subida directa de fotos al bucket con reducción a 2400 px en el navegador, orden y descripción de cada foto, folleto PDF y datos de proyecto. `src/proxy.ts` (convención de Next 16) renueva la sesión y protege `/admin`.
+- `supabase/schema.sql`: tabla `properties`, tabla `admin_users`, función `is_admin()`, RLS (lectura pública de publicadas; escritura solo administradores) y bucket público `properties` con escritura restringida.
+- `getProperties()` (`src/data/get-properties.ts`) como fuente única: Supabase con revalidación de 60 s y regeneración inmediata al guardar; datos locales si no está configurado, si falla o si la tabla está vacía. Portada, carrusel, catálogo, bloque Alberobello y fichas reciben los datos por props; las fichas nuevas se generan bajo demanda.
+- Rutas públicas movidas al grupo `src/app/(site)/` con su layout (skip link, header, pie) para que el panel no herede el envoltorio del sitio. Las URL no cambian; el 404 raíz reutiliza el layout del sitio.
+- Estados explícitos de ficha: Demostración, Ficha en preparación (`inPreparation`) y Disponible. Antes, cualquier ficha no demostrativa se presentaba como Alberobello (renders, renta provisional, textos de WhatsApp). Los textos de Alberobello y de las demostraciones se conservan idénticos; se añaden `projectName`, `imagesAreRenders` y el tipo de galería `photo` sin aviso de procedencia.
+- Ubicaciones del filtro derivadas de los datos; tipos y operaciones compartidos en `src/data/property-options.ts`. El bloque de Alberobello se localiza por slug. `next.config.ts` admite imágenes del almacenamiento público de Supabase; `robots.txt` excluye `/admin`.
+- Dependencias: `@supabase/supabase-js@2.117.1` y `@supabase/ssr@0.12.7` (más de dos semanas de antigüedad, sin peers inválidos).
+- Validación: lint, typecheck y build aprobados. Build con configuración ficticia: Supabase inaccesible, la web cayó a los datos locales y `/admin` y `/admin/nueva` redirigieron a `/admin/login`. Formulario y pantallas revisados con capturas a 1440 y 390 px mediante una ruta temporal no incluida. `npm test`: 76 aprobadas, 0 omitidas, 0 fallidas (72 previas + 4 de `tests/admin.spec.ts`). No se probó contra un proyecto Supabase real: inicio de sesión, subida de fotos, guardado e importación quedan por verificar al activarlo.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Mejora exclusiva del preloader
 
 - Se revisaron remoto, PR #4 y texto adjunto antes de editar. Sin cambios remotos nuevos respecto al main d0f5f09 y la rama publicada c3e256e; se continúa sobre la integración existente. El usuario priorizó mejoras aditivas y conservar el diseño.

@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import type { PropertyOperation, PropertyType } from "./property-options";
 import hero from "../../public/images/hero.jpg";
 import living from "../../public/images/living.jpg";
 import villa from "../../public/images/villa.jpg";
@@ -18,8 +19,8 @@ export type Property = {
   title: string;
   location: string;
   neighborhood: string;
-  type: "Apartamento" | "Villa" | "Penthouse";
-  operation: "Venta" | "Alquiler";
+  type: PropertyType;
+  operation: PropertyOperation;
   price: number;
   currency: "USD";
   bedrooms: number | null;
@@ -31,6 +32,12 @@ export type Property = {
   amenities: string[];
   featured: boolean;
   demo: boolean;
+  /** Nombre corto del proyecto para avisos (por defecto, el título). */
+  projectName?: string;
+  /** Ficha real con datos aún por confirmar (por ejemplo, Alberobello). */
+  inPreparation?: boolean;
+  /** Las imágenes son renders del proyecto, no fotografías de la unidad. */
+  imagesAreRenders?: boolean;
   priceProvisional?: boolean;
   brochure?: { href: string; label: string };
   projectFacts?: string[];
@@ -48,11 +55,15 @@ const image = (name: keyof typeof propertyImages, alt: string) => ({
   alt,
 });
 
-export const properties: Property[] = [
+// Datos de ejemplo: la web pública NO los muestra cuando Supabase está activo.
+// Solo se usan con Supabase desactivado (desarrollo y pruebas automáticas) y
+// como origen de la importación de fichas reales (Alberobello) desde /admin.
+export const sampleProperties: Property[] = [
   {
     slug: "alberobello-residences",
     reference: "ALB-001",
     title: "Alberobello Residences",
+    projectName: "Alberobello",
     location: "Santiago",
     neighborhood: "Calle La Vereda, casi esquina Carretera Don Pedro",
     type: "Apartamento",
@@ -104,6 +115,8 @@ export const properties: Property[] = [
     },
     featured: true,
     demo: false,
+    inPreparation: true,
+    imagesAreRenders: true,
   },
   {
     slug: "residencia-patio",
@@ -263,6 +276,23 @@ export const properties: Property[] = [
   },
 ];
 
+export type ListingStatus = "demo" | "preparation" | "available";
+
+export const listingStatus = (
+  property: Pick<Property, "demo" | "inPreparation">,
+): ListingStatus =>
+  property.demo
+    ? "demo"
+    : property.inPreparation
+      ? "preparation"
+      : "available";
+
+export const listingStatusLabel: Record<ListingStatus, string> = {
+  demo: "Demostración",
+  preparation: "Ficha en preparación",
+  available: "Disponible",
+};
+
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -285,8 +315,11 @@ export const emptyFilters: PropertyFilters = {
   bedrooms: "",
 };
 
-export function filterProperties(filters: PropertyFilters) {
-  return properties.filter(
+export function filterProperties(
+  list: Property[],
+  filters: PropertyFilters,
+) {
+  return list.filter(
     (p) =>
       (!filters.type || p.type === filters.type) &&
       (!filters.operation || p.operation === filters.operation) &&

@@ -18,10 +18,13 @@ import {
   emptyFilters,
   filterProperties,
   formatPrice,
-  properties,
+  listingStatus,
+  type Property,
   type PropertyFilters,
 } from "@/data/properties";
+import { propertyTypes } from "@/data/property-options";
 import { editorialEase, motionTiming } from "@/lib/motion";
+import { whatsappUrl } from "@/lib/site";
 import { PropertyCard } from "./property-card";
 import styles from "./catalog.module.css";
 
@@ -50,26 +53,45 @@ function CatalogResult({ children }: { children: ReactNode }) {
   );
 }
 
-export function Catalog() {
+export function Catalog({ properties }: { properties: Property[] }) {
   const [filters, setFilters] = useState<PropertyFilters>(emptyFilters);
+  // Las ubicaciones salen de los datos para incluir las que se añadan en el panel.
+  const locations = Array.from(
+    new Set(properties.map((property) => property.location)),
+  ).sort((a, b) => a.localeCompare(b, "es"));
   const [view, setView] = useState<"all" | "real" | "featured">("all");
   const [expanded, setExpanded] = useState(false);
   const filterPanel = useRef<HTMLDivElement>(null);
   const filterToggle = useRef<HTMLButtonElement>(null);
   const allTab = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
-  const filtered = filterProperties(filters).filter(
+  const filtered = filterProperties(properties, filters).filter(
     (p) => view === "all" || (view === "real" ? !p.demo : p.featured),
   );
   const featuredCount = properties.filter(
     (property) => property.featured,
   ).length;
   const realCount = properties.filter((property) => !property.demo).length;
-  const demoCount = properties.length - realCount;
-  const filteredRealCount = filtered.filter(
-    (property) => !property.demo,
-  ).length;
-  const filteredDemoCount = filtered.length - filteredRealCount;
+  const countByStatus = (list: Property[]) => ({
+    available: list.filter((p) => listingStatus(p) === "available").length,
+    preparation: list.filter((p) => listingStatus(p) === "preparation").length,
+    demo: list.filter((p) => listingStatus(p) === "demo").length,
+  });
+  const totals = countByStatus(properties);
+  const shown = countByStatus(filtered);
+  const filteredRealCount = shown.available + shown.preparation;
+  const plural = (n: number, one: string, many: string) =>
+    `${n} ${n === 1 ? one : many}`;
+  // Solo se nombran los grupos presentes: "2 disponibles · 1 en preparación…".
+  const summary = [
+    totals.available && plural(totals.available, "disponible", "disponibles"),
+    totals.preparation &&
+      plural(totals.preparation, "ficha en preparación", "fichas en preparación"),
+    totals.demo &&
+      plural(totals.demo, "ficha de demostración", "fichas de demostración"),
+  ]
+    .filter(Boolean)
+    .join(" · ");
   const activeFilters = (
     Object.entries(filters) as [keyof PropertyFilters, string][]
   ).filter(([, value]) => Boolean(value));
@@ -107,6 +129,32 @@ export function Catalog() {
     if (select?.getClientRects().length) select.focus({ preventScroll: true });
     else filterToggle.current?.focus({ preventScroll: true });
   };
+  // Panel vacío: aún no hay fichas publicadas en /admin.
+  if (!properties.length)
+    return (
+      <section
+        id="propiedades"
+        className={`catalog section-pad ${styles.catalog}`}
+      >
+        <div className="empty-state catalog-empty">
+          <h2>
+            Pronto publicaremos <strong>nuevas propiedades.</strong>
+          </h2>
+          <p>
+            Mientras tanto, cuéntale a Thony qué buscas y te ayudará a
+            encontrar opciones para vivir o invertir.
+          </p>
+          <a
+            className="button button-solid"
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Escribir a Thony <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </section>
+    );
   return (
     <section
       id="propiedades"
@@ -121,17 +169,13 @@ export function Catalog() {
             Cada búsqueda es personal. Explora, imagina y conversemos sobre lo
             que estás buscando.
           </p>
-          <span className="demo-note">
-            {realCount} alquiler en preparación · {demoCount} fichas de
-            demostración
-          </span>
+          <span className="demo-note">{summary}</span>
         </div>
       </div>
       <noscript>
         <style>{`.${styles.interactive} { display: none !important; }`}</style>
         <p className={styles.noScript}>
-          Explora {realCount} ficha de alquiler en preparación y {demoCount}{" "}
-          fichas de demostración. Activa JavaScript para filtrar esta selección.
+          Explora {summary}. Activa JavaScript para filtrar esta selección.
         </p>
       </noscript>
       <div className={styles.interactive}>
@@ -208,9 +252,9 @@ export function Catalog() {
               onChange={(e) => change("type", e.target.value)}
             >
               <option value="">Todos</option>
-              <option>Apartamento</option>
-              <option>Villa</option>
-              <option>Penthouse</option>
+              {propertyTypes.map((type) => (
+                <option key={type}>{type}</option>
+              ))}
             </select>
           </label>
           <label>
@@ -241,9 +285,9 @@ export function Catalog() {
               onChange={(e) => change("location", e.target.value)}
             >
               <option value="">Todas</option>
-              <option>Santo Domingo</option>
-              <option>Punta Cana</option>
-              <option>Santiago</option>
+              {locations.map((location) => (
+                <option key={location}>{location}</option>
+              ))}
             </select>
           </label>
           <label>
@@ -327,7 +371,15 @@ export function Catalog() {
               ? filtered.length === 1
                 ? "propiedad de demostración"
                 : "propiedades de demostración"
-              : `${filtered.length === 1 ? "propiedad" : "propiedades"} · ${filteredRealCount} en preparación${filteredDemoCount ? ` · ${filteredDemoCount} de demostración` : ""}`}
+              : [
+                  filtered.length === 1 ? "propiedad" : "propiedades",
+                  shown.available &&
+                    plural(shown.available, "disponible", "disponibles"),
+                  shown.preparation && `${shown.preparation} en preparación`,
+                  shown.demo && `${shown.demo} de demostración`,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
           </p>
           {active && (
             <button onClick={reset}>
@@ -374,10 +426,12 @@ export function Catalog() {
         </motion.div>
       )}
       <p className="catalog-disclaimer">
-        Alberobello: ficha real en preparación, con renta provisional y renders
-        del proyecto. Las fichas “Demostración” usan datos e imágenes
-        ilustrativos. Confirma con Thony la unidad, disponibilidad y condiciones
-        antes de decidir.
+        {properties.some((p) => p.slug === "alberobello-residences") &&
+          "Alberobello: ficha real en preparación, con renta provisional y renders del proyecto. "}
+        {totals.demo > 0 &&
+          "Las fichas “Demostración” usan datos e imágenes ilustrativos. "}
+        Confirma con Thony la unidad, disponibilidad y condiciones antes de
+        decidir.
       </p>
     </section>
   );

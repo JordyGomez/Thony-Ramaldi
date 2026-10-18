@@ -20,7 +20,8 @@ import styles from "./gallery.module.css";
 const imageKey = (source: Property["images"][number]["src"]) =>
   typeof source === "string" ? source : source.src;
 
-type GalleryKind = "illustrative" | "project-render";
+// "photo": fotografías reales de la propiedad, sin aviso de procedencia.
+type GalleryKind = "illustrative" | "project-render" | "photo";
 
 function GalleryImage({
   image,
@@ -103,9 +104,11 @@ function GalleryImage({
 export function Gallery({
   images,
   kind = "illustrative",
+  projectName,
 }: {
   images: Property["images"];
   kind?: GalleryKind;
+  projectName?: string;
 }) {
   const [index, setIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
@@ -114,6 +117,7 @@ export function Gallery({
   const touch = useRef<{ x: number; y: number; time: number } | null>(null);
   const helpId = useId();
   const isProjectRender = kind === "project-render";
+  const isPhoto = kind === "photo";
   const move = (offset: number) =>
     setIndex((previous) => (previous + offset + images.length) % images.length);
 
@@ -192,7 +196,9 @@ export function Gallery({
       aria-label={
         isProjectRender
           ? "Galería de renders del proyecto"
-          : "Galería de fotografías ilustrativas"
+          : isPhoto
+            ? "Galería de fotografías"
+            : "Galería de fotografías ilustrativas"
       }
       aria-describedby={helpId}
       tabIndex={0}
@@ -213,9 +219,13 @@ export function Gallery({
           preload={index === 0}
         />
         <div className="gallery-shade" />
-        <span className={styles.sourceNote}>
-          {isProjectRender ? "Render del proyecto · Alberobello" : "Fotografía ilustrativa"}
-        </span>
+        {!isPhoto && (
+          <span className={styles.sourceNote}>
+            {isProjectRender
+              ? `Render del proyecto${projectName ? ` · ${projectName}` : ""}`
+              : "Fotografía ilustrativa"}
+          </span>
+        )}
         <span className="gallery-counter" aria-live="polite" aria-atomic="true">
           {index + 1} / {images.length}
         </span>
@@ -259,11 +269,13 @@ export function Gallery({
       <p className={styles.help} id={helpId} data-gallery-interactive>
         Usa las flechas del teclado o desliza para explorar.
       </p>
-      <p className="gallery-note">
-        {isProjectRender
-          ? "Renders del proyecto · folleto original. No son fotografías de la unidad en alquiler. Los muebles y accesorios mostrados podrían no estar incluidos."
-          : "Galería ilustrativa. Las imágenes de referencia no representan un mismo inmueble real."}
-      </p>
+      {!isPhoto && (
+        <p className="gallery-note">
+          {isProjectRender
+            ? "Renders del proyecto · folleto original. No son fotografías de la unidad en alquiler. Los muebles y accesorios mostrados podrían no estar incluidos."
+            : "Galería ilustrativa. Las imágenes de referencia no representan un mismo inmueble real."}
+        </p>
+      )}
       <noscript>
         <style>{`.gallery [data-gallery-interactive] { display: none !important; }`}</style>
         <div className={styles.fallback}>
@@ -323,7 +335,11 @@ export function Gallery({
         </div>
         <p aria-live="polite" aria-atomic="true">
           {index + 1} / {images.length} ·{" "}
-          {isProjectRender ? "Renders del proyecto" : "Imágenes ilustrativas"}
+          {isProjectRender
+            ? "Renders del proyecto"
+            : isPhoto
+              ? "Fotografías"
+              : "Imágenes ilustrativas"}
         </p>
       </dialog>
     </div>

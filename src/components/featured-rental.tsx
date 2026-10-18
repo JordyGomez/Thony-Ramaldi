@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, FileText, MapPin } from "lucide-react";
-import { properties, formatPrice } from "@/data/properties";
+import { formatPrice, type Property } from "@/data/properties";
 import { Reveal } from "./reveal";
 import styles from "./featured-rental.module.css";
 
-export function FeaturedRental() {
-  const property = properties.find((item) => !item.demo);
+// Los textos de este bloque son específicos de Alberobello: se busca por slug
+// para que una propiedad nueva del panel no herede su titular.
+export function FeaturedRental({ properties }: { properties: Property[] }) {
+  const property = properties.find(
+    (item) => item.slug === "alberobello-residences",
+  );
   if (!property) return null;
 
   return (

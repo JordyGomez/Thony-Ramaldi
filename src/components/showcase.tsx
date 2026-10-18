@@ -4,14 +4,13 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { properties } from "@/data/properties";
+import { listingStatus, type Property } from "@/data/properties";
 
-// Destacadas primero; el carrusel se desplaza también sin JavaScript.
-const ordered = [...properties].sort(
-  (a, b) => Number(b.featured) - Number(a.featured),
-);
-
-export function Showcase() {
+export function Showcase({ properties }: { properties: Property[] }) {
+  // Destacadas primero; el carrusel se desplaza también sin JavaScript.
+  const ordered = [...properties].sort(
+    (a, b) => Number(b.featured) - Number(a.featured),
+  );
   const track = useRef<HTMLUListElement>(null);
   const move = (direction: 1 | -1) => {
     const element = track.current;
@@ -24,6 +23,7 @@ export function Showcase() {
       behavior: reduced.matches ? "auto" : "smooth",
     });
   };
+  if (!ordered.length) return null;
   return (
     <section className="showcase" aria-labelledby="showcase-title">
       <div className="showcase-head">
@@ -60,7 +60,14 @@ export function Showcase() {
               </span>
               <span className="showcase-title">{property.title}</span>
               <span className="showcase-meta">
-                {property.location} · {property.demo ? "Demostración" : "Alquiler en preparación"}
+                {property.location} ·{" "}
+                {
+                  {
+                    demo: "Demostración",
+                    preparation: `${property.operation} en preparación`,
+                    available: `En ${property.operation.toLowerCase()}`,
+                  }[listingStatus(property)]
+                }
               </span>
             </Link>
           </li>

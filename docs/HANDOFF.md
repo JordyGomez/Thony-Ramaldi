@@ -1,5 +1,20 @@
 # Transferencia de contexto
 
+## Estado actual — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
+
+**Retrato y Facebook (2026-10-18):** retrato oficial incorporado (`site.portrait`); Thony no tiene Facebook y se eliminó de la web. Pendientes de contenido: logo reutilizable, biografía, datos definitivos de Alberobello y propiedades reales.
+
+**Actualización:** por petición del usuario la web pública muestra solo las fichas publicadas en el panel (sin respaldo local con Supabase activo; ver CHANGELOG). Proyecto Supabase: `uowylfdlirlfqksvdeer`, configurado por defecto en `src/lib/supabase/env.ts`. El usuario ejecutó `supabase/schema.sql` sin cambiar el correo de ejemplo; se le indicó reemplazarlo por `yordilewis@gmail.com` en `admin_users` y crear ese usuario en Auth. Al fusionar el PR #5, la web principal quedará sin propiedades hasta que se importe Alberobello o se publiquen fichas: conviene hacerlo en la preview antes de fusionar.
+
+Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex), PR #5. Panel propio en `/admin` apuntando al proyecto `uowylfdlirlfqksvdeer`, **sin probar contra él desde este entorno**: la red cloud no tiene permitidos los dominios de Supabase. Con las variables vacías (CI) la web usa los datos de ejemplo. Sanity se probó y se descartó por decisión del usuario.
+
+Siguiente paso al activarlo (detalle en README, sección del panel): crear el proyecto, ejecutar `supabase/schema.sql` con el correo de Thony, crear su usuario y desactivar registros, definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` (el proyecto de Vercel es del equipo `los-yordis`; alternativa: valores por defecto en `src/lib/supabase/env.ts`, son públicos), desplegar e **importar las propiedades actuales** desde el panel vacío antes de crear fichas nuevas. Verificar entonces login, subida de fotos, guardado, borrado e importación, que no se pudieron probar contra un proyecto real. Para probar desde la nube hay que permitir `*.supabase.co` en la red del entorno.
+
+Decisiones: tres estados de ficha (`listingStatus` en `src/data/properties.ts`) para que una propiedad nueva no herede los textos de Alberobello; el bloque destacado de Alberobello se busca por slug. Las fichas siguen con `noindex` y fuera del sitemap: revisar esa política cuando haya inventario real disponible. Los archivos de fotos quitadas en el formulario antes de guardar quedan en el bucket; al borrar una ficha sí se eliminan sus archivos.
+
+---
+
+
 ## Estado actual — mejora exclusiva del preloader, 2026-10-18
 
 El usuario aportó un texto de preloader y pidió descartar cualquier instrucción que reemplazara lo ya construido. Se revisaron GitHub, el PR #4 y el código: no había cambios remotos nuevos de main ni modificaciones locales desconocidas. La continuación parte de c3e256e en la misma rama `feat/ramaldi-alberobello-integrated`, conservando íntegros Alberobello, catálogo y diseño de Claude. Implementación: **a5ae5b8**.

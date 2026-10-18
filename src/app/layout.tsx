@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,14 +11,14 @@ export const metadata: Metadata = {
     template: "%s | Thony Paulino · Ramaldi",
   },
   description:
-    "Asesoría inmobiliaria con Thony Paulino, Ramaldi en República Dominicana. Conoce Alberobello Residences y consulta sus condiciones de alquiler; las fichas de demostración están identificadas.",
+    "Asesoría inmobiliaria con Thony Paulino, Ramaldi en República Dominicana. Propiedades para vivir o invertir, en venta y alquiler.",
   openGraph: {
     type: "website",
     locale: "es_DO",
     siteName: "Thony Paulino · Ramaldi",
     title: "Tu próximo espacio. Tu próxima historia.",
     description:
-      "Asesoría inmobiliaria con Thony Paulino. Conoce Alberobello en Santiago y conversemos sobre tu próximo hogar.",
+      "Asesoría inmobiliaria con Thony Paulino. Explora sus propiedades y conversemos sobre tu próximo hogar.",
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
@@ -33,14 +31,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es">
-      <body>
-        <a href="#contenido" className="skip-link">
-          Saltar al contenido
-        </a>
-        <Header />
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

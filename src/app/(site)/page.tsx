@@ -7,7 +7,12 @@ import { Showcase } from "@/components/showcase";
 import { FeaturedRental } from "@/components/featured-rental";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
-import { propertyImages } from "@/data/properties";
+// Unsplash: Salman Saqib (licencia Unsplash). Ver docs/ASSETS.md.
+import heroPhoto from "../../../public/images/portada.jpg";
+import { getProperties } from "@/data/get-properties";
+
+// Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí).
+export const revalidate = 60;
 
 const steps = [
   { number: "01", title: "Escuchar", detail: "Entender lo que buscas." },
@@ -15,14 +20,15 @@ const steps = [
   { number: "03", title: "Acompañar", detail: "Estar presente en tu decisión." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const properties = await getProperties();
   return (
     <main id="contenido">
       <Preloader />
       <section className="hero" aria-labelledby="hero-title">
         <Image
-          src={propertyImages.hero}
-          alt="Residencia con piscina, fotografía ilustrativa de inspiración"
+          src={heroPhoto}
+          alt="Casa moderna blanca entre palmeras al anochecer, fotografía ilustrativa"
           fill
           sizes="100vw"
           preload
@@ -60,10 +66,10 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <FeaturedRental />
-      <Showcase />
+      <FeaturedRental properties={properties} />
+      <Showcase properties={properties} />
 
-      <Catalog />
+      <Catalog properties={properties} />
 
       <section className="about section-pad" id="sobre-thony">
         <Reveal className="about-copy">
@@ -96,18 +102,13 @@ export default function Home() {
         </Reveal>
         <Reveal className="about-visual">
           <Image
-            src={site.portrait || propertyImages.living}
-            alt={
-              site.portrait
-                ? "Thony Paulino, asesor inmobiliario"
-                : "Interior residencial ilustrativo; no es una fotografía de Thony"
-            }
+            src={site.portrait}
+            alt="Thony Paulino, asesor inmobiliario de Ramaldi"
             fill
             sizes="(max-width: 900px) 92vw, 46vw"
+            className="about-portrait"
           />
-          <span className="photo-note">
-            {site.portrait ? "Thony Paulino" : "Imagen de inspiración"}
-          </span>
+          <span className="photo-note">Thony Paulino · Ramaldi</span>
         </Reveal>
       </section>
 
@@ -142,18 +143,11 @@ export default function Home() {
             <span>{site.instagramHandle}</span>
             <ArrowUpRight size={17} strokeWidth={1.25} />
           </a>
-          {site.facebook ? (
-            <a href={site.facebook} target="_blank" rel="noopener noreferrer">
-              <small>Facebook</small>
-              <span>Thony Paulino</span>
-              <ArrowUpRight size={17} strokeWidth={1.25} />
-            </a>
-          ) : (
-            <div className="contact-pending">
-              <small>Facebook · Thony Paulino</small>
-              <span>Enlace por confirmar</span>
-            </div>
-          )}
+          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+            <small>WhatsApp</small>
+            <span>{site.phone}</span>
+            <ArrowUpRight size={17} strokeWidth={1.25} />
+          </a>
         </div>
       </section>
       <a

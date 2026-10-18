@@ -4,7 +4,7 @@
 
 Dirección visual vigente (desde el rediseño minimalista del 2026-10-18): carbón `#2B2B2B`, superficies `#333333` y `#222222`, blanco `#FFFFFF`, grises de texto `#B0B0B0`/`#9E9E9E` (contraste AA sobre carbón) y acento dorado `#C9A96A` solo para avisos de demostración. Paleta original indicada por el propietario, conservada como referencia para cuando lleguen los logotipos: petróleo `#477D79`, dorado `#D99A00`, dorado claro `#F0CA55`, marfil `#F8F6F0`, carbón `#192B2B`, blanco `#FFFFFF`. El petróleo profundo `#285651` mejora el contraste del texto pequeño y botones. Ajustar la paleta cuando lleguen los logotipos originales; no se han declarado colores certificados.
 
-Se recibieron referencias visuales del logo Ramaldi para sus acentos; falta el archivo reutilizable y el retrato de Thony. El encabezado utiliza su nombre y el de Ramaldi como texto. `public/brand/README.md` explica la incorporación de los originales. No se ha utilizado una web externa de Ramaldi.
+Se recibieron referencias visuales del logo Ramaldi para sus acentos; falta el archivo reutilizable. El retrato de Thony (`public/images/thony-paulino.jpg`, 853×1280, JPEG) lo entregó Yordi Lewis el 2026-10-18 como foto oficial de Thony. El encabezado utiliza su nombre y el de Ramaldi como texto. `public/brand/README.md` explica la incorporación de los originales. No se ha utilizado una web externa de Ramaldi.
 
 ## Fotografías de demostración
 
@@ -33,3 +33,7 @@ El intento de fase 1 devolvió HTTP 403. Maddock sí se inspeccionó visualmente
 ## Material Alberobello
 
 PDF original y cuatro renders del proyecto aportados por el propietario. Se identifican como renders, no fotografías actuales del apartamento. Páginas, hash y extracción se documentan en [ALBEROBELLO](ALBEROBELLO.md). Los contactos del promotor en el PDF no sustituyen a Thony. La renta de US$1,000 es solo un importe de maqueta autorizado. Acentos de marca y contraste en [BRAND](BRAND.md).
+
+## Fotografía de portada
+
+`public/images/portada.jpg` (2400×1350, JPEG optimizado): “A modern house with a walkway leading to the front door”, foto de **Salman Saqib** en Unsplash (https://unsplash.com/photos/a-modern-house-with-a-walkway-leading-to-the-front-door-mmuGuSv208c, autor https://unsplash.com/@salmansaqib). Licencia Unsplash: uso comercial gratuito sin atribución obligatoria; se registra el crédito igualmente. Es ilustrativa, no una propiedad de Thony: la portada mantiene el aviso “Fotografía ilustrativa”. Elegida por Yordi Lewis el 2026-10-18 entre cuatro candidatas para sustituir `hero.jpg` (800 px, insuficiente a pantalla completa). `hero.jpg` sigue solo en los datos de ejemplo.
