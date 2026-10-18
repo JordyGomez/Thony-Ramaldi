@@ -4,7 +4,8 @@
 
 - Aplicación Next.js con TypeScript y estructura compartida.
 - Dirección editorial, variables de color, fuentes locales y animaciones de interfaz.
-- Portada, navegación adaptable, entrada de puerta CSS 3D y movimiento reducido.
+- Portada, navegación adaptable, entrada por sesión y movimiento reducido.
+- Rediseño minimalista oscuro inspirado en maddockdesign.com: hero a pantalla completa, carrusel, fichas con tabla de información y pie con el nombre a todo el ancho.
 - Seis inmuebles ficticios marcados como demostración, selección de destacados y filtros combinables.
 - Fichas estáticas con galería, descripción, características, navegación y consulta contextual por WhatsApp.
 - Sobre Thony, teléfono, correo, Instagram y Facebook pendiente sin enlace inventado.

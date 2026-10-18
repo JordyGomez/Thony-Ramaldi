@@ -109,8 +109,9 @@ test("cada tarjeta abre su ficha y conserva la advertencia de demostración", as
     expect(parsed.pathname).toBe("/18294045770");
     expect(parsed.searchParams.get("text")).toContain("ficha de demostración");
     expect(parsed.searchParams.get("text")).toContain("DEMO-00");
+    // textContent: el título se muestra en mayúsculas solo por CSS.
     expect(parsed.searchParams.get("text")).toContain(
-      await page.getByRole("heading", { level: 1 }).innerText(),
+      (await page.getByRole("heading", { level: 1 }).textContent())!.trim(),
     );
   }
   const missing = await page.goto("/propiedades/no-existe");

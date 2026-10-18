@@ -3,14 +3,12 @@
 export default function Error({ reset }: { reset: () => void }) {
   return (
     <main id="contenido" className="error-page section-pad">
-      <span className="eyebrow">INTENTÉMOSLO DE NUEVO</span>
+      <span className="label">Intentémoslo de nuevo</span>
       <h1>
-        Hagamos
-        <br />
-        <em>una pausa.</em>
+        Hagamos <strong>una pausa.</strong>
       </h1>
       <p>No pudimos cargar este espacio. Puedes volver a intentarlo.</p>
-      <button className="button button-primary" onClick={reset}>
+      <button className="button" onClick={reset}>
         Reintentar
       </button>
     </main>

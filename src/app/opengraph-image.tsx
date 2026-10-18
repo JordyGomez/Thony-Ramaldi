@@ -12,8 +12,8 @@ export default function OpenGraphImage() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#192B2B",
-          color: "#F8F6F0",
+          background: "#2B2B2B",
+          color: "#FFFFFF",
           display: "flex",
           flexDirection: "column",
           padding: "72px",
@@ -28,18 +28,19 @@ export default function OpenGraphImage() {
             display: "flex",
             flexDirection: "column",
             fontSize: 77,
-            letterSpacing: -3,
+            letterSpacing: -2,
+            fontWeight: 300,
             lineHeight: 1.08,
           }}
         >
           <span>Tu próximo espacio.</span>
-          <span style={{ color: "#F0CA55" }}>Tu próxima historia.</span>
+          <span style={{ color: "#C9A96A" }}>Tu próxima historia.</span>
         </div>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #477D79",
+            borderTop: "1px solid #555555",
             paddingTop: 25,
             fontSize: 19,
           }}

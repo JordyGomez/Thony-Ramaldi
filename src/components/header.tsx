@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { site, whatsappUrl } from "@/lib/site";
 
 const links = [
@@ -15,8 +15,17 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
@@ -47,20 +56,16 @@ export function Header() {
       }
     };
     document.addEventListener("keydown", onKey);
-    const media = window.matchMedia("(min-width: 900px)");
-    const closeOnDesktop = () => {
-      if (media.matches) setOpen(false);
-    };
-    media.addEventListener("change", closeOnDesktop);
     return () => {
       document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKey);
-      media.removeEventListener("change", closeOnDesktop);
     };
   }, [open]);
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}
+    >
       <Link
         className="brand"
         href="/"
@@ -70,28 +75,10 @@ export function Header() {
         {site.logo && (
           <Image src={site.logo} alt="Ramaldi" width={100} height={38} />
         )}
-        <span className="brand-name">
-          Thony Paulino
-          <span>
-            ASESOR INMOBILIARIO <span className="brand-divider">/</span> RAMALDI
-          </span>
-        </span>
+        <span className="brand-name">Thony Paulino</span>
+        <span className="brand-sub">Ramaldi</span>
       </Link>
-      <nav className="desktop-nav" aria-label="Navegación principal">
-        {links.map((link) => (
-          <Link key={link.href} href={link.href}>
-            {link.title}
-          </Link>
-        ))}
-      </nav>
-      <a
-        className="header-contact"
-        href={whatsappUrl()}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Hablemos <ArrowUpRight size={17} />
-      </a>
+      {/* Mismo menú en todos los tamaños, como la referencia minimalista. */}
       <button
         className="menu-toggle"
         ref={toggle}
@@ -100,7 +87,9 @@ export function Header() {
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         onClick={() => setOpen(!open)}
       >
-        {open ? <X /> : <Menu />}
+        <span />
+        <span />
+        <span />
       </button>
       {open && (
         <div ref={menu} id="mobile-navigation" className="mobile-navigation">
@@ -113,19 +102,20 @@ export function Header() {
               >
                 <span>0{i + 1}</span>
                 {link.title}
-                <ArrowUpRight size={24} />
               </Link>
             ))}
           </nav>
-          <p>Tu próximo espacio empieza con una conversación.</p>
-          <a
-            href={whatsappUrl()}
-            className="button button-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Contactar a Thony <ArrowUpRight size={18} />
-          </a>
+          <div className="menu-footer">
+            <p>Tu próximo espacio empieza con una conversación.</p>
+            <a
+              href={whatsappUrl()}
+              className="button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Contactar a Thony <ArrowUpRight size={16} strokeWidth={1.5} />
+            </a>
+          </div>
         </div>
       )}
     </header>
