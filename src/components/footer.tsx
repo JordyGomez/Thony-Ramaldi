@@ -66,8 +66,9 @@ export function Footer() {
         </div>
       </div>
       <p className="footer-disclaimer">
-        Versión de demostración. Los inmuebles e imágenes son ilustrativos y no
-        constituyen ofertas comerciales.
+        Alberobello: alquiler en preparación, con renta y unidad por confirmar.
+        Los renders son del proyecto. Las fichas “Demostración” contienen datos
+        ficticios y no constituyen ofertas comerciales.
       </p>
     </footer>
   );

@@ -17,7 +17,7 @@ test("inicio, imágenes locales, contacto y ausencia de errores de aplicación",
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Tu próximo espacio.",
   );
-  await expect(page.locator(".property-card")).toHaveCount(6);
+  await expect(page.locator(".property-card")).toHaveCount(7);
   await expect(
     page.locator('a[href="tel:+18294045770"]').first(),
   ).toBeVisible();
@@ -63,7 +63,7 @@ test("filtros combinados, alquiler mensual, estado vacío y restablecimiento", a
   ).toBeVisible();
   await page.getByRole("button", { name: "Limpiar filtros" }).click();
   await page.getByLabel("Operación", { exact: true }).selectOption("Alquiler");
-  await expect(page.locator(".property-card")).toHaveCount(2);
+  await expect(page.locator(".property-card")).toHaveCount(3);
   await page.getByLabel("Máximo USD / mes").selectOption("1500");
   await expect(page.locator(".property-card")).toHaveCount(1);
   await expect(
@@ -74,20 +74,20 @@ test("filtros combinados, alquiler mensual, estado vacío y restablecimiento", a
     page.getByRole("heading", { name: "No hay coincidencias todavía." }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Limpiar filtros" }).first().click();
-  await expect(page.locator(".property-card")).toHaveCount(6);
+  await expect(page.locator(".property-card")).toHaveCount(7);
   await page.getByRole("button", { name: /Destacadas/ }).click();
-  await expect(page.locator(".property-card")).toHaveCount(3);
+  await expect(page.locator(".property-card")).toHaveCount(4);
   await expect(page.getByRole("status")).toHaveText(
-    "3 propiedades de demostración",
+    "4 propiedades · 1 en preparación · 3 de demostración",
   );
 });
 
-test("cada tarjeta abre su ficha y conserva la advertencia de demostración", async ({
+test("cada tarjeta de demostración abre su ficha y conserva la advertencia de demostración", async ({
   page,
 }) => {
   await page.goto("/");
   const cards = await page
-    .locator(".property-image-link")
+    .getByRole("link", { name: /^Ver .*, demostración$/ })
     .evaluateAll((elements) => elements.map((e) => e.getAttribute("href")!));
   expect(cards).toHaveLength(6);
   for (const url of cards) {
@@ -109,9 +109,8 @@ test("cada tarjeta abre su ficha y conserva la advertencia de demostración", as
     expect(parsed.pathname).toBe("/18294045770");
     expect(parsed.searchParams.get("text")).toContain("ficha de demostración");
     expect(parsed.searchParams.get("text")).toContain("DEMO-00");
-    // textContent: el título se muestra en mayúsculas solo por CSS.
     expect(parsed.searchParams.get("text")).toContain(
-      (await page.getByRole("heading", { level: 1 }).textContent())!.trim(),
+      (await page.getByRole("heading", { level: 1 }).textContent())?.trim(),
     );
   }
   const missing = await page.goto("/propiedades/no-existe");
@@ -139,11 +138,7 @@ test("galería, miniaturas, ampliación y teclado", async ({ page }) => {
   ).toBeFocused();
 });
 
-test("navegación móvil, Escape, foco y anclas", async ({ page }, testInfo) => {
-  test.skip(
-    testInfo.project.name !== "mobile",
-    "El menú desplegable se usa en pantalla móvil.",
-  );
+test("navegación completa, Escape, foco y anclas", async ({ page }) => {
   await page.goto("/");
   const toggle = page.getByRole("button", { name: "Abrir menú" });
   await toggle.click();
@@ -166,7 +161,7 @@ test("sin desbordamiento horizontal en móvil, tablet, escritorio y horizontal",
 }) => {
   for (const width of [360, 390, 768, 844, 1440]) {
     await page.setViewportSize({ width, height: width === 844 ? 390 : 900 });
-    for (const url of ["/", "/propiedades/apartamento-brisa"]) {
+    for (const url of ["/", "/propiedades/apartamento-brisa", "/propiedades/alberobello-residences"]) {
       await page.goto(url);
       expect(
         await page.evaluate(
@@ -200,7 +195,7 @@ test("accesibilidad automática de inicio, ficha y menú abierto", async ({
   expect(detail.violations).toEqual([]);
 });
 
-test("puerta limitada a una vez por sesión y alternativa sin movimiento", async ({
+test("introducción limitada a una vez por sesión y alternativa sin movimiento", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -220,7 +215,7 @@ test("contenido disponible sin JavaScript", async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:3100/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator(".property-card")).toHaveCount(6);
+  await expect(page.locator(".property-card")).toHaveCount(7);
   await expect(page.locator(".preloader")).toHaveCount(0);
   await context.close();
 });

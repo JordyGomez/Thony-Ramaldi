@@ -38,7 +38,7 @@ export const site = {
     publicUrl(
       process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
     ),
-  // Añadir aquí las rutas locales cuando se entreguen los originales autorizados.
+  // Referencias del logo recibidas en conversación; falta el archivo local reutilizable.
   logo: null as string | null,
   portrait: null as string | null,
 };
@@ -47,9 +47,12 @@ export function whatsappUrl(property?: {
   title: string;
   reference: string;
   demo?: boolean;
+  priceProvisional?: boolean;
 }) {
   const message = property
-    ? `Hola Thony, estoy interesado en ${property.demo ? "la ficha de demostración" : "la propiedad"} ${property.title} (${property.reference}). Me gustaría recibir más información${property.demo ? " sobre opciones reales similares" : ""}.`
+    ? property.priceProvisional
+      ? `Hola Thony, me interesa el apartamento en alquiler en ${property.title} (${property.reference}). Vi que la renta mostrada es provisional. ¿Podrías confirmar el precio, disponibilidad, unidad, nivel, metraje, parqueos y condiciones, y compartir fotos actuales?`
+      : `Hola Thony, estoy interesado en ${property.demo ? "la ficha de demostración" : "la propiedad"} ${property.title} (${property.reference}). Me gustaría recibir más información${property.demo ? " sobre opciones reales similares" : ""}.`
     : "Hola Thony, me gustaría recibir asesoría para encontrar una propiedad para vivir o invertir.";
   return `https://wa.me/18294045770?text=${encodeURIComponent(message)}`;
 }

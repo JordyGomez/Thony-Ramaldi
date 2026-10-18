@@ -45,6 +45,7 @@ export function Showcase() {
           </Link>
         </div>
       </div>
+      <noscript><style>{`.showcase-controls button { display: none; }`}</style></noscript>
       <ul className="showcase-track" ref={track} tabIndex={0} aria-label="Carrusel de propiedades">
         {ordered.map((property) => (
           <li key={property.slug} className="showcase-card">
@@ -59,7 +60,7 @@ export function Showcase() {
               </span>
               <span className="showcase-title">{property.title}</span>
               <span className="showcase-meta">
-                {property.location} · Demostración
+                {property.location} · {property.demo ? "Demostración" : "Alquiler en preparación"}
               </span>
             </Link>
           </li>

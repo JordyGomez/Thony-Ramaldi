@@ -3,13 +3,24 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { formatPrice, type Property } from "@/data/properties";
 
-export function PropertyCard({ property }: { property: Property }) {
+export function PropertyCard({
+  property,
+}: {
+  property: Property;
+  index?: number;
+}) {
+  const known = [property.bedrooms, property.bathrooms, property.area].every(
+    (value) => value !== null,
+  );
   return (
-    <article className="property-card">
+    <article
+      className="property-card"
+      data-listing-kind={property.demo ? "demo" : "real"}
+    >
       <Link
         href={`/propiedades/${property.slug}`}
         className="property-image-link"
-        aria-label={`Ver ${property.title}, demostración`}
+        aria-label={`Ver ${property.title}, ${property.demo ? "demostración" : "ficha en preparación"}`}
       >
         <Image
           src={property.images[0].src}
@@ -20,7 +31,9 @@ export function PropertyCard({ property }: { property: Property }) {
         />
         <span className="property-badges">
           <span>{property.operation}</span>
-          <span className="demo-badge">Demostración</span>
+          <span className={property.demo ? "demo-badge" : "preparation-badge"}>
+            {property.demo ? "Demostración" : "Ficha en preparación"}
+          </span>
         </span>
       </Link>
       <div className="property-info">
@@ -31,14 +44,22 @@ export function PropertyCard({ property }: { property: Property }) {
           {property.location} · {property.type}
         </p>
         <p className="property-specs">
-          {property.bedrooms} hab. · {property.bathrooms} baños ·{" "}
-          {property.area} m²
+          {known
+            ? `${property.bedrooms} hab. · ${property.bathrooms} baños · ${property.area} m²`
+            : "Unidad por confirmar"}
         </p>
         <div className="property-bottom">
-          <p className="property-price">
-            <span>USD</span> {formatPrice(property.price)}
-            {property.operation === "Alquiler" && <small> / mes</small>}
-          </p>
+          <div>
+            <p className="property-price">
+              <span>USD</span> {formatPrice(property.price)}
+              {property.operation === "Alquiler" && <small> / mes</small>}
+            </p>
+            {property.priceProvisional && (
+              <small className="provisional-price-note">
+                Renta provisional · por confirmar
+              </small>
+            )}
+          </div>
           <Link
             href={`/propiedades/${property.slug}`}
             aria-label={`Detalles de ${property.title}`}

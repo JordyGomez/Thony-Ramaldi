@@ -13,6 +13,11 @@
   --line: rgba(255, 255, 255, 0.16);
   --line-strong: rgba(255, 255, 255, 0.42);
   --accent: #c9a96a;
+  --petroleum: #437976;
+  --petroleum-deep: #285651;
+  --gold: #dea900;
+  --gold-light: #f5e8b3;
+  --brand-ink: #acd7cf;
   --gutter: 40px;
   --header-h: 112px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -688,6 +693,10 @@ strong {
 .property-badges .demo-badge {
   color: var(--accent);
 }
+.property-badges .preparation-badge { color: var(--brand-ink); }
+.provisional-price-note { display: block; margin-top: 8px; font-size: 13px; line-height: 1.7; color: var(--brand-ink); }
+.property-bottom > div { min-width: 0; }
+.property-card { min-width: 0; }
 .property-info {
   display: flex;
   flex-direction: column;

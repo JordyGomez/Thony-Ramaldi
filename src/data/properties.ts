@@ -5,6 +5,10 @@ import villa from "../../public/images/villa.jpg";
 import bedroom from "../../public/images/bedroom.jpg";
 import pool from "../../public/images/pool.jpg";
 import kitchen from "../../public/images/kitchen.jpg";
+import alberobelloBuildings from "../../public/images/alberobello/buildings.webp";
+import alberobelloPool from "../../public/images/alberobello/pool.webp";
+import alberobelloGazebo from "../../public/images/alberobello/gazebo.webp";
+import alberobelloPlayground from "../../public/images/alberobello/playground.webp";
 
 export const propertyImages = { hero, living, villa, bedroom, pool, kitchen };
 
@@ -18,15 +22,20 @@ export type Property = {
   operation: "Venta" | "Alquiler";
   price: number;
   currency: "USD";
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  parking: number;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  area: number | null;
+  parking: number | null;
   images: { src: string | StaticImageData; alt: string }[];
   description: string;
   amenities: string[];
   featured: boolean;
-  demo: true;
+  demo: boolean;
+  priceProvisional?: boolean;
+  brochure?: { href: string; label: string };
+  projectFacts?: string[];
+  projectTypologies?: string[];
+  confirmationNote?: string;
   virtualTour?: {
     modelUrl: string;
     format: "glb" | "gltf";
@@ -40,6 +49,62 @@ const image = (name: keyof typeof propertyImages, alt: string) => ({
 });
 
 export const properties: Property[] = [
+  {
+    slug: "alberobello-residences",
+    reference: "ALB-001",
+    title: "Alberobello Residences",
+    location: "Santiago",
+    neighborhood: "Calle La Vereda, casi esquina Carretera Don Pedro",
+    type: "Apartamento",
+    operation: "Alquiler",
+    // Importe de maqueta autorizado por el usuario; no es una renta confirmada.
+    price: 1000,
+    currency: "USD",
+    priceProvisional: true,
+    bedrooms: null,
+    bathrooms: null,
+    area: null,
+    parking: null,
+    images: [
+      {
+        src: alberobelloBuildings,
+        alt: "Render del proyecto Alberobello: edificios residenciales y acceso",
+      },
+      {
+        src: alberobelloPool,
+        alt: "Render de la piscina del proyecto Alberobello",
+      },
+      {
+        src: alberobelloGazebo,
+        alt: "Render del gazebo y área social del proyecto Alberobello",
+      },
+      {
+        src: alberobelloPlayground,
+        alt: "Render del área infantil del proyecto Alberobello",
+      },
+    ],
+    description:
+      "Apartamento en alquiler en el proyecto Alberobello Residences, en La Vereda, Don Pedro, Santiago. Conoce los espacios y las características generales anunciadas en el folleto del proyecto. Consulta con Thony la unidad concreta, su estado actual y las condiciones de renta, que están pendientes de confirmar.",
+    amenities: ["Piscina", "Gazebo", "Área infantil", "Proyecto cerrado"],
+    projectFacts: [
+      "Proyecto cerrado con lobby, seguridad 24 horas y cámaras de vigilancia.",
+      "Piscina, gazebo y área de juegos infantiles anunciados en el folleto.",
+      "Intercom, cisterna, gas común e inversor en áreas comunes según el proyecto.",
+      "El folleto menciona dos parqueos disponibles; su asignación e inclusión en la renta de esta unidad están por confirmar.",
+    ],
+    projectTypologies: [
+      "Apartamentos de 115 m²: tres habitaciones, dos baños, balcón y área de lavado, según la tipología del folleto.",
+      "Penthouses de 173 m² en los niveles cuarto y quinto, con área familiar y social privada según el folleto.",
+    ],
+    confirmationNote:
+      "US$1,000 al mes es un precio provisional de maqueta; no procede del folleto y no constituye una oferta comercial. Unidad, disponibilidad y condiciones por confirmar con Thony.",
+    brochure: {
+      href: "/brochures/alberobello-brochure.pdf",
+      label: "Ver folleto original del proyecto (PDF · 3,2 MB)",
+    },
+    featured: true,
+    demo: false,
+  },
   {
     slug: "residencia-patio",
     reference: "DEMO-001",
@@ -111,7 +176,7 @@ export const properties: Property[] = [
     area: 260,
     parking: 2,
     images: [
-      image("villa", "Fachada residencial de referencia con jardín"),
+      image("pool", "Balcón de referencia con vegetación tropical"),
       image("living", "Sala de referencia"),
       image("bedroom", "Dormitorio ilustrativo"),
     ],
@@ -136,7 +201,7 @@ export const properties: Property[] = [
     area: 380,
     parking: 2,
     images: [
-      image("pool", "Balcón de referencia con vegetación tropical"),
+      image("villa", "Fachada residencial de referencia con jardín"),
       image("hero", "Residencia con piscina, fotografía ilustrativa"),
       image("kitchen", "Sala de referencia con sofá oscuro"),
     ],
@@ -226,7 +291,9 @@ export function filterProperties(filters: PropertyFilters) {
       (!filters.type || p.type === filters.type) &&
       (!filters.operation || p.operation === filters.operation) &&
       (!filters.location || p.location === filters.location) &&
-      (!filters.price || p.price <= Number(filters.price)) &&
-      (!filters.bedrooms || p.bedrooms >= Number(filters.bedrooms)),
+      (!filters.price ||
+        (!p.priceProvisional && p.price <= Number(filters.price))) &&
+      (!filters.bedrooms ||
+        (p.bedrooms !== null && p.bedrooms >= Number(filters.bedrooms))),
   );
 }

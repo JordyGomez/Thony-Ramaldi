@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     template: "%s | Thony Paulino · Ramaldi",
   },
   description:
-    "Encuentra tu próximo espacio para vivir o invertir con el acompañamiento de Thony Paulino, asesor inmobiliario de Ramaldi en República Dominicana. Catálogo inicial de demostración.",
+    "Asesoría inmobiliaria con Thony Paulino, Ramaldi en República Dominicana. Conoce Alberobello Residences y consulta sus condiciones de alquiler; las fichas de demostración están identificadas.",
   openGraph: {
     type: "website",
     locale: "es_DO",
     siteName: "Thony Paulino · Ramaldi",
     title: "Tu próximo espacio. Tu próxima historia.",
     description:
-      "Asesoría inmobiliaria con Thony Paulino. Explora el catálogo de demostración y conversemos sobre tu próximo hogar.",
+      "Asesoría inmobiliaria con Thony Paulino. Conoce Alberobello en Santiago y conversemos sobre tu próximo hogar.",
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },

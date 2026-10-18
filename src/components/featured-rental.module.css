@@ -1,0 +1,102 @@
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 110px);
+  align-items: center;
+  padding-block: 0 140px;
+}
+.image {
+  position: relative;
+  min-width: 0;
+  height: clamp(500px, 50vw, 720px);
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+.image img {
+  object-position: 46% 45%;
+}
+.image span {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 22px;
+  background: rgba(34, 34, 34, 0.9);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+.copy {
+  min-width: 0;
+}
+.copy > :global(.label) {
+  color: var(--gold-light);
+}
+.copy h2 {
+  margin-block: 28px;
+  font-size: clamp(34px, 4vw, 62px);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.copy h2 strong {
+  display: block;
+  font-weight: 300;
+  color: var(--brand-ink);
+}
+.copy > p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.copy .location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block: 20px;
+  font-size: 14px;
+}
+.price {
+  margin-block: 30px;
+  padding-block: 24px;
+  border-block: 1px solid var(--line);
+}
+.price > span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--brand-ink);
+}
+.price strong {
+  display: block;
+  margin-block: 12px;
+  font-size: 34px;
+  font-weight: 300;
+}
+.price small {
+  font-size: 15px;
+}
+.price p {
+  max-width: 440px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+.actions > a {
+  min-height: 48px;
+}
+@media (max-width: 900px) {
+  .feature {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-bottom: 96px;
+  }
+  .image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
