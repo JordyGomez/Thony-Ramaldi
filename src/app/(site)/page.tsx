@@ -7,7 +7,8 @@ import { Showcase } from "@/components/showcase";
 import { FeaturedRental } from "@/components/featured-rental";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
-import { propertyImages } from "@/data/properties";
+// Unsplash: Salman Saqib (licencia Unsplash). Ver docs/ASSETS.md.
+import heroPhoto from "../../../public/images/portada.jpg";
 import { getProperties } from "@/data/get-properties";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí).
@@ -26,8 +27,8 @@ export default async function Home() {
       <Preloader />
       <section className="hero" aria-labelledby="hero-title">
         <Image
-          src={propertyImages.hero}
-          alt="Residencia con piscina, fotografía ilustrativa de inspiración"
+          src={heroPhoto}
+          alt="Casa moderna blanca entre palmeras al anochecer, fotografía ilustrativa"
           fill
           sizes="100vw"
           preload

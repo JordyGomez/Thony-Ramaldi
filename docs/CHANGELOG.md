@@ -1,5 +1,13 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — Nueva fotografía de portada
+
+- La imagen anterior (`hero.jpg`, 800 px de ancho) se veía borrosa a pantalla completa. Se buscaron fotos gratuitas en Unsplash (excluyendo Unsplash+), se mostraron cuatro candidatas sobre la portada real y el usuario eligió la casa blanca con palmeras al anochecer de Salman Saqib.
+- `public/images/portada.jpg` (2400×1350, 474 KB) con importación estática; crédito y licencia en `docs/ASSETS.md`. Se conserva el aviso “Fotografía ilustrativa”.
+- `tests/preloader.spec.ts` interceptaba la imagen del hero por su nombre de archivo (`hero.*.jpg`); el patrón pasa a `portada.*.jpg` sin cambiar lo que comprueban las pruebas.
+- Validación: lint, typecheck y build aprobados; `npm test` 76 aprobadas, 0 fallidas; capturas a 1440 y 390 px. La imagen del pie (`villa.jpg`, 850 px) tiene el mismo problema de resolución y queda pendiente de decisión.
+
+
 ## 2026-10-18 — Claude / Yordi Lewis — Retrato de Thony y sin Facebook
 
 - Yordi Lewis entregó la foto oficial de Thony y confirmó que no tiene Facebook.
