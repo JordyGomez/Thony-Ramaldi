@@ -1,0 +1,320 @@
+.hero:global(.hero) {
+  position: relative;
+  padding: 0;
+  max-width: none;
+  isolation: isolate;
+  background: var(--charcoal);
+  color: var(--ivory);
+  min-height: 680px;
+  height: min(900px, calc(100svh - 94px));
+  margin-bottom: 70px;
+}
+.hero .imageFrame:global(.hero-image-frame) {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  overflow: hidden;
+  z-index: -2;
+}
+.photograph {
+  position: absolute;
+  inset: -46px 0 0;
+}
+.hero :global(.hero-image) {
+  animation: none;
+  object-position: center 60%;
+  filter: saturate(0.75);
+}
+.hero .shade:global(.hero-image-shade) {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(10 29 28 / 88%) 0%,
+      rgb(10 29 28 / 60%) 48%,
+      rgb(10 29 28 / 18%) 100%
+    ),
+    linear-gradient(0deg, rgb(10 29 28 / 90%), transparent 45%);
+}
+.hero :global(.hero-overline) {
+  padding: 33px 5% 0;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+.hero :global(.hero-overline .tiny-star) {
+  color: var(--gold-light);
+}
+.hero :global(.hero-intro) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 25px;
+  position: absolute;
+  inset: 75px 5% 115px;
+  padding: 0;
+}
+.headingBlock {
+  max-width: 1100px;
+}
+.kicker {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2.8px;
+  color: #e5e6d9;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(66px, 7.5vw, 118px);
+  letter-spacing: -2.8px;
+  line-height: 1.01;
+}
+.hero h1 > span,
+.hero h1 > em {
+  display: block;
+}
+.hero h1 em {
+  color: #d9dcc7;
+}
+.hero :global(.hero-copy) {
+  max-width: 590px;
+  padding: 0;
+  margin: 0;
+}
+.hero :global(.hero-copy p) {
+  max-width: 410px;
+  color: #f0f0e6;
+  font-size: 14px;
+  line-height: 1.9;
+  margin-bottom: 27px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hero .primary,
+.hero .secondary {
+  min-height: 50px;
+  font-size: 12px;
+  gap: 30px;
+  padding: 14px 22px;
+}
+.primary {
+  background: var(--ivory);
+  color: var(--charcoal);
+  border-color: var(--ivory);
+}
+.primary:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+}
+.secondary {
+  border-color: rgb(248 246 240 / 55%);
+  color: var(--ivory);
+  background: rgb(10 29 28 / 22%);
+}
+.secondary:hover {
+  background: var(--ivory);
+  color: var(--charcoal);
+}
+.hero a:focus-visible {
+  outline-color: var(--gold-light);
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 26px 0;
+  min-height: 91px;
+  border-top: 1px solid rgb(255 255 255 / 30%);
+}
+.signature {
+  display: grid;
+  gap: 8px;
+}
+.signature > span {
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+.signature small {
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  color: #d5decf;
+}
+.hero :global(.hero-image-note) {
+  position: static;
+  background: none;
+  padding: 0;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.scroll {
+  margin-right: 54px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+.scroll > span {
+  display: grid;
+  place-items: center;
+  border: 1px solid #a3b5a6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s;
+}
+.scroll:hover > span {
+  transform: translateY(4px);
+}
+.hero :global(.hero-bottom) {
+  position: absolute;
+  top: 100%;
+  width: 90%;
+  margin: 0 5%;
+  color: var(--charcoal);
+  min-height: 70px;
+}
+
+@media (min-width: 1800px) {
+  .hero h1 {
+    font-size: 124px;
+  }
+}
+@media (max-width: 899px) {
+  .hero:global(.hero) {
+    height: min(900px, calc(100svh - 80px));
+    min-height: 640px;
+  }
+  .hero h1 {
+    font-size: clamp(64px, 8.8vw, 85px);
+  }
+  .hero :global(.hero-overline) {
+    font-size: 8px;
+  }
+  .hero :global(.hero-intro) {
+    inset: 80px 6% 115px;
+    gap: 23px;
+  }
+  .hero .shade {
+    background:
+      linear-gradient(90deg, rgb(10 29 28 / 86%), rgb(10 29 28 / 35%)),
+      linear-gradient(0deg, rgb(10 29 28 / 90%), transparent 80%);
+  }
+  .hero :global(.hero-copy) {
+    display: block;
+  }
+  .hero :global(.hero-copy p) {
+    font-size: 13px;
+  }
+  .hero :global(.hero-image-note) {
+    font-size: 7px;
+  }
+  .scroll {
+    font-size: 0;
+    gap: 0;
+  }
+}
+@media (max-width: 620px) {
+  .hero:global(.hero) {
+    height: max(665px, calc(100svh - 76px));
+    min-height: 665px;
+    margin-bottom: 60px;
+  }
+  .hero :global(.hero-overline) {
+    padding: 23px 6% 0;
+    font-size: 7px;
+    letter-spacing: 1.1px;
+  }
+  .hero :global(.hero-intro) {
+    inset: 80px 6% 112px;
+    gap: 25px;
+    justify-content: center;
+  }
+  .hero h1 {
+    font-size: clamp(42px, 11.7vw, 65px);
+    letter-spacing: -1.4px;
+    line-height: 1.08;
+  }
+  .kicker {
+    font-size: 8px;
+    letter-spacing: 1.8px;
+    line-height: 1.8;
+    margin-bottom: 21px;
+  }
+  .hero :global(.hero-copy p) {
+    font-size: 13px;
+    max-width: 310px;
+    margin-bottom: 24px;
+    line-height: 1.85;
+  }
+  .actions {
+    display: grid;
+    gap: 11px;
+    justify-items: start;
+  }
+  .hero .primary,
+  .hero .secondary {
+    min-height: 48px;
+    font-size: 12px;
+    padding: 12px 18px;
+    gap: 24px;
+  }
+  .hero .secondary {
+    border-color: transparent;
+    padding-left: 0;
+    min-height: 44px;
+    background: none;
+  }
+  .hero .secondary:hover {
+    color: var(--gold-light);
+  }
+  .bottom {
+    left: 6%;
+    right: 6%;
+    padding: 23px 0;
+    min-height: 88px;
+  }
+  .signature > span {
+    font-size: 10px;
+    letter-spacing: 1.6px;
+  }
+  .signature small {
+    font-size: 7px;
+  }
+  .hero :global(.hero-image-note) {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 14px;
+    font-size: 7px;
+    right: 0;
+  }
+  .hero :global(.hero-bottom) {
+    width: 88%;
+    margin: 0 6%;
+    min-height: 60px;
+  }
+  .photograph {
+    inset: 0;
+  }
+  .hero :global(.hero-image) {
+    object-position: 52% center;
+  }
+}
+@media (max-height: 560px) and (min-width: 621px) {
+  .hero:global(.hero) {
+    height: 640px;
+    min-height: 640px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photograph {
+    transform: none !important;
+  }
+}

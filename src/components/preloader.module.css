@@ -1,0 +1,128 @@
+.scene:global(.preloader) {
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    #365851 0%,
+    #192b2b 48%,
+    #0c1e1e 100%
+  );
+  overflow: hidden;
+}
+.scene :global(.entry-brand) {
+  top: 13%;
+  font-size: 11px;
+  letter-spacing: 4px;
+}
+.scene :global(.entry-brand > span) {
+  margin-top: 12px;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+.frame:global(.door-frame) {
+  width: 156px;
+  height: 266px;
+  perspective: 850px;
+  border: 4px solid #a0a98b;
+  background: #bbbe98;
+  box-shadow:
+    0 0 0 1px #132f2b,
+    0 0 0 9px #172d29,
+    22px 20px 55px #0006,
+    0 0 100px #d2cf8c35;
+  transform-style: preserve-3d;
+  animation: approach 2.3s cubic-bezier(0.25, 0.1, 0.3, 1) both;
+}
+.frame > img {
+  filter: saturate(0.55) brightness(1.15);
+}
+.light {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 25px 15px #e6d5a9a6;
+  background: linear-gradient(0deg, #c0c39c88, transparent 70%);
+  z-index: 1;
+}
+.leaf:global(.door-leaf) {
+  z-index: 2;
+  backface-visibility: hidden;
+  border: 1px solid #8b9a83;
+  background: linear-gradient(100deg, #1d3933, #33574b 55%, #182f2a);
+  box-shadow:
+    inset 4px 0 4px #96a78b33,
+    3px 0 0 #102721;
+  animation: open 1.4s cubic-bezier(0.65, 0, 0.25, 1) 0.4s forwards;
+}
+.leaf::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 16px,
+    #a9ba8d0a 17px 18px
+  );
+}
+.leaf :global(i) {
+  right: 12px;
+  top: 46%;
+  width: 4px;
+  height: 34px;
+  box-shadow: 1px 0 7px #ecdb8955;
+}
+.threshold {
+  position: absolute;
+  top: calc(50% + 133px);
+  width: 180px;
+  height: 75px;
+  background: linear-gradient(0deg, transparent, #d4c68a38);
+  transform: perspective(400px) rotateX(65deg);
+  transform-origin: top;
+  animation: light-spread 1.3s 0.5s both;
+}
+.scene :global(.entry-caption) {
+  bottom: 15%;
+  font-size: 23px;
+  color: #e9e9d9;
+}
+@keyframes open {
+  to {
+    transform: rotateY(-108deg);
+    box-shadow:
+      inset 4px 0 4px #96a78b33,
+      25px 8px 40px #0005;
+  }
+}
+@keyframes approach {
+  0%,
+  20% {
+    transform: scale(0.96);
+  }
+  85%,
+  100% {
+    transform: scale(1.14);
+  }
+}
+@keyframes light-spread {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (max-width: 620px) {
+  .frame:global(.door-frame) {
+    width: 138px;
+    height: 238px;
+  }
+  .threshold {
+    top: calc(50% + 119px);
+  }
+  .scene :global(.entry-caption) {
+    font-size: 21px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    display: none !important;
+  }
+}
