@@ -4,7 +4,11 @@ import { redirect } from "next/navigation";
 import { Plus } from "lucide-react";
 import { isSupabaseConfigured, storagePublicUrl } from "@/lib/supabase/env";
 import { getAdminUser } from "@/lib/supabase/server";
-import { formatPrice, listingStatusLabel, listingStatus } from "@/data/properties";
+import {
+  formatPrice,
+  listingStatusLabel,
+  listingStatus,
+} from "@/data/properties";
 import type { PropertyRow } from "@/data/property-row";
 import { AdminBar } from "./admin-bar";
 import { DeleteButton, ImportButton } from "./list-actions";
@@ -15,6 +19,32 @@ export default async function AdminPage() {
 
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
+  const role = await supabase.rpc("is_admin");
+  if (role.error || role.data !== true)
+    return (
+      <>
+        <AdminBar email={user.email} />
+        <main id="contenido" className={styles.main}>
+          <div className={styles.heading}>
+            <div>
+              <h1>
+                {role.error
+                  ? "No se pudieron comprobar los permisos."
+                  : "Tu cuenta necesita permisos de administración."}
+              </h1>
+              <p>
+                {role.error
+                  ? "Comprueba la conexión con Supabase y vuelve a intentarlo."
+                  : `La sesión de ${user.email} es válida, pero el propietario del proyecto debe autorizar ese correo en admin_users.`}
+              </p>
+            </div>
+          </div>
+          <Link className="button" href="/admin/configuracion">
+            Comprobar conexión y permisos
+          </Link>
+        </main>
+      </>
+    );
   const { data, error } = await supabase
     .from("properties")
     .select("*")
@@ -31,7 +61,7 @@ export default async function AdminPage() {
             <h1>Propiedades</h1>
             <p>
               {rows.length
-                ? `${rows.length} en el panel · ${rows.filter((row) => row.published).length} publicadas en la web`
+                ? `${rows.length} en el panel · ${rows.filter((row) => row.published && !row.demo).length} publicadas en la web`
                 : "Todavía no hay propiedades en el panel."}
             </p>
           </div>
@@ -92,7 +122,7 @@ export default async function AdminPage() {
                     <Link href={`/admin/${row.id}`} className="button">
                       Editar
                     </Link>
-                    {row.published && (
+                    {row.published && !row.demo && (
                       <Link
                         href={`/propiedades/${row.slug}`}
                         target="_blank"
@@ -142,7 +172,7 @@ function PendingSetup() {
           proyecto, ejecutar <code>supabase/schema.sql</code> y definir{" "}
           <code>NEXT_PUBLIC_SUPABASE_URL</code> y{" "}
           <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>. Mientras tanto, la web
-          muestra datos de ejemplo.
+          mantiene el catálogo vacío hasta publicar propiedades reales.
         </p>
       </main>
     </>

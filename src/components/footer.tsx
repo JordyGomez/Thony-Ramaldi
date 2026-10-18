@@ -1,16 +1,40 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { Instagram, Mail, Phone } from "lucide-react";
-import { site, whatsappUrl } from "@/lib/site";
+import { useSite } from "./site-provider";
+import { navigation, siteImage } from "@/lib/site-settings";
 import { WhatsAppIcon } from "./icons";
 
-const links = [
-  { href: "/", title: "Inicio" },
-  { href: "/#propiedades", title: "Propiedades" },
-  { href: "/#sobre-thony", title: "Sobre Thony" },
-  { href: "/#contacto", title: "Contacto" },
-];
-
 export function Footer() {
+  const { settings, contact: site, whatsappUrl } = useSite();
+  const links = navigation(settings);
+  const signature = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    // La firma original conserva la medida exacta de Claude. Otras firmas se ajustan.
+    const element = signature.current;
+    if (!element || settings.texts.footerWordmark === "THONY PAULINO") return;
+    let active = true;
+    document.fonts.ready.then(() => {
+      if (!active) return;
+      const context = document.createElement("canvas").getContext("2d");
+      if (!context) return;
+      context.font = `500 100px ${getComputedStyle(element).fontFamily}`;
+      const width =
+        context.measureText(settings.texts.footerWordmark).width / 100 -
+        Math.max(0, settings.texts.footerWordmark.length - 1) * 0.045;
+      element.style.setProperty(
+        "--signature-ratio",
+        String(Math.max(3, width + 0.05)),
+      );
+    });
+    return () => {
+      active = false;
+      element.style.removeProperty("--signature-ratio");
+    };
+  }, [settings.texts.footerWordmark]);
   return (
     <footer className="site-footer">
       <nav className="footer-nav" aria-label="Navegación del pie">
@@ -20,17 +44,23 @@ export function Footer() {
           </Link>
         ))}
       </nav>
-      <p className="footer-wordmark" aria-hidden="true">
-        THONY PAULINO
+      <p ref={signature} className="footer-wordmark" aria-hidden="true">
+        {settings.texts.footerWordmark}
       </p>
-      <div className="footer-image footer-architecture" aria-hidden="true">
-        <span /><span /><span />
-        <p>ESPACIOS PARA TU HISTORIA.</p>
+      <div className="footer-image">
+        <Image
+          src={siteImage(settings.assets.footer)}
+          alt={settings.texts.footerAlt}
+          fill
+          sizes="100vw"
+          className="footer-photo"
+        />
+        <span className="photo-note">{settings.texts.footerNote}</span>
       </div>
       <div className="footer-bottom">
         <span>
-          © {new Date().getFullYear()} Thony Paulino · Ramaldi · República
-          Dominicana
+          © {new Date().getFullYear()} {site.name} · {site.company} ·{" "}
+          {settings.texts.location}
         </span>
         <div className="footer-socials">
           <a
@@ -57,9 +87,7 @@ export function Footer() {
           </a>
         </div>
       </div>
-      <p className="footer-disclaimer">
-        Precios, disponibilidad y condiciones sujetos a confirmación con Thony.
-      </p>
+      <p className="footer-disclaimer">{settings.texts.footerDisclaimer}</p>
     </footer>
   );
 }

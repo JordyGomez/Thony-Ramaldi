@@ -12,7 +12,13 @@ Al iniciar cada tarea:
 6. Revisar el código actual y las pruebas; continuar las funcionalidades válidas publicadas por Codex o cualquier colaborador.
 7. No asumir que el estado descrito en documentos antiguos coincide con el remoto actual.
 
-Estado actual: la rama feat/cinematic-ramaldi-experience parte de main 0742704 (PR #5), con PR #4 ya fusionado. Se preserva tu panel /admin y Supabase, proxy/Auth, subida de imágenes, acciones, tipos/mapping, esquema/RLS, retrato oficial y eliminación de Facebook. El nuevo brief amplía la mejora a la presentación pública completa; implementación 7ce368a. Ver HANDOFF y CINEMATIC-REVIEW.
+Estado vigente: el usuario rechazó sustituir tu composición y pidió restaurarla, añadir 3D sobre ella, corregir las subidas y administrar el contenido de toda la web. Rama `feat/claude-design-full-admin`, desde main `3adaf47` (PR #6 fusionado). También autorizó expresamente llevar esta entrega a main al terminar. Ver HANDOFF y `docs/CLAUDE-ADMIN-REVIEW.md` para estado y pruebas reales.
+
+Se recuperan portada fotográfica, Inter/carbón y pie de main 0742704, con profundidad y una búsqueda personal. La configuración publicada vive en site_content; los borradores y revisiones quedan privados y se guardan por RPC con control de conflictos. El panel añade Mi página web, Archivos y Configuración. La subida usa una ruta del mismo origen con sesión/rol, validación, progreso, diagnóstico y reintento. Las imágenes de biblioteca se conservan al borrar una ficha. La migración aditiva está en `supabase/migrations/20261018_site_editor.sql`; no asumir que está ejecutada en el proyecto real sin comprobarlo.
+
+## Registro histórico — evolución cinematográfica del PR #6
+
+La entrega previa partía de main 0742704 y fue fusionada en 3adaf47. Los siguientes párrafos describen esa versión anterior; no sustituyen la dirección vigente indicada arriba.
 
 La puerta ahora tiene hoja sólida, espesor, marco y tirador CSS; revela la fotografía oficial, sin animar a la persona ni generar medios. El hero y pie usan arquitectura de marca en lugar de viviendas ilustrativas; los archivos anteriores y sus créditos se conservan. Inter, tono oscuro, titular y contactos siguen. Logo reutilizable y eventual video real siguen pendientes; site.logo y el plano interior están preparados.
 

@@ -17,6 +17,11 @@ Repetir la revisión remota después de una tarea significativa y antes del comm
 
 ## Implementación
 
+- La instrucción vigente del propietario restaura la composición de Claude (main `0742704`): portada `portada.jpg`, carbón/Inter y pie fotográfico. Añadir profundidad y novedades sobre esa base; no volver a sustituir el hero por el retrato o por geometría. Las fotografías de portada/pie son ilustrativas y deben identificarse.
+- Configuración pública: `getSiteSettings()` lee solo `site_content`. Los valores de reserva y su validación están en `src/lib/site-settings.ts`; los componentes cliente usan `useSite()`. Nunca publicar borradores o historial en un endpoint anónimo. Los cambios del panel pasan por la RPC transaccional `save_site_content` con revisión esperada; mantener privados `site_drafts` y `site_revisions`.
+- Las fotos del panel se suben por `/api/admin/media`, comprobando sesión real, rol, origen, tamaño y firma del archivo. No volver al catch genérico que llama conexión a todos los errores. No usar claves privilegiadas ni permitir IP privadas del optimizador en producción. Los archivos `media/` son compartidos: borrar una ficha no debe borrarlos del almacén.
+- `npm run test:database` comprueba el SQL con PostgreSQL embebido. `npm run test:admin` compila y ejecuta Auth/Storage/CMS contra un doble HTTP local, sin usar Supabase real; reemplaza `.next`. Nunca habilitar sus flags en Vercel. Recompilar para el modo correspondiente antes de otras suites.
+
 - Next.js App Router, TypeScript estricto, componentes con nombres descriptivos y separación entre datos, configuración y UI.
 - Usar los componentes de servidor por defecto; `use client` solo para interacción.
 - Contacto centralizado en `src/lib/site.ts`. Las páginas obtienen los inmuebles con `getProperties()` (`src/data/get-properties.ts`): solo fichas publicadas y no marcadas como demostración en Supabase (panel propio en `/admin`). Sin Supabase, el catálogo queda vacío. `sampleProperties` son fixtures explícitas (`THONY_TEST_FIXTURES=1` al compilar y ejecutar, sin `VERCEL_ENV`) y material de importación de Alberobello; nunca habilitarlas en Vercel ni crear anuncios ficticios. Mantener alineados `Property`, `supabase/schema.sql`, `src/data/property-row.ts` y `src/app/admin/property-input.ts`. Nunca usar la clave `service_role` en el proyecto.

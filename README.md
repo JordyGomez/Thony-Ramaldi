@@ -1,10 +1,26 @@
 # Thony Paulino · Ramaldi
 
-Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. Conserva la dirección oscura de Claude, Inter fina y consultas directas. La evolución cinematográfica utiliza arquitectura de marca en CSS y el retrato oficial autorizado, sin representar viviendas que no estén comercializadas.
+Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y pie fotográfico. Las capas de profundidad, revelados 3D e interacciones se añaden sobre esa maqueta, con alternativas para movimiento reducido y ahorro de datos.
 
 La web pública obtiene **solo propiedades publicadas y no marcadas como demostración en Supabase**. Sin inventario, muestra una selección en preparación y contacto por WhatsApp o teléfono. Los datos locales de ejemplo son fixtures explícitas de pruebas fuera de Vercel. No se crean anuncios ni se escriben datos en Supabase durante esta evolución.
 
-La entrada 3D revela el retrato real y se coordina con el hero. Se conservan filtros, galerías accesibles, consultas contextuales, panel `/admin`, autenticación y políticas de Supabase. Ver [revisión actual](docs/CINEMATIC-REVIEW.md), [preloader](docs/PRELOADER.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md). Rama de entrega: `feat/cinematic-ramaldi-experience`, desde main `0742704` (PR #5).
+La entrada 3D revela el retrato real y se coordina con la portada elegida por Claude. La experiencia «Mi próximo espacio» prepara una búsqueda por intención, zona, presupuesto y plazo, que el visitante puede compartir por WhatsApp. Se conservan filtros, galerías, inventario real y autenticación. El panel gestiona también textos, marca, imágenes, orden y visibilidad de secciones, animaciones y SEO, con borradores privados, vista previa e historial. Ver [administración y validación](docs/CLAUDE-ADMIN-REVIEW.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md).
+
+## Activar la administración de toda la web
+
+El panel existente conserva sus propiedades y usuarios. La ampliación requiere ejecutar **una vez** [supabase/migrations/20261018_site_editor.sql](supabase/migrations/20261018_site_editor.sql) en **SQL Editor del proyecto Supabase existente**. Es aditiva e idempotente: no borra inventario ni cuentas. Añade publicación, borradores e historial separados y comprueba las políticas del almacén de archivos.
+
+- `/admin`: crear, editar, publicar y borrar propiedades.
+- `/admin/web`: textos, contactos, menú, portada, presentación, catálogo, búsqueda personal, pasos, pie y SEO; elegir imágenes y logo, ordenar/ocultar secciones y ajustar paleta y movimiento.
+- `/admin/archivos`: subir y reutilizar fotos y PDF. Los archivos compartidos se conservan al borrar una ficha.
+- `/admin/configuracion`: diagnóstico de sesión, rol, almacenamiento y ampliación; descarga del SQL necesario.
+- `/admin/vista-previa`: borrador privado, con previsualización en escritorio/móvil integrada en el editor.
+
+**Guardar borrador** conserva la publicación anterior. **Publicar cambios** actualiza el contenido sin otro despliegue de código, archiva la versión anterior y regenera las páginas. Las revisiones detectan ediciones simultáneas; un conflicto conserva la edición local y ofrece descargarla para comparar. La visita pública solo puede leer la publicación; borradores e historial requieren rol de administrador.
+
+Hasta instalar la ampliación, la web sigue usando la composición de Claude por defecto. El editor permite revisar cambios, pero indica que no puede guardarlos ni publicarlos. Sin una cuenta autorizada en `admin_users`, iniciar sesión no concede permiso para subir ni editar. No se usan claves `service_role`.
+
+Las subidas pasan por `/api/admin/media` en el mismo dominio. Se verifica la sesión en el servidor, el rol y los bytes del archivo; se distingue sesión vencida, falta de permisos, bucket ausente, formato y tamaño. Hay progreso y reintento sin perder el formulario. Las fotos se reducen a 2400 px y hasta 3 MB, preservando PNG transparente; el PDF admite hasta 3 MB. HEIC debe exportarse a JPG. Los logotipos originales pueden incorporarse desde el panel en PNG o WebP con transparencia, sin recrear la marca.
 
 ## Contacto oficial
 
@@ -18,7 +34,7 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 ## Tecnologías y arquitectura
 
-Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografía Inter (variable) servida localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
+Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, Motion, Lucide React y `next/image`. Inter variable local. Node 24 recomendado; Node 22 o superior requerido. PGlite es una dependencia exclusiva de desarrollo para comprobar el SQL y RLS con PostgreSQL embebido; no se incluye en el frontend ni reemplaza Supabase.
 
 Los componentes de servidor generan la portada y las fichas publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú, galería y animaciones. Con Supabase desactivado el catálogo queda vacío. Las fixtures requieren `THONY_TEST_FIXTURES=1` al compilar y ejecutar las pruebas, sin `VERCEL_ENV`; nunca se activan en Vercel. No se añaden dependencias, GSAP, WebGL ni Three.js.
 
@@ -83,7 +99,7 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 ## Funcionalidades actuales
 
-- Portada con arquitectura CSS y retrato oficial, paleta carbón/verde con acentos Ramaldi; carrusel cuando hay propiedades publicadas y pie con el nombre a todo el ancho y composición de marca.
+- Portada y pie fotográficos de Claude con profundidad por capas; retrato oficial en presentación y entrada, carrusel cuando hay propiedades publicadas y firma grande al pie. Las fotos de portada/pie se identifican como ilustrativas.
 - Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
 - Entrada con hoja sólida, marco, espesor, tirador y retrato real. Una vez por sesión y solo al abrir inicialmente la home; 2,1 s en carga normal y máximo 5 s si el contenido crítico tarda. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica en [PRELOADER](docs/PRELOADER.md).
 - Catálogo publicado, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. Los importes provisionales y datos desconocidos no satisfacen filtros numéricos.
@@ -122,7 +138,7 @@ Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una s
 
 ## Identidad y recursos pendientes
 
-Se recibieron dos referencias del logo Ramaldi en la conversación y se usaron para acentos de marca. Falta un archivo reutilizable de logo en el checkout. El retrato de Thony (`public/images/thony-paulino.jpg`, `site.portrait`) se usa en “Sobre Thony” y en la tarjeta de consulta de cada ficha. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, configurando `site.logo`.
+Se recibieron dos referencias del logo Ramaldi en la conversación y se usaron para acentos de marca. Falta un archivo reutilizable de logo en el checkout. El retrato de Thony (`public/images/thony-paulino.jpg`, `site.portrait`) se usa en “Sobre Thony” y en la tarjeta de consulta de cada ficha. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, desde Imágenes y logo del panel.
 
 La presentación del servicio es una propuesta editorial que el propietario puede revisar; no pretende ser una biografía verificada. Incorporar contenido e inventario aprobados antes de un lanzamiento comercial. Procedencia y condiciones pendientes de las fotografías: [docs/ASSETS.md](docs/ASSETS.md).
 
@@ -160,7 +176,7 @@ Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y n
 
 `npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
 
-Las pruebas del preloader incluyen llegada por una ficha y retorno SPA, carga lenta, error, límite y teclado. La evolución añade retrato real, relevo al hero y profundidad desactivada fuera de pantalla, con ahorro de datos o movimiento reducido. Resultados actuales en CINEMATIC-REVIEW.
+Las pruebas del preloader incluyen llegada por una ficha y retorno SPA, carga lenta, error, límite y teclado. La evolución añade retrato real, relevo al hero y profundidad desactivada fuera de pantalla, con ahorro de datos o movimiento reducido. Resultados actuales en CLAUDE-ADMIN-REVIEW.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 
@@ -171,18 +187,29 @@ npm run build
 npm run start
 ```
 
+## Pruebas del editor y el almacenamiento
+
+```bash
+npm run test:database
+npm run test:admin
+```
+
+La primera ejecuta el esquema y la migración reales con PostgreSQL embebido y comprueba RLS, borradores, publicación, historial y conflictos. La segunda crea un doble HTTP en loopback para Auth, PostgREST y Storage, compila en ese modo y comprueba las pantallas, cookies, subidas, errores, permisos y publicación. No se conecta al proyecto real. Los flags del doble se bloquean con `VERCEL_ENV`; no configurarlos en Vercel. La suite reemplaza `.next`, por lo que se debe recompilar para ejecutar después las regresiones con fixtures o el servidor normal.
+
+El optimizador conserva su protección contra IP privadas. En las pruebas de navegador del doble, solo sus miniaturas se sustituyen por el JPEG conocido de prueba; las suites públicas comprueban la carga normal de imágenes. El reporte del panel queda en `playwright-report-admin/`, ignorado por Git y ESLint.
+
 ## Publicación en Vercel
 
 El repositorio oficial `JordyGomez/Thony-Ramaldi` ya está conectado al proyecto [thony-ramaldi de Vercel](https://vercel.com/los-yordis/thony-ramaldi). La integración GitHub existente genera los despliegues; no hace falta importar otro proyecto ni añadir tokens de Vercel al repositorio.
 
-1. Guardar cambios en commits y subir la rama a GitHub; abrir su PR contra `main`. Esta entrega utiliza `feat/cinematic-ramaldi-experience`, basada en el main del PR #5 de Claude.
+1. Guardar cambios en commits y subir la rama a GitHub; abrir su PR contra `main`. Esta entrega utiliza `feat/claude-design-full-admin`, basada en main `3adaf47` (PR #6).
 2. GitHub Actions ejecuta instalación, lint, tipos, build y pruebas de navegador. Vercel compila una **Preview** y añade el enlace al PR. Nuevos commits en la rama actualizan esa preview automáticamente. Si Vercel pide iniciar sesión, acceder con una cuenta autorizada del equipo.
 3. Revisar la preview y los checks del PR. Para actualizar el sitio público, pulsar **Merge pull request** y confirmar la fusión a `main` en GitHub.
 4. Vercel despliega automáticamente el nuevo `main` en [thony-ramaldi.vercel.app](https://thony-ramaldi.vercel.app/). Comprobar el resultado del despliegue y el sitio antes de darlo por publicado.
 
 **Guardar/publicar la configuración del entorno cloud configura las tareas de Codex; no fusiona el PR de la aplicación.** La actualización de producción se activa cuando los cambios llegan a `main`. El PR #2 anterior corresponde a otra rama y no contiene esta integración.
 
-Se conserva Next.js como framework, raíz del repositorio, instalación con `npm ci`, build con `npm run build` y salida predeterminada. `NEXT_PUBLIC_SITE_URL` permite reemplazar la detección del dominio de Vercel; no hacen falta credenciales de una base de datos. Antes del lanzamiento comercial, confirmar los datos provisionales de Alberobello, fotografías, recursos de marca y contenido con el propietario. Esta tarea publica una rama y su PR para revisión; no fusiona automáticamente a producción.
+Se conserva Next.js como framework, raíz del repositorio, instalación con `npm ci`, build con `npm run build` y salida predeterminada. `NEXT_PUBLIC_SITE_URL` permite reemplazar la detección del dominio de Vercel; no hacen falta credenciales de una base de datos. Antes del lanzamiento comercial, confirmar los datos provisionales de Alberobello, fotografías, recursos de marca y contenido con el propietario. El propietario autorizó llevar esta entrega a main tras las comprobaciones; esa integración activa producción. Los cambios de contenido posteriores se publican desde el editor, sin otro despliegue de código.
 
 ## Convenciones y colaboración
 

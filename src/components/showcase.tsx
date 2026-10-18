@@ -4,9 +4,11 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useSite } from "./site-provider";
 import { listingStatus, type Property } from "@/data/properties";
 
 export function Showcase({ properties }: { properties: Property[] }) {
+  const { settings } = useSite();
   // Destacadas primero; el carrusel se desplaza también sin JavaScript.
   const ordered = [...properties].sort(
     (a, b) => Number(b.featured) - Number(a.featured),
@@ -28,25 +30,30 @@ export function Showcase({ properties }: { properties: Property[] }) {
     <section className="showcase" aria-labelledby="showcase-title">
       <div className="showcase-head">
         <h2 id="showcase-title" className="label">
-          Selección
+          {settings.texts.showcaseTitle}
         </h2>
         <div className="showcase-controls">
-          <button
-            onClick={() => move(-1)}
-            aria-label="Propiedades anteriores"
-          >
+          <button onClick={() => move(-1)} aria-label="Propiedades anteriores">
             <ArrowLeft size={18} strokeWidth={1.25} />
           </button>
           <button onClick={() => move(1)} aria-label="Más propiedades">
             <ArrowRight size={18} strokeWidth={1.25} />
           </button>
           <Link href="#propiedades" className="link-arrow">
-            Ver catálogo <ArrowRight size={16} strokeWidth={1.25} />
+            {settings.texts.showcaseCta}{" "}
+            <ArrowRight size={16} strokeWidth={1.25} />
           </Link>
         </div>
       </div>
-      <noscript><style>{`.showcase-controls button { display: none; }`}</style></noscript>
-      <ul className="showcase-track" ref={track} tabIndex={0} aria-label="Carrusel de propiedades">
+      <noscript>
+        <style>{`.showcase-controls button { display: none; }`}</style>
+      </noscript>
+      <ul
+        className="showcase-track"
+        ref={track}
+        tabIndex={0}
+        aria-label="Carrusel de propiedades"
+      >
         {ordered.map((property) => (
           <li key={property.slug} className="showcase-card">
             <Link href={`/propiedades/${property.slug}`}>

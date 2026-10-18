@@ -1,6 +1,14 @@
 # Recursos visuales
 
-## Uso actual — evolución cinematográfica
+## Uso actual — composición de Claude con profundidad y editor
+
+Por instrucción posterior del propietario se restaura la portada `portada.jpg` elegida con Claude y el pie `villa.jpg`, conservando sus avisos de fotografía ilustrativa y créditos. No son anuncios ni inventario de Thony. La portada solicita una resolución apropiada al recorte vertical móvil mediante sizes; no se agranda ni reconstruye la fotografía con IA.
+
+El retrato oficial sigue en la introducción y presentación. La geometría 3D acompaña las interacciones; no reemplaza las fotografías. El panel puede subir el logo original, cambiar portada/retrato/pie e imagen social y reutilizar archivos, sin que un agente invente una marca. Las imágenes nuevas deben ser originales autorizados por el propietario. Los archivos compartidos se conservan al borrar una propiedad.
+
+Las capturas en `audit/claude-cms` muestran la revisión local. Las del panel usan el doble de Supabase de pruebas, sin entrar en la cuenta real ni publicar inventario. La procedencia histórica de recursos se conserva abajo.
+
+## Registro histórico — evolución cinematográfica del PR #6
 
 La entrada, el hero y Sobre Thony usan el retrato oficial entregado por el propietario. La puerta, sus materiales y las composiciones de marca del hero/pie son geometría CSS, no viviendas ni recorridos comercializados. No se generan fotografías, personas, videos ni propiedades. El retrato se revela como un plano fotográfico; no se simulan movimientos corporales ni se inventa un cuerpo.
 

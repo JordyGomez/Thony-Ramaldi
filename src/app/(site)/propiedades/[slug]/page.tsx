@@ -8,7 +8,9 @@ import { getProperties } from "@/data/get-properties";
 import { Gallery } from "@/components/gallery";
 import { PropertyCard } from "@/components/property-card";
 import { WhatsAppIcon } from "@/components/icons";
-import { site, whatsappUrl } from "@/lib/site";
+import { site as baseSite, whatsappUrl as buildWhatsApp } from "@/lib/site";
+import { getSiteSettings } from "@/data/get-site-settings";
+import { siteImage } from "@/lib/site-settings";
 import styles from "./property-detail.module.css";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí). Las
@@ -45,10 +47,10 @@ export async function generateMetadata({
               ? `${property.type} en ${operation} en ${property.title}, ${property.location}. Ficha en preparación con precio y unidad por confirmar${property.imagesAreRenders ? "; renders del proyecto" : ""}.`
               : `${property.type} en ${operation} en ${property.location}. ${property.neighborhood}.`,
         robots: { index: false, follow: true },
-        ...(site.url
+        ...(baseSite.url
           ? {
               alternates: {
-                canonical: `${site.url}/propiedades/${property.slug}`,
+                canonical: `${baseSite.url}/propiedades/${property.slug}`,
               },
             }
           : {}),
@@ -61,6 +63,22 @@ export default async function PropertyPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const settings = await getSiteSettings();
+  const t = settings.texts;
+  const site = {
+    ...baseSite,
+    name: t.name,
+    company: t.company,
+    portrait: siteImage(settings.assets.portrait),
+    phone: t.phone,
+    phoneHref: `tel:+${t.phoneInternational}`,
+  };
+  const whatsappUrl = (property: Parameters<typeof buildWhatsApp>[0]) =>
+    buildWhatsApp(property, {
+      number: t.whatsapp,
+      message: t.whatsappMessage,
+      name: t.name,
+    });
   const { slug } = await params;
   const properties = await getProperties();
   const property = properties.find((p) => p.slug === slug);
@@ -122,8 +140,7 @@ export default async function PropertyPage({
                 : status === "preparation"
                   ? "Ficha en preparación"
                   : "Disponible"}{" "}
-              /{" "}
-              {property.reference}
+              / {property.reference}
             </p>
             <p>{property.description}</p>
             <h2 className="label">
@@ -253,8 +270,8 @@ export default async function PropertyPage({
                   <Image src={site.portrait} alt="" fill sizes="112px" />
                 </span>
                 <span>
-                  Thony Paulino
-                  <small>Asesor inmobiliario · Ramaldi</small>
+                  {t.name}
+                  <small>{t.role}</small>
                 </span>
               </div>
               <a

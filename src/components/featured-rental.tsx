@@ -1,13 +1,17 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, FileText, MapPin } from "lucide-react";
 import { formatPrice, type Property } from "@/data/properties";
 import { Reveal } from "./reveal";
 import styles from "./featured-rental.module.css";
+import { useSite } from "./site-provider";
 
 // Los textos de este bloque son específicos de Alberobello: se busca por slug
 // para que una propiedad nueva del panel no herede su titular.
 export function FeaturedRental({ properties }: { properties: Property[] }) {
+  const { settings } = useSite();
+  const t = settings.texts;
   const property = properties.find(
     (item) => item.slug === "alberobello-residences",
   );
@@ -30,18 +34,15 @@ export function FeaturedRental({ properties }: { properties: Property[] }) {
       <Reveal className={styles.copy} delay={0.1}>
         <span className="label">ALQUILER · FICHA EN PREPARACIÓN</span>
         <h2 id="rental-title">
-          Alberobello.
+          {t.featuredTitle}
           <br />
-          <strong>Tu próximo espacio en Santiago.</strong>
+          <strong>{t.featuredEmphasis}</strong>
         </h2>
         <p className={styles.location}>
           <MapPin size={16} aria-hidden="true" /> La Vereda, Don Pedro ·
           Santiago
         </p>
-        <p>
-          Conoce el proyecto del apartamento que Thony está ofreciendo en
-          alquiler. Explora sus espacios y consulta los detalles de la unidad.
-        </p>
+        <p>{t.featuredDescription}</p>
         <div className={styles.price}>
           <span>RENTA PROVISIONAL · POR CONFIRMAR</span>
           <strong>
@@ -57,7 +58,7 @@ export function FeaturedRental({ properties }: { properties: Property[] }) {
             className="button button-solid"
             href={`/propiedades/${property.slug}`}
           >
-            Ver apartamento <ArrowUpRight size={18} aria-hidden="true" />
+            {t.featuredCta} <ArrowUpRight size={18} aria-hidden="true" />
           </Link>
           {property.brochure && (
             <a

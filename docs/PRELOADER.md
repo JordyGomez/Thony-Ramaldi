@@ -1,4 +1,10 @@
-# The Entrance — entrada arquitectónica actual
+# Entrada 3D sobre la composición de Claude
+
+La instrucción vigente recupera la portada fotográfica de Claude. La entrada sigue revelando el retrato oficial, una vez por sesión y con las salidas seguras documentadas abajo; espera la fotografía de portada, ahora `portada.jpg`, no el retrato de la pantalla principal anterior. La identidad y el logo se gestionan en `/admin/web` y las preferencias permiten desactivar la introducción o todo el movimiento. La geometría de la puerta se utiliza en la entrada; la portada y el catálogo vuelven a su composición fotográfica y tipográfica.
+
+La integración se documenta en [CLAUDE-ADMIN-REVIEW](CLAUDE-ADMIN-REVIEW.md). El siguiente registro conserva la entrega anterior del PR #6 y sus mediciones; no describe una portada vigente con retrato.
+
+## Registro histórico — The Entrance del PR #6
 
 2026-10-18. Implementación 7ce368a sobre main 0742704, después del panel de Claude y la fusión del PR #4. El nuevo brief autoriza evolucionar la entrada y la presentación pública; el registro anterior se conserva abajo como historia, no como especificación vigente.
 

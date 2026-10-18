@@ -12,7 +12,10 @@ export const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? DEFAULT_KEY;
 
 export const isSupabaseConfigured =
-  /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(supabaseUrl) &&
+  (/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(supabaseUrl) ||
+    (process.env.THONY_ADMIN_TESTS === "1" &&
+      !process.env.VERCEL_ENV &&
+      /^http:\/\/127\.0\.0\.1:\d+$/.test(supabaseUrl))) &&
   supabaseAnonKey.length > 20;
 
 export const STORAGE_BUCKET = "properties";

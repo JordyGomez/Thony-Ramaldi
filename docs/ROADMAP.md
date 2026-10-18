@@ -1,5 +1,20 @@
 # Roadmap
 
+## Terminada en código — restauración de Claude y administración integral
+
+- Composición fotográfica de Claude con 3D por capas, revelados, menú, tarjetas, galería, controles y búsqueda personal.
+- Edición de contenido/contactos/menú/SEO, fotos/logo, paleta, movimiento y orden/visibilidad de secciones.
+- Subida por servidor con validación de sesión/rol/origen/archivo, progreso, diagnóstico y reintento; biblioteca reutilizable y conservación de archivos compartidos.
+- Borradores privados, previsualización móvil/escritorio, publicación transaccional, historial y detección de conflictos; migración aditiva preparada.
+- 111 comprobaciones locales aprobadas. Ver CLAUDE-ADMIN-REVIEW para alcance real y límites.
+
+## Activación pendiente en el proyecto real
+
+- El propietario ejecuta `supabase/migrations/20261018_site_editor.sql` en SQL Editor; comprobar luego tablas y permisos desde Configuración.
+- Verificar con la cuenta real la primera subida y publicación. Los tests del panel usan Auth/Storage/PostgREST locales; no equivalen a haber iniciado sesión o ejecutado DDL real.
+- Confirmar incorporación de logos originales y contenido/inventario autorizado desde el panel.
+
+
 ## Terminada — evolución cinematográfica sobre main 0742704
 
 - Entrada de puerta sólida CSS y retrato real, adaptación desktop/móvil, relevo al hero, sesión y espera acotada.

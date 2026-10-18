@@ -4,41 +4,18 @@ import { useId, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, ImagePlus, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { propertyOperations, propertyTypes } from "@/data/property-options";
-import { createBrowserSupabase } from "@/lib/supabase/browser";
-import { STORAGE_BUCKET, storagePublicUrl } from "@/lib/supabase/env";
+import { storagePublicUrl } from "@/lib/supabase/env";
 import { saveProperty } from "./actions";
+import { MediaUploader } from "./media-uploader";
+import { MediaLibrary } from "./media-library";
 import {
   slugify,
   validatePropertyInput,
   type PropertyInput,
 } from "./property-input";
 import styles from "./admin.module.css";
-
-const MAX_IMAGE_SIDE = 2400;
-
-// Reduce fotos de móvil (a menudo 4–10 MB) antes de subirlas. Si el navegador
-// no puede leer el formato, se sube el archivo original.
-async function prepareImage(file: File): Promise<{ blob: Blob; ext: string }> {
-  const original = { blob: file, ext: file.name.split(".").pop() || "jpg" };
-  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return original;
-  try {
-    const bitmap = await createImageBitmap(file);
-    const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size < 1_500_000) return original;
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(bitmap.width * scale);
-    canvas.height = Math.round(bitmap.height * scale);
-    canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg", 0.85),
-    );
-    return blob ? { blob, ext: "jpg" } : original;
-  } catch {
-    return original;
-  }
-}
 
 const toNumber = (value: string) => {
   if (value.trim() === "") return null;
@@ -63,39 +40,10 @@ export function PropertyForm({
   const locationsId = useId();
   const errorRef = useRef<HTMLParagraphElement>(null);
 
-  const set = <K extends keyof PropertyInput>(key: K, value: PropertyInput[K]) =>
-    setInput((previous) => ({ ...previous, [key]: value }));
-
-  const folder = () => input.slug || slugify(input.title) || "sin-nombre";
-
-  const upload = async (file: File, prefix: string) => {
-    const { blob, ext } = await prepareImage(file);
-    const path = `${folder()}/${prefix}${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`;
-    const { error: uploadError } = await createBrowserSupabase()
-      .storage.from(STORAGE_BUCKET)
-      .upload(path, blob, { contentType: blob.type || file.type });
-    if (uploadError) throw uploadError;
-    return path;
-  };
-
-  const addImages = async (files: FileList | null) => {
-    if (!files?.length) return;
-    setError(null);
-    setUploading((count) => count + files.length);
-    for (const file of Array.from(files)) {
-      try {
-        const path = await upload(file, "");
-        setInput((previous) => ({
-          ...previous,
-          images: [...previous.images, { path, alt: "" }],
-        }));
-      } catch {
-        setError(`No se pudo subir «${file.name}». Revisa tu conexión e inténtalo otra vez.`);
-      } finally {
-        setUploading((count) => count - 1);
-      }
-    }
-  };
+  const set = <K extends keyof PropertyInput>(
+    key: K,
+    value: PropertyInput[K],
+  ) => setInput((previous) => ({ ...previous, [key]: value }));
 
   const moveImage = (index: number, offset: -1 | 1) =>
     setInput((previous) => {
@@ -104,22 +52,6 @@ export function PropertyForm({
       images.splice(index + offset, 0, image);
       return { ...previous, images };
     });
-
-  const addBrochure = async (file: File | undefined) => {
-    if (!file) return;
-    if (file.type !== "application/pdf") {
-      setError("El folleto debe ser un archivo PDF.");
-      return;
-    }
-    setUploading((count) => count + 1);
-    try {
-      set("brochurePath", await upload(file, "folleto-"));
-    } catch {
-      setError("No se pudo subir el folleto. Inténtalo otra vez.");
-    } finally {
-      setUploading((count) => count - 1);
-    }
-  };
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -131,14 +63,21 @@ export function PropertyForm({
     }
     setError(null);
     startSaving(async () => {
-      const result = await saveProperty(input);
-      if (!result.ok) {
-        setError(result.error);
+      try {
+        const result = await saveProperty(input);
+        if (!result.ok) {
+          setError(result.error);
+          requestAnimationFrame(() => errorRef.current?.focus());
+          return;
+        }
+        router.push("/admin");
+        router.refresh();
+      } catch {
+        setError(
+          "No se pudo contactar con la web. Conservamos tu formulario para que puedas reintentar.",
+        );
         requestAnimationFrame(() => errorRef.current?.focus());
-        return;
       }
-      router.push("/admin");
-      router.refresh();
     });
   };
 
@@ -176,7 +115,11 @@ export function PropertyForm({
         </label>
         <div className={styles.field}>
           Operación
-          <div className={styles.radios} role="radiogroup" aria-label="Operación">
+          <div
+            className={styles.radios}
+            role="radiogroup"
+            aria-label="Operación"
+          >
             {propertyOperations.map((operation) => (
               <label key={operation} className={styles.radio}>
                 <input
@@ -205,7 +148,9 @@ export function PropertyForm({
             </select>
           </label>
           <label className={styles.field}>
-            {input.operation === "Alquiler" ? "Renta mensual (USD)" : "Precio (USD)"}
+            {input.operation === "Alquiler"
+              ? "Renta mensual (USD)"
+              : "Precio (USD)"}
             <input
               type="number"
               inputMode="decimal"
@@ -263,7 +208,9 @@ export function PropertyForm({
             placeholder="Ejemplo: STI-014"
             required
           />
-          <small>Se incluye en el mensaje de WhatsApp para identificarla.</small>
+          <small>
+            Se incluye en el mensaje de WhatsApp para identificarla.
+          </small>
         </label>
       </fieldset>
 
@@ -273,6 +220,27 @@ export function PropertyForm({
           La primera foto es la portada. Usa las flechas para cambiar el orden y
           describe brevemente qué se ve en cada una.
         </p>
+        <details>
+          <summary className={styles.summary}>
+            Usar fotos de la biblioteca
+          </summary>
+          <MediaLibrary
+            imagesOnly
+            onSelect={(media) =>
+              setInput((previous) =>
+                previous.images.some((image) => image.path === media.path)
+                  ? previous
+                  : {
+                      ...previous,
+                      images: [
+                        ...previous.images,
+                        { path: media.path, alt: "" },
+                      ],
+                    },
+              )
+            }
+          />
+        </details>
         <div className={styles.photos}>
           {input.images.map((image, index) => (
             <div key={image.path} className={styles.photo}>
@@ -330,19 +298,17 @@ export function PropertyForm({
               </div>
             </div>
           ))}
-          <label className={styles.upload}>
-            <ImagePlus size={26} strokeWidth={1.25} aria-hidden="true" />
-            {uploading ? `Subiendo ${uploading}…` : "Añadir fotos"}
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(event) => {
-                addImages(event.target.files);
-                event.target.value = "";
-              }}
-            />
-          </label>
+          <MediaUploader
+            onBusyChange={(busy) =>
+              setUploading((count) => count + (busy ? 1 : -1))
+            }
+            onUploaded={(media) =>
+              setInput((previous) => ({
+                ...previous,
+                images: [...previous.images, { path: media.path, alt: "" }],
+              }))
+            }
+          />
         </div>
         <label className={styles.check}>
           <input
@@ -467,14 +433,24 @@ export function PropertyForm({
             value={input.sortOrder ?? ""}
             onChange={(event) => {
               const value = toNumber(event.target.value);
-              set("sortOrder", value === null || Number.isNaN(value) ? null : Math.round(value));
+              set(
+                "sortOrder",
+                value === null || Number.isNaN(value)
+                  ? null
+                  : Math.round(value),
+              );
             }}
           />
-          <small>Las de número menor aparecen antes. Vacío: las más nuevas primero.</small>
+          <small>
+            Las de número menor aparecen antes. Vacío: las más nuevas primero.
+          </small>
         </label>
       </fieldset>
 
-      <details className={styles.fieldset} open={Boolean(input.brochurePath || input.projectName)}>
+      <details
+        className={styles.fieldset}
+        open={Boolean(input.brochurePath || input.projectName)}
+      >
         <summary className={styles.summary}>
           Folleto y datos del proyecto (opcional)
         </summary>
@@ -482,7 +458,12 @@ export function PropertyForm({
           Folleto en PDF
           {input.brochurePath ? (
             <span className={styles.photoTools}>
-              <a href={storagePublicUrl(input.brochurePath)} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
+              <a
+                href={storagePublicUrl(input.brochurePath)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.linkButton}
+              >
                 Ver folleto subido
               </a>
               <button type="button" onClick={() => set("brochurePath", null)}>
@@ -490,13 +471,14 @@ export function PropertyForm({
               </button>
             </span>
           ) : (
-            <input
-              type="file"
-              accept="application/pdf"
-              onChange={(event) => {
-                addBrochure(event.target.files?.[0]);
-                event.target.value = "";
-              }}
+            <MediaUploader
+              label="Subir folleto PDF"
+              pdf
+              multiple={false}
+              onBusyChange={(busy) =>
+                setUploading((count) => count + (busy ? 1 : -1))
+              }
+              onUploaded={(media) => set("brochurePath", media.path)}
             />
           )}
         </div>
@@ -525,13 +507,18 @@ export function PropertyForm({
             onChange={(event) => set("projectFacts", lines(event.target.value))}
             rows={4}
           />
-          <small>Uno por línea. Si hay datos aquí, sustituyen a las características destacadas en la ficha.</small>
+          <small>
+            Uno por línea. Si hay datos aquí, sustituyen a las características
+            destacadas en la ficha.
+          </small>
         </label>
         <label className={styles.field}>
           Tipologías del proyecto
           <textarea
             value={input.projectTypologies.join("\n")}
-            onChange={(event) => set("projectTypologies", lines(event.target.value))}
+            onChange={(event) =>
+              set("projectTypologies", lines(event.target.value))
+            }
             rows={3}
           />
           <small>Una por línea.</small>
@@ -567,7 +554,11 @@ export function PropertyForm({
             className="button button-solid"
             disabled={saving || uploading > 0}
           >
-            {saving ? "Guardando…" : initial.id ? "Guardar cambios" : "Publicar propiedad"}
+            {saving
+              ? "Guardando…"
+              : initial.id
+                ? "Guardar cambios"
+                : "Publicar propiedad"}
           </button>
         </div>
       </div>
