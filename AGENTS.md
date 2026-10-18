@@ -19,12 +19,12 @@ Repetir la revisión remota después de una tarea significativa y antes del comm
 
 - Next.js App Router, TypeScript estricto, componentes con nombres descriptivos y separación entre datos, configuración y UI.
 - Usar los componentes de servidor por defecto; `use client` solo para interacción.
-- Contacto centralizado en `src/lib/site.ts`; inmuebles en `src/data/properties.ts`.
+- Contacto centralizado en `src/lib/site.ts`. Las páginas obtienen los inmuebles con `getProperties()` (`src/data/get-properties.ts`): panel Sanity en `/admin` si hay Project ID, o `src/data/properties.ts` como respaldo. Mantener alineados el tipo `Property`, el esquema `src/sanity/schemaTypes/property.ts` y la consulta GROQ.
 - Mantener la dirección visual minimalista oscura (carbón, Inter fina, fotografía protagonista; ver `docs/ASSETS.md`), adaptación móvil, semántica y foco visible. Ningún texto por debajo de 12 px.
 - Respetar `prefers-reduced-motion`. El contenido debe permanecer disponible si falla una animación o JavaScript.
 - Cada propiedad ficticia debe mostrar “Demostración”, también en su ficha y en el mensaje de WhatsApp. No inventar anuncios reales, biografía, logros, estadísticas, testimonios, mapas ni recorridos.
 - No crear una marca ficticia para reemplazar los logotipos faltantes. Ver `public/brand/README.md` y `docs/ASSETS.md`.
-- No añadir backend, base de datos, autenticación, pagos ni motor de IA sin una tarea que lo autorice.
+- No añadir backend propio, base de datos, autenticación, pagos ni motor de IA sin una tarea que lo autorice. El panel de contenido usa Sanity (servicio externo autorizado por Yordi Lewis el 2026-10-18).
 - Mantener compatibilidad con Vercel y `next/image`. No desplegar automáticamente en producción.
 - No guardar tokens, contraseñas o claves en archivos, logs o commits. `.env.local` queda ignorado.
 

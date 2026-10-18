@@ -1,5 +1,17 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — Panel de propiedades preparado (Sanity)
+
+- Solicitud de Yordi Lewis: un apartado para que Thony publique propiedades sin tocar código. Opción elegida: panel web con Sanity, dejándolo instalado sin conectar ("sin Sanity, luego nos preocupamos"); la red del entorno bloquea sanity.io y aún no hay Project ID.
+- Se revisó el remoto antes de editar: el PR #4 de Codex se fusionó a main (`dfdeb8e`) a petición del usuario y esta rama parte de ese main. El PR #2 sigue abierto y obsoleto según la propia documentación de Codex.
+- Sanity Studio embebido en `/admin` (`sanity.config.ts`, esquema `src/sanity/schemaTypes/property.ts` con ayudas en español). Sin Project ID muestra "Panel pendiente de activar"; `noindex` y excluido en robots.
+- `getProperties()` (`src/data/get-properties.ts`) como fuente única: Sanity con ISR de 60 s si hay Project ID; datos locales si no hay ID, si falla o si el panel está vacío. Portada, carrusel, catálogo, bloque Alberobello y fichas reciben los datos por props; las fichas nuevas se generan bajo demanda.
+- Rutas públicas movidas al grupo `src/app/(site)/` con su layout (skip link, header, pie) para que el panel no herede el envoltorio del sitio. Las URL no cambian; el 404 raíz reutiliza el layout del sitio.
+- Estados explícitos de ficha: Demostración, Ficha en preparación (`inPreparation`) y Disponible. Antes, cualquier ficha no demostrativa se presentaba como Alberobello (renders, renta provisional, textos de WhatsApp). Los textos de Alberobello y de las demostraciones se conservan idénticos; se añaden `projectName`, `imagesAreRenders` y el tipo de galería `photo` sin aviso de procedencia.
+- Ubicaciones del filtro derivadas de los datos; tipos y operaciones compartidos en `src/data/property-options.ts`. El bloque de Alberobello se localiza por slug.
+- Dependencias: `sanity@6.17.0`, `next-sanity@13.3.4`, `@sanity/image-url@2.1.1`, `styled-components@6.5.3` (versiones con más de dos semanas, sin peers inválidos). `next.config.ts` admite imágenes de `cdn.sanity.io`.
+- Validación: lint, typecheck y build aprobados; build adicional con un Project ID ficticio: Sanity inaccesible, la web cayó a los datos locales y `/admin` montó el Studio a pantalla completa (error de red esperado). `npm test`: 76 aprobadas, 0 omitidas, 0 fallidas (72 previas + 4 nuevas en `tests/admin.spec.ts`). No se probó contra un proyecto Sanity real ni la subida de fotos.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Mejora exclusiva del preloader
 
 - Se revisaron remoto, PR #4 y texto adjunto antes de editar. Sin cambios remotos nuevos respecto al main d0f5f09 y la rama publicada c3e256e; se continúa sobre la integración existente. El usuario priorizó mejoras aditivas y conservar el diseño.

@@ -8,6 +8,10 @@ import { FeaturedRental } from "@/components/featured-rental";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
 import { propertyImages } from "@/data/properties";
+import { getProperties } from "@/data/get-properties";
+
+// Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí).
+export const revalidate = 60;
 
 const steps = [
   { number: "01", title: "Escuchar", detail: "Entender lo que buscas." },
@@ -15,7 +19,8 @@ const steps = [
   { number: "03", title: "Acompañar", detail: "Estar presente en tu decisión." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const properties = await getProperties();
   return (
     <main id="contenido">
       <Preloader />
@@ -60,10 +65,10 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <FeaturedRental />
-      <Showcase />
+      <FeaturedRental properties={properties} />
+      <Showcase properties={properties} />
 
-      <Catalog />
+      <Catalog properties={properties} />
 
       <section className="about section-pad" id="sobre-thony">
         <Reveal className="about-copy">

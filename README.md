@@ -74,6 +74,8 @@ Copiar `.env.example` a `.env.local` solo si se necesitan personalizaciones. El 
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Dominio público HTTPS para canonical, Open Graph y sitemap | Se detecta a partir de `VERCEL_PROJECT_PRODUCTION_URL` o `VERCEL_URL`; sin dominio configurado se utiliza una base local de desarrollo y sitemap vacío |
 | `NEXT_PUBLIC_FACEBOOK_URL` | URL HTTPS confirmada de `facebook.com` | Vacío: muestra “Enlace por confirmar”, sin botón falso |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Project ID público de Sanity para el panel `/admin` | Vacío: panel pendiente de activar y datos locales |
+| `NEXT_PUBLIC_SANITY_DATASET` | Dataset de Sanity | `production` |
 
 Estas variables son públicas y se leen al compilar. No colocar contraseñas, tokens o claves en ellas. En un despliegue fuera de Vercel, definir el dominio público antes de compilar. Los contactos oficiales tienen valores públicos en `site.ts` y no necesitan variables.
 
@@ -91,6 +93,24 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 - Metadatos sociales y SEO. Las fichas de demostración llevan `noindex` y no están en el sitemap.
 
 La galería avisa que las fotografías ilustrativas no representan un mismo inmueble. No se muestran coordenadas, mapas, recorridos virtuales ni inventario real inexistente.
+
+## Panel de propiedades (`/admin`)
+
+Sanity Studio está embebido en `/admin` (`sanity.config.ts`, esquema en `src/sanity/schemaTypes/property.ts`). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
+
+- **Sin Project ID** (estado actual): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
+- **Con Project ID**: la web lee las propiedades publicadas en el panel y se actualiza en un máximo de 60 s (ISR, `revalidate = 60`). Las fichas nuevas se generan bajo demanda.
+- **Si Sanity falla o aún no tiene propiedades**, se usan los datos locales; la web nunca queda vacía. En cuanto el panel tenga al menos una propiedad, pasa a ser la única fuente: migrar antes todas las fichas que deban seguir visibles.
+
+Cada propiedad tiene un estado: **Demostración** (casilla `demo`), **Ficha en preparación** (`inPreparation`, como Alberobello) o **Disponible** (real y confirmada). Los textos de fichas, tarjetas, carrusel, catálogo y WhatsApp se adaptan a cada estado. Las ubicaciones del filtro se derivan de los datos.
+
+Activación pendiente:
+
+1. Crear el proyecto en [sanity.io/manage](https://www.sanity.io/manage) (dataset `production`) y anotar su Project ID.
+2. En **API → CORS origins** del proyecto, añadir `https://thony-ramaldi.vercel.app` y `http://localhost:3000` con *Allow credentials*.
+3. Definir `NEXT_PUBLIC_SANITY_PROJECT_ID` en el proyecto de Vercel (equipo `los-yordis`) o como valor por defecto en `src/sanity/env.ts`, ya que es público. Volver a desplegar.
+4. Invitar a Thony como miembro del proyecto de Sanity; entra en `/admin` con su cuenta.
+5. Migrar las siete propiedades actuales (fotos, PDF y textos) al panel antes de publicar la primera ficha nueva.
 
 ## Identidad y recursos pendientes
 

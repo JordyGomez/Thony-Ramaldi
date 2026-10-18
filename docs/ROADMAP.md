@@ -23,7 +23,8 @@
 
 ## En desarrollo
 
-- Ninguna funcionalidad adicional abierta; las verificaciones de la entrega se registran en HANDOFF y CHANGELOG.
+- Panel de propiedades con Sanity en `/admin`: instalado y probado sin conexión; pendiente de Project ID, CORS, variable en Vercel, acceso de Thony y migración de las siete fichas actuales.
+
 
 ## Planificadas — Contenido y lanzamiento
 
@@ -43,7 +44,7 @@ El tipo `Property` permite una referencia opcional `virtualTour` con `modelUrl`,
 
 ## Ideas pendientes de aprobación
 
-- CMS o panel administrativo, persistencia y gestión del inventario.
+- Gestión avanzada del inventario más allá del panel (estadísticas, flujos de aprobación).
 - CRM, cuentas, reservas, chatbot, pagos o aplicación móvil.
 - Proveedores de reconstrucción 3D, costes, consentimiento, retención y almacenamiento.
 

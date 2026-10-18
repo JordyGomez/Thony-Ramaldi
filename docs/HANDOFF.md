@@ -1,5 +1,16 @@
 # Transferencia de contexto
 
+## Estado actual — panel de propiedades preparado, 2026-10-18 (Claude / Yordi Lewis)
+
+Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex). Panel Sanity en `/admin` instalado pero **sin conectar**: no hay Project ID y el entorno cloud bloquea `sanity.io`, `api.sanity.io` y `cdn.sanity.io` (403 del proxy). Sin Project ID la web se comporta como antes con `src/data/properties.ts`.
+
+Siguiente paso cuando el usuario entregue el Project ID y se habiliten los dominios: CORS en sanity.io/manage, variable `NEXT_PUBLIC_SANITY_PROJECT_ID` (el proyecto de Vercel es del equipo `los-yordis`; alternativa: valor por defecto en `src/sanity/env.ts`, es público), acceso de Thony y migración de las siete fichas con un token de escritura temporal que no debe guardarse en el repositorio. Migrar todo antes de crear fichas nuevas: con al menos una propiedad en Sanity, los datos locales dejan de mostrarse.
+
+Decisiones: tres estados de ficha (`listingStatus` en `src/data/properties.ts`) para que una propiedad nueva no herede los textos de Alberobello; el bloque destacado de Alberobello se busca por slug. Las fichas siguen con `noindex` y fuera del sitemap: revisar esa política cuando haya inventario real disponible. Detalle y validación en CHANGELOG y README (sección del panel).
+
+---
+
+
 ## Estado actual — mejora exclusiva del preloader, 2026-10-18
 
 El usuario aportó un texto de preloader y pidió descartar cualquier instrucción que reemplazara lo ya construido. Se revisaron GitHub, el PR #4 y el código: no había cambios remotos nuevos de main ni modificaciones locales desconocidas. La continuación parte de c3e256e en la misma rama `feat/ramaldi-alberobello-integrated`, conservando íntegros Alberobello, catálogo y diseño de Claude. Implementación: **a5ae5b8**.

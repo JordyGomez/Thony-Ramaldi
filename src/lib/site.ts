@@ -48,10 +48,16 @@ export function whatsappUrl(property?: {
   reference: string;
   demo?: boolean;
   priceProvisional?: boolean;
+  type?: string;
+  operation?: string;
 }) {
+  const rentalApartment =
+    property?.operation === "Alquiler" && property.type === "Apartamento";
   const message = property
     ? property.priceProvisional
-      ? `Hola Thony, me interesa el apartamento en alquiler en ${property.title} (${property.reference}). Vi que la renta mostrada es provisional. ¿Podrías confirmar el precio, disponibilidad, unidad, nivel, metraje, parqueos y condiciones, y compartir fotos actuales?`
+      ? rentalApartment
+        ? `Hola Thony, me interesa el apartamento en alquiler en ${property.title} (${property.reference}). Vi que la renta mostrada es provisional. ¿Podrías confirmar el precio, disponibilidad, unidad, nivel, metraje, parqueos y condiciones, y compartir fotos actuales?`
+        : `Hola Thony, me interesa la propiedad ${property.title} (${property.reference}). Vi que el precio mostrado es provisional. ¿Podrías confirmar el precio, disponibilidad y condiciones, y compartir fotos actuales?`
       : `Hola Thony, estoy interesado en ${property.demo ? "la ficha de demostración" : "la propiedad"} ${property.title} (${property.reference}). Me gustaría recibir más información${property.demo ? " sobre opciones reales similares" : ""}.`
     : "Hola Thony, me gustaría recibir asesoría para encontrar una propiedad para vivir o invertir.";
   return `https://wa.me/18294045770?text=${encodeURIComponent(message)}`;
