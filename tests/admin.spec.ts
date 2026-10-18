@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("sin Project ID, /admin explica que el panel está pendiente y no se indexa", async ({
+test("sin Supabase configurado, /admin explica que el panel está pendiente y no se indexa", async ({
   page,
 }) => {
   const response = await page.goto("/admin");

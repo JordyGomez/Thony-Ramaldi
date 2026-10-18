@@ -1,16 +1,17 @@
 # Registro de cambios
 
-## 2026-10-18 — Claude / Yordi Lewis — Panel de propiedades preparado (Sanity)
+## 2026-10-18 — Claude / Yordi Lewis — Panel de propiedades propio con Supabase
 
-- Solicitud de Yordi Lewis: un apartado para que Thony publique propiedades sin tocar código. Opción elegida: panel web con Sanity, dejándolo instalado sin conectar ("sin Sanity, luego nos preocupamos"); la red del entorno bloquea sanity.io y aún no hay Project ID.
+- Solicitud de Yordi Lewis: un apartado para que Thony publique propiedades sin tocar código. Primero se preparó con Sanity (commit `bd507a5`, nunca fusionado); el usuario prefirió no depender de un gestor de contenido externo y eligió Supabase con un panel construido a medida. Sanity y sus dependencias se eliminaron.
 - Se revisó el remoto antes de editar: el PR #4 de Codex se fusionó a main (`dfdeb8e`) a petición del usuario y esta rama parte de ese main. El PR #2 sigue abierto y obsoleto según la propia documentación de Codex.
-- Sanity Studio embebido en `/admin` (`sanity.config.ts`, esquema `src/sanity/schemaTypes/property.ts` con ayudas en español). Sin Project ID muestra "Panel pendiente de activar"; `noindex` y excluido en robots.
-- `getProperties()` (`src/data/get-properties.ts`) como fuente única: Sanity con ISR de 60 s si hay Project ID; datos locales si no hay ID, si falla o si el panel está vacío. Portada, carrusel, catálogo, bloque Alberobello y fichas reciben los datos por props; las fichas nuevas se generan bajo demanda.
+- Panel en `src/app/admin/`: inicio de sesión (Supabase Auth), lista con estado/publicación/destacada, crear, editar, ocultar y borrar (con sus archivos), e importación única de las siete fichas locales con fotos y folleto. Formulario en español con validación, subida directa de fotos al bucket con reducción a 2400 px en el navegador, orden y descripción de cada foto, folleto PDF y datos de proyecto. `src/proxy.ts` (convención de Next 16) renueva la sesión y protege `/admin`.
+- `supabase/schema.sql`: tabla `properties`, tabla `admin_users`, función `is_admin()`, RLS (lectura pública de publicadas; escritura solo administradores) y bucket público `properties` con escritura restringida.
+- `getProperties()` (`src/data/get-properties.ts`) como fuente única: Supabase con revalidación de 60 s y regeneración inmediata al guardar; datos locales si no está configurado, si falla o si la tabla está vacía. Portada, carrusel, catálogo, bloque Alberobello y fichas reciben los datos por props; las fichas nuevas se generan bajo demanda.
 - Rutas públicas movidas al grupo `src/app/(site)/` con su layout (skip link, header, pie) para que el panel no herede el envoltorio del sitio. Las URL no cambian; el 404 raíz reutiliza el layout del sitio.
 - Estados explícitos de ficha: Demostración, Ficha en preparación (`inPreparation`) y Disponible. Antes, cualquier ficha no demostrativa se presentaba como Alberobello (renders, renta provisional, textos de WhatsApp). Los textos de Alberobello y de las demostraciones se conservan idénticos; se añaden `projectName`, `imagesAreRenders` y el tipo de galería `photo` sin aviso de procedencia.
-- Ubicaciones del filtro derivadas de los datos; tipos y operaciones compartidos en `src/data/property-options.ts`. El bloque de Alberobello se localiza por slug.
-- Dependencias: `sanity@6.17.0`, `next-sanity@13.3.4`, `@sanity/image-url@2.1.1`, `styled-components@6.5.3` (versiones con más de dos semanas, sin peers inválidos). `next.config.ts` admite imágenes de `cdn.sanity.io`.
-- Validación: lint, typecheck y build aprobados; build adicional con un Project ID ficticio: Sanity inaccesible, la web cayó a los datos locales y `/admin` montó el Studio a pantalla completa (error de red esperado). `npm test`: 76 aprobadas, 0 omitidas, 0 fallidas (72 previas + 4 nuevas en `tests/admin.spec.ts`). No se probó contra un proyecto Sanity real ni la subida de fotos.
+- Ubicaciones del filtro derivadas de los datos; tipos y operaciones compartidos en `src/data/property-options.ts`. El bloque de Alberobello se localiza por slug. `next.config.ts` admite imágenes del almacenamiento público de Supabase; `robots.txt` excluye `/admin`.
+- Dependencias: `@supabase/supabase-js@2.117.1` y `@supabase/ssr@0.12.7` (más de dos semanas de antigüedad, sin peers inválidos).
+- Validación: lint, typecheck y build aprobados. Build con configuración ficticia: Supabase inaccesible, la web cayó a los datos locales y `/admin` y `/admin/nueva` redirigieron a `/admin/login`. Formulario y pantallas revisados con capturas a 1440 y 390 px mediante una ruta temporal no incluida. `npm test`: 76 aprobadas, 0 omitidas, 0 fallidas (72 previas + 4 de `tests/admin.spec.ts`). No se probó contra un proyecto Supabase real: inicio de sesión, subida de fotos, guardado e importación quedan por verificar al activarlo.
 
 ## 2026-10-18 — Codex / Yordi Gómez — Mejora exclusiva del preloader
 

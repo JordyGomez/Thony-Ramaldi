@@ -74,8 +74,8 @@ Copiar `.env.example` a `.env.local` solo si se necesitan personalizaciones. El 
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Dominio público HTTPS para canonical, Open Graph y sitemap | Se detecta a partir de `VERCEL_PROJECT_PRODUCTION_URL` o `VERCEL_URL`; sin dominio configurado se utiliza una base local de desarrollo y sitemap vacío |
 | `NEXT_PUBLIC_FACEBOOK_URL` | URL HTTPS confirmada de `facebook.com` | Vacío: muestra “Enlace por confirmar”, sin botón falso |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Project ID público de Sanity para el panel `/admin` | Vacío: panel pendiente de activar y datos locales |
-| `NEXT_PUBLIC_SANITY_DATASET` | Dataset de Sanity | `production` |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto de Supabase para el panel `/admin` | Vacío: panel pendiente de activar y datos locales |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública (anon / publishable) de Supabase | Vacío |
 
 Estas variables son públicas y se leen al compilar. No colocar contraseñas, tokens o claves en ellas. En un despliegue fuera de Vercel, definir el dominio público antes de compilar. Los contactos oficiales tienen valores públicos en `site.ts` y no necesitan variables.
 
@@ -96,21 +96,25 @@ La galería avisa que las fotografías ilustrativas no representan un mismo inmu
 
 ## Panel de propiedades (`/admin`)
 
-Sanity Studio está embebido en `/admin` (`sanity.config.ts`, esquema en `src/sanity/schemaTypes/property.ts`). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
+Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los datos, las fotos y el inicio de sesión viven en **Supabase** (Postgres, Storage y Auth). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
 
-- **Sin Project ID** (estado actual): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
-- **Con Project ID**: la web lee las propiedades publicadas en el panel y se actualiza en un máximo de 60 s (ISR, `revalidate = 60`). Las fichas nuevas se generan bajo demanda.
-- **Si Sanity falla o aún no tiene propiedades**, se usan los datos locales; la web nunca queda vacía. En cuanto el panel tenga al menos una propiedad, pasa a ser la única fuente: migrar antes todas las fichas que deban seguir visibles.
+- **Sin configurar** (estado actual): `/admin` muestra “Panel pendiente de activar” y la web usa `src/data/properties.ts`.
+- **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
+- **Si Supabase falla o la tabla está vacía**, se usan los datos locales; la web nunca queda vacía. En cuanto haya al menos una propiedad publicada, el panel pasa a ser la única fuente. El panel vacío ofrece **Importar propiedades actuales**, que copia las siete fichas, sus fotos y el folleto de Alberobello.
 
-Cada propiedad tiene un estado: **Demostración** (casilla `demo`), **Ficha en preparación** (`inPreparation`, como Alberobello) o **Disponible** (real y confirmada). Los textos de fichas, tarjetas, carrusel, catálogo y WhatsApp se adaptan a cada estado. Las ubicaciones del filtro se derivan de los datos.
+Seguridad (`supabase/schema.sql`): lectura pública solo de fichas publicadas; crear, editar, borrar y subir archivos solo para correos de la tabla `admin_users`. La clave del navegador es pública por diseño; nunca usar ni guardar la clave `service_role` en el proyecto.
+
+Cada propiedad tiene un estado: **Demostración**, **Ficha en preparación** (como Alberobello) o **Disponible**. Los textos de fichas, tarjetas, carrusel, catálogo y WhatsApp se adaptan a cada estado. Las ubicaciones del filtro se derivan de los datos.
 
 Activación pendiente:
 
-1. Crear el proyecto en [sanity.io/manage](https://www.sanity.io/manage) (dataset `production`) y anotar su Project ID.
-2. En **API → CORS origins** del proyecto, añadir `https://thony-ramaldi.vercel.app` y `http://localhost:3000` con *Allow credentials*.
-3. Definir `NEXT_PUBLIC_SANITY_PROJECT_ID` en el proyecto de Vercel (equipo `los-yordis`) o como valor por defecto en `src/sanity/env.ts`, ya que es público. Volver a desplegar.
-4. Invitar a Thony como miembro del proyecto de Sanity; entra en `/admin` con su cuenta.
-5. Migrar las siete propiedades actuales (fotos, PDF y textos) al panel antes de publicar la primera ficha nueva.
+1. Crear un proyecto gratuito en [supabase.com](https://supabase.com).
+2. En **SQL Editor**, pegar y ejecutar `supabase/schema.sql`, cambiando antes el correo de la última línea por el de Thony.
+3. En **Authentication → Users → Add user**, crear el usuario de Thony con ese correo y una contraseña. En **Authentication → Sign In / Providers**, desactivar *Allow new users to sign up*.
+4. En **Project Settings → API**, copiar la URL y la clave *anon public* (o *publishable*) y definirlas como `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en el proyecto de Vercel (equipo `los-yordis`). Son públicas: también pueden fijarse como valor por defecto en `src/lib/supabase/env.ts`. Volver a desplegar.
+5. Entrar en `/admin`, pulsar **Importar propiedades actuales** y revisar las fichas.
+
+Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, la web mostraría los datos locales hasta reactivarlo desde su panel.
 
 ## Identidad y recursos pendientes
 

@@ -23,7 +23,7 @@
 
 ## En desarrollo
 
-- Panel de propiedades con Sanity en `/admin`: instalado y probado sin conexión; pendiente de Project ID, CORS, variable en Vercel, acceso de Thony y migración de las siete fichas actuales.
+- Panel de propiedades propio en `/admin` con Supabase: construido y probado sin conexión; pendiente de crear el proyecto, ejecutar `supabase/schema.sql`, crear el usuario de Thony, definir las variables en Vercel e importar las siete fichas actuales.
 
 
 ## Planificadas — Contenido y lanzamiento

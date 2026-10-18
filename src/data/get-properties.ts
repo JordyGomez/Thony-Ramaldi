@@ -1,110 +1,49 @@
 import { cache } from "react";
-import { createClient } from "next-sanity";
-import { createImageUrlBuilder } from "@sanity/image-url";
+import { createClient } from "@supabase/supabase-js";
 import {
-  isSanityConfigured,
-  sanityApiVersion,
-  sanityDataset,
-  sanityProjectId,
-} from "@/sanity/env";
+  isSupabaseConfigured,
+  supabaseAnonKey,
+  supabaseUrl,
+} from "@/lib/supabase/env";
 import { properties as localProperties, type Property } from "./properties";
+import { rowToProperty, type PropertyRow } from "./property-row";
 
-// Segundos que una página publicada puede mostrar datos anteriores del panel.
+// Segundos que una página puede mostrar datos anteriores si nadie la
+// revalida. Guardar en /admin revalida al instante; esto es un respaldo.
 export const PROPERTIES_REVALIDATE = 60;
-
-const propertiesQuery = `*[_type == "property" && defined(slug.current)]
-  | order(coalesce(order, 9999) asc, title asc) {
-    "slug": slug.current,
-    reference, title, location, neighborhood, type, operation,
-    price, priceProvisional, bedrooms, bathrooms, area, parking,
-    description, amenities, featured, demo, inPreparation, imagesAreRenders,
-    projectName, projectFacts, projectTypologies, confirmationNote,
-    images[]{ alt, asset, crop, hotspot },
-    "brochureUrl": brochure.asset->url,
-    brochureLabel
-  }`;
-
-type SanityImage = {
-  alt?: string;
-  asset?: { _ref: string };
-  crop?: unknown;
-  hotspot?: unknown;
-};
-type SanityProperty = Omit<
-  Property,
-  "images" | "brochure" | "currency" | "amenities" | "featured" | "demo"
-> & {
-  images?: SanityImage[] | null;
-  amenities?: string[] | null;
-  featured?: boolean | null;
-  demo?: boolean | null;
-  brochureUrl?: string | null;
-  brochureLabel?: string | null;
-};
-
-const toProperty =
-  (imageUrl: ReturnType<typeof createImageUrlBuilder>) =>
-  (doc: SanityProperty): Property => ({
-    ...doc,
-    currency: "USD",
-    bedrooms: doc.bedrooms ?? null,
-    bathrooms: doc.bathrooms ?? null,
-    area: doc.area ?? null,
-    parking: doc.parking ?? null,
-    amenities: doc.amenities ?? [],
-    featured: Boolean(doc.featured),
-    demo: Boolean(doc.demo),
-    inPreparation: !doc.demo && Boolean(doc.inPreparation),
-    imagesAreRenders: Boolean(doc.imagesAreRenders),
-    priceProvisional: Boolean(doc.priceProvisional),
-    projectName: doc.projectName ?? undefined,
-    projectFacts: doc.projectFacts ?? undefined,
-    projectTypologies: doc.projectTypologies ?? undefined,
-    confirmationNote: doc.confirmationNote ?? undefined,
-    images: (doc.images ?? [])
-      .filter((image) => image.asset)
-      .map((image) => ({
-        src: imageUrl
-          .image(image)
-          .width(2400)
-          .fit("max")
-          .auto("format")
-          .url(),
-        alt: image.alt || doc.title,
-      })),
-    brochure: doc.brochureUrl
-      ? {
-          href: doc.brochureUrl,
-          label: doc.brochureLabel || "Ver folleto del proyecto (PDF)",
-        }
-      : undefined,
-  });
 
 /**
  * Fuente única de propiedades para las páginas públicas.
- * Con Project ID lee el panel /admin; sin él, si falla o si el panel aún no
- * tiene fichas, devuelve los datos locales para que la web nunca quede vacía.
+ * Con Supabase configurado lee las fichas publicadas; sin configuración, si
+ * falla o si la tabla aún está vacía, devuelve los datos locales para que la
+ * web nunca quede vacía.
  */
 export const getProperties = cache(async (): Promise<Property[]> => {
-  if (!isSanityConfigured) return localProperties;
+  if (!isSupabaseConfigured) return localProperties;
   try {
-    const client = createClient({
-      projectId: sanityProjectId,
-      dataset: sanityDataset,
-      apiVersion: sanityApiVersion,
-      useCdn: true,
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: { persistSession: false },
+      global: {
+        fetch: (input, init) =>
+          fetch(input, {
+            ...init,
+            next: { revalidate: PROPERTIES_REVALIDATE, tags: ["properties"] },
+          }),
+      },
     });
-    const docs = await client.fetch<SanityProperty[]>(
-      propertiesQuery,
-      {},
-      { next: { revalidate: PROPERTIES_REVALIDATE, tags: ["property"] } },
-    );
-    const mapped = docs
-      .map(toProperty(createImageUrlBuilder(client)))
+    const { data, error } = await supabase
+      .from("properties")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    const mapped = (data as PropertyRow[])
+      .map(rowToProperty)
       .filter((property) => property.images.length > 0);
     return mapped.length ? mapped : localProperties;
   } catch (error) {
-    console.error("No se pudieron leer las propiedades del panel:", error);
+    console.error("No se pudieron leer las propiedades de Supabase:", error);
     return localProperties;
   }
 });

@@ -1,12 +1,12 @@
 # Transferencia de contexto
 
-## Estado actual — panel de propiedades preparado, 2026-10-18 (Claude / Yordi Lewis)
+## Estado actual — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
 
-Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex). Panel Sanity en `/admin` instalado pero **sin conectar**: no hay Project ID y el entorno cloud bloquea `sanity.io`, `api.sanity.io` y `cdn.sanity.io` (403 del proxy). Sin Project ID la web se comporta como antes con `src/data/properties.ts`.
+Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex), PR #5. Panel propio en `/admin` construido pero **sin conectar**: no hay proyecto de Supabase y el entorno cloud no tiene permitidos sus dominios. Sin configuración la web se comporta como antes con `src/data/properties.ts`. Sanity se probó y se descartó por decisión del usuario.
 
-Siguiente paso cuando el usuario entregue el Project ID y se habiliten los dominios: CORS en sanity.io/manage, variable `NEXT_PUBLIC_SANITY_PROJECT_ID` (el proyecto de Vercel es del equipo `los-yordis`; alternativa: valor por defecto en `src/sanity/env.ts`, es público), acceso de Thony y migración de las siete fichas con un token de escritura temporal que no debe guardarse en el repositorio. Migrar todo antes de crear fichas nuevas: con al menos una propiedad en Sanity, los datos locales dejan de mostrarse.
+Siguiente paso al activarlo (detalle en README, sección del panel): crear el proyecto, ejecutar `supabase/schema.sql` con el correo de Thony, crear su usuario y desactivar registros, definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` (el proyecto de Vercel es del equipo `los-yordis`; alternativa: valores por defecto en `src/lib/supabase/env.ts`, son públicos), desplegar e **importar las propiedades actuales** desde el panel vacío antes de crear fichas nuevas. Verificar entonces login, subida de fotos, guardado, borrado e importación, que no se pudieron probar contra un proyecto real. Para probar desde la nube hay que permitir `*.supabase.co` en la red del entorno.
 
-Decisiones: tres estados de ficha (`listingStatus` en `src/data/properties.ts`) para que una propiedad nueva no herede los textos de Alberobello; el bloque destacado de Alberobello se busca por slug. Las fichas siguen con `noindex` y fuera del sitemap: revisar esa política cuando haya inventario real disponible. Detalle y validación en CHANGELOG y README (sección del panel).
+Decisiones: tres estados de ficha (`listingStatus` en `src/data/properties.ts`) para que una propiedad nueva no herede los textos de Alberobello; el bloque destacado de Alberobello se busca por slug. Las fichas siguen con `noindex` y fuera del sitemap: revisar esa política cuando haya inventario real disponible. Los archivos de fotos quitadas en el formulario antes de guardar quedan en el bucket; al borrar una ficha sí se eliminan sus archivos.
 
 ---
 
