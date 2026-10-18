@@ -1,10 +1,10 @@
 # Thony Paulino · Ramaldi
 
-Primera versión del portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientada a República Dominicana. La experiencia sigue una dirección minimalista oscura inspirada en estudios de arquitectura (referencia: maddockdesign.com): fondo carbón, una sola tipografía sans fina, fotografía a pantalla completa y consultas directas al asesor.
+Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. Conserva la dirección oscura de Claude, Inter fina y consultas directas. La evolución cinematográfica utiliza arquitectura de marca en CSS y el retrato oficial autorizado, sin representar viviendas que no estén comercializadas.
 
-Esta integración conserva el diseño oscuro de Claude y añade **Alberobello Residences**, un alquiler real en preparación, junto a seis fichas **DEMOSTRACIÓN**. **US$1,000/mes es un importe provisional de maqueta autorizado, no una renta confirmada.** La unidad, características y condiciones están por confirmar. Los renders son del proyecto, no fotos actuales de la unidad. La entrega se realiza mediante un PR de `feat/ramaldi-alberobello-integrated` a `main`, con preview de Vercel antes de la fusión.
+La web pública obtiene **solo propiedades publicadas y no marcadas como demostración en Supabase**. Sin inventario, muestra una selección en preparación y contacto por WhatsApp o teléfono. Los datos locales de ejemplo son fixtures explícitas de pruebas fuera de Vercel. No se crean anuncios ni se escriben datos en Supabase durante esta evolución.
 
-Se incorporan selección Reales, filtros activos retirables, galerías con teclado/gestos y recuperación de errores, consulta móvil contextual y navegación sin JavaScript. El carrusel, el menú a pantalla completa, Inter, el fondo carbón y el pie conservan la composición de Claude. Ver [integración visual](docs/AUDIT-INTEGRATION.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md).
+La entrada 3D revela el retrato real y se coordina con el hero. Se conservan filtros, galerías accesibles, consultas contextuales, panel `/admin`, autenticación y políticas de Supabase. Ver [revisión actual](docs/CINEMATIC-REVIEW.md), [preloader](docs/PRELOADER.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md). Rama de entrega: `feat/cinematic-ramaldi-experience`, desde main `0742704` (PR #5).
 
 ## Contacto oficial
 
@@ -20,25 +20,28 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografía Inter (variable) servida localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
 
-Los componentes de servidor generan la portada y las fichas a partir de las propiedades publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú, galería y animaciones. Con Supabase desactivado la aplicación funciona con datos de ejemplo, sin servicios externos. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
+Los componentes de servidor generan la portada y las fichas publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú, galería y animaciones. Con Supabase desactivado el catálogo queda vacío. Las fixtures requieren `THONY_TEST_FIXTURES=1` al compilar y ejecutar las pruebas, sin `VERCEL_ENV`; nunca se activan en Vercel. No se añaden dependencias, GSAP, WebGL ni Three.js.
 
 ```text
 src/
   app/
-    page.tsx                    Portada, presentación y contacto
-    layout.tsx                  Metadatos, tipografías, encabezado y pie
+    (site)/page.tsx             Portada, presentación y contacto
+    (site)/layout.tsx           Encabezado, pie y CSS cinematográfico público
+    layout.tsx                  Metadatos y tipografía compartidos
     globals.css                 Identidad visual y adaptación responsive
-    propiedades/[slug]/page.tsx  Siete fichas estáticas y rutas 404
-    error.tsx / not-found.tsx    Recuperación y navegación de error
+    (site)/propiedades/[slug]/page.tsx  Fichas publicadas y rutas 404
+    admin/                      Panel propio, login, fotos y publicación
     opengraph-image.tsx          Imagen social generada localmente
     robots.ts / sitemap.ts      Indexación sin fichas ficticias
-  components/                   Navegación, catálogo, tarjetas, galería y animación
+  components/                   Navegación, catálogo, galería, puerta y profundidad
+    cinematic.css               Capa visual del sitio, aislada del panel
   data/properties.ts            Datos, tipos y filtrado puro
   lib/site.ts                   Contacto, configuración y enlaces de WhatsApp
 public/
-  images/                       Fotografías ilustrativas locales
+  images/                       Retrato oficial y recursos documentados
   brand/README.md               Incorporación de logotipos originales
-tests/                          Regresiones, accesibilidad e integración
+tests/                          Regresiones con fixtures aisladas
+tests-public/                   Sitio sin fixtures y entrada del panel
 docs/                           Memoria compartida y procedencia de recursos
 .github/workflows/ci.yml         Validación automática de PR y main
 ```
@@ -80,10 +83,10 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 ## Funcionalidades actuales
 
-- Portada con fotografía a pantalla completa, paleta carbón/blanco con acento dorado sutil, carrusel horizontal de propiedades y pie con el nombre a todo el ancho.
+- Portada con arquitectura CSS y retrato oficial, paleta carbón/verde con acentos Ramaldi; carrusel cuando hay propiedades publicadas y pie con el nombre a todo el ancho y composición de marca.
 - Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
-- Introducción tipográfica de Claude con detalle arquitectónico CSS, una reproducción por sesión y solo al abrir inicialmente la home. Dura 2,3 s en carga normal; si la imagen principal o las fuentes siguen pendientes, mantiene una espera suave con límite absoluto de 5 s. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica y capturas en [PRELOADER](docs/PRELOADER.md).
-- Catálogo de seis demostraciones y Alberobello en preparación, selección de destacados y reales, filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. La renta provisional y los datos desconocidos no satisfacen filtros numéricos.
+- Entrada con hoja sólida, marco, espesor, tirador y retrato real. Una vez por sesión y solo al abrir inicialmente la home; 2,1 s en carga normal y máximo 5 s si el contenido crítico tarda. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica en [PRELOADER](docs/PRELOADER.md).
+- Catálogo publicado, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. Los importes provisionales y datos desconocidos no satisfacen filtros numéricos.
 - Estado sin resultados y limpieza de filtros.
 - Fichas con galería, miniaturas, ampliación, teclado, gestos, recuperación de imágenes y consulta contextual de WhatsApp. Las demostraciones se identifican como ficticias; Alberobello solicita confirmar renta, unidad y fotos actuales.
 - Presentación profesional de Thony y enlaces de llamada, correo, Instagram y WhatsApp.
@@ -99,7 +102,7 @@ Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los 
 
 - **Proyecto oficial**: `uowylfdlirlfqksvdeer`, con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts` (no hace falta configurar Vercel).
 - **La web muestra solo lo publicado en el panel.** Sin fichas publicadas, el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Si Supabase falla, la página lanza un error y Next conserva la última versión publicada (en un build, el despliegue falla en lugar de publicar una web vacía).
-- **Desactivado** (variables vacías, como en CI y en las pruebas): `/admin` muestra “Panel pendiente de activar” y la web usa los datos de ejemplo `sampleProperties` de `src/data/properties.ts`, que nunca se muestran con Supabase activo.
+- **Desactivado** (variables vacías): `/admin` muestra “Panel pendiente de activar” y el catálogo queda vacío. Solo pruebas fuera de Vercel que habiliten `THONY_TEST_FIXTURES=1` usan `sampleProperties`. Las demostraciones tampoco se leen del panel para la web pública.
 - **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
 - El panel vacío ofrece **Importar Alberobello**, que copia esa ficha real con sus renders y su folleto. Las seis demostraciones ficticias no se importan.
 
@@ -139,18 +142,25 @@ Los colores de marca se aproximan visualmente al logo aportado, sin sustituir el
 ```bash
 npm run lint
 npm run typecheck
-NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npm run build
+THONY_TEST_FIXTURES=1 NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npm run build
 npx playwright install chromium
 npm test
 ```
 
-Las pruebas se ejecutan sobre una compilación con Supabase desactivado (variables vacías), igual que en CI, para que no dependan de lo publicado en el panel.
+Las regresiones usan una compilación con Supabase desactivado y fixtures explícitas. Playwright pasa el mismo flag al servidor; ninguna prueba crea propiedades en el proyecto real. Para comprobar el sitio sin fixtures:
+
+```bash
+THONY_TEST_FIXTURES= NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npm run build
+CI=true npx playwright test --config=playwright.public.config.ts
+```
+
+La CI comprueba ambos modos. Nunca configurar el flag de fixtures en Vercel.
 
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
 `npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
 
-La continuación del preloader añade pruebas de entrada por una ficha y retorno SPA, carga lenta real, error, límite de seguridad y salida por teclado. La suite local completa de esta entrega tiene 72 pruebas aprobadas; ver PRELOADER para su alcance y límites.
+Las pruebas del preloader incluyen llegada por una ficha y retorno SPA, carga lenta, error, límite y teclado. La evolución añade retrato real, relevo al hero y profundidad desactivada fuera de pantalla, con ahorro de datos o movimiento reducido. Resultados actuales en CINEMATIC-REVIEW.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 
@@ -165,7 +175,7 @@ npm run start
 
 El repositorio oficial `JordyGomez/Thony-Ramaldi` ya está conectado al proyecto [thony-ramaldi de Vercel](https://vercel.com/los-yordis/thony-ramaldi). La integración GitHub existente genera los despliegues; no hace falta importar otro proyecto ni añadir tokens de Vercel al repositorio.
 
-1. Guardar cambios en commits y subir la rama a GitHub; abrir su PR contra `main`. Esta entrega utiliza `feat/ramaldi-alberobello-integrated`, basada en el main del PR #3 de Claude.
+1. Guardar cambios en commits y subir la rama a GitHub; abrir su PR contra `main`. Esta entrega utiliza `feat/cinematic-ramaldi-experience`, basada en el main del PR #5 de Claude.
 2. GitHub Actions ejecuta instalación, lint, tipos, build y pruebas de navegador. Vercel compila una **Preview** y añade el enlace al PR. Nuevos commits en la rama actualizan esa preview automáticamente. Si Vercel pide iniciar sesión, acceder con una cuenta autorizada del equipo.
 3. Revisar la preview y los checks del PR. Para actualizar el sitio público, pulsar **Merge pull request** y confirmar la fusión a `main` en GitHub.
 4. Vercel despliega automáticamente el nuevo `main` en [thony-ramaldi.vercel.app](https://thony-ramaldi.vercel.app/). Comprobar el resultado del despliegue y el sitio antes de darlo por publicado.

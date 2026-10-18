@@ -1,5 +1,15 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Evolución cinematográfica y contenido auténtico
+
+- Se parte del main 0742704 (PR #5 de Claude), con PR #4 ya fusionado, en feat/cinematic-ramaldi-experience. Se revisaron las nuevas rutas agrupadas, Supabase, panel, retrato, nueva portada y eliminación de Facebook. Se repitió fetch antes del commit: main sin avances adicionales.
+- Implementación **7ce368a**: puerta sólida en CSS con espesor, hoja, tirador, marco y retrato oficial, versiones desktop/móvil y transición al hero. Se conserva sesión, entrada inicial por home, espera real del recurso crítico, límite de 5 s, interacción para saltar, movimiento reducido y no JS; duración normal 2,1 s. Escena memoizada y señales acotadas de revelado.
+- Hero y pie usan arquitectura de marca en lugar de viviendas ilustrativas, por el nuevo brief; se conservan los archivos seleccionados antes y su procedencia. No se generan personas, videos, propiedades ni fotografías. El logo del chat sigue pendiente como fichero reutilizable; se mantiene site.logo preparado y presentación tipográfica.
+- Menú con entrada escalonada y foco/inert conservados, tokens de movimiento, revelados diferenciados, retrato editorial, profundidad de tarjetas, contacto y estado vacío con WhatsApp/teléfono. El CSS cinematográfico se carga en el layout público y la profundidad por eventos se limita a dispositivos elegibles y elementos visibles, sin bucle permanente.
+- getProperties conserva lectura/caché/errores de Supabase y excluye registros demo. Desactivar Supabase deja catálogo vacío; fixtures solo con THONY_TEST_FIXTURES=1 fuera de Vercel. CI añade una segunda compilación sin fixtures. Sin modificaciones de Auth, panel, acciones, uploads, proxy, mapping, esquema, RLS, dependencias o configuración de Vercel.
+- Validación: npm ci con lockfile de main, lint, typecheck y builds aprobados; **82 regresiones + 6 comprobaciones públicas aprobadas, 0 omitidas y 0 fallidas**. Lectura pública real: HTTP 200, cero publicaciones. Se comprobó /admin → /admin/login de forma anónima, sin efectuar login o escrituras. Una etiqueta accesible de marca detectada por axe se corrigió y se repitió la comprobación.
+- Lighthouse móvil simulado final: performance 92, accesibilidad automática 100, LCP 3,125 s, TBT 67 ms, CLS 0; main de referencia 92/100, LCP 3,102 s y TBT 98 ms. Se conserva la regresión intermedia detectada y su optimización. Capturas, protocolo, límites y materiales pendientes en CINEMATIC-REVIEW y PRELOADER. Entrega mediante nueva rama/PR y Preview; no se fusiona a producción.
+
 ## 2026-10-18 — Claude / Yordi Lewis — Nueva fotografía de portada
 
 - La imagen anterior (`hero.jpg`, 800 px de ancho) se veía borrosa a pantalla completa. Se buscaron fotos gratuitas en Unsplash (excluyendo Unsplash+), se mostraron cuatro candidatas sobre la portada real y el usuario eligió la casa blanca con palmeras al anochecer de Salman Saqib.

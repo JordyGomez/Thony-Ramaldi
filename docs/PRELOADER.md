@@ -1,4 +1,34 @@
-# Mejora acotada de la introducción
+# The Entrance — entrada arquitectónica actual
+
+2026-10-18. Implementación 7ce368a sobre main 0742704, después del panel de Claude y la fusión del PR #4. El nuevo brief autoriza evolucionar la entrada y la presentación pública; el registro anterior se conserva abajo como historia, no como especificación vigente.
+
+## Secuencia y recursos
+
+ArchitecturalDoor construye una puerta con hoja, caras, espesor, tirador, marco y umbral mediante CSS. Abre sobre su borde y revela el retrato oficial public/images/thony-paulino.jpg, aportado por el propietario. La fotografía se trata como un plano: no se inventan cuerpo, gestos ni una grabación de Thony abriendo la puerta. La composición cambia de encuadre, perspectiva y separación en móvil.
+
+Después aparece la identidad tipográfica existente y se produce el relevo al hero. El logo real se mostrará al configurar site.logo; ante error de ese archivo se recupera el nombre. Las dos referencias adjuntas solo están disponibles visualmente en el chat, sin fichero reutilizable en el checkout. No se recrean. No se descarga un video ni se genera una persona. ArchitecturalDoor admite contenido en su plano interior para un futuro clip auténtico autorizado; no es necesario para la experiencia actual.
+
+## Lógica conservada y afinada
+
+- Primera entrada elegible por home y una vez por sesión. Navigation Timing evita activarla si el documento inicial se abrió por una ficha o /admin y luego se llegó por SPA. Se mantiene no repetir al refrescar en la misma sesión.
+- SessionStorage y memoria de módulo si está bloqueado; ref de elegibilidad para tolerar el ciclo extra de efectos en desarrollo. Sin JavaScript no se renderiza el overlay.
+- entryTiming.sequence = 1600 ms, exit = 500 ms: 2,1 s nominales. Se esperan únicamente el hero decodificado y document.fonts.ready. Errores de carga/decodificación dejan continuar.
+- Si lo crítico tarda, solo respira la opacidad de la línea; la puerta no reinicia. El máximo absoluto es 5000 ms, tanto por temporizador como por CSS. No hay porcentajes ficticios.
+- Teclado, toque/clic, rueda, ocultar pestaña y movimiento reducido permiten salida inmediata. No se bloquea scroll ni se captura foco; la decoración es aria-hidden.
+- EntryArtwork está memoizado: cambios de fase no reconstruyen la escena. Se mantienen transform y opacity, sombras y materiales estáticos y ningún bucle JavaScript por frame.
+- El estado de revelado se comunica al hero/cabecera y mediante entryEvents. Los selectores de animación se limitan a esos elementos; la base se mantiene visible si falla la señal. La limpieza cancela timers, frames y listeners.
+
+Los estilos se cargan desde src/app/(site)/layout.tsx y cinematic.css, fuera del panel. La geometría comparte architectural-door.module.css con la portada y el estado vacío. Se conserva el stack y no se añaden dependencias.
+
+## Comprobación
+
+Lint, tipos y builds aprobados. 82 regresiones Chromium aprobadas, incluidas sesión, SPA, storage, movimiento reducido inicial/dinámico, errores, carga lenta, límite, teclado y no JS; otras 6 comprobaciones públicas sin fixtures aprobadas. Retrato, relevo al hero, profundidad fuera de pantalla y ahorro de datos se prueban en tests/cinematic.spec.ts. La intercepción de carga lenta en tests/preloader.spec.ts sigue ahora el retrato crítico del hero, sin reducir sus aserciones.
+
+Capturas, comparación de laboratorio y límites en [CINEMATIC-REVIEW](CINEMATIC-REVIEW.md). No se probaron Safari, teléfonos físicos ni consumo de batería/GPU. El logo original como archivo y un eventual video real siguen pendientes; no se afirman integraciones de medios inexistentes.
+
+---
+
+# Registro anterior — mejora acotada de la introducción
 
 Revisión del 2026-10-18, implementación `a5ae5b8`. Se consultaron GitHub y los cambios existentes antes de editar: main seguía en `d0f5f09`, el PR #4 permanecía abierto y su rama en `c3e256e`. La continuación conserva toda la integración de Alberobello y el diseño oscuro de Claude.
 

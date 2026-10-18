@@ -1,6 +1,20 @@
 # Transferencia de contexto
 
-## Estado actual — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
+## Estado actual — evolución cinematográfica, 2026-10-18 (Codex / Yordi Gómez)
+
+Nueva rama `feat/cinematic-ramaldi-experience` desde main **0742704**, merge del PR #5 de Claude. Implementación: **7ce368a**. PR #4 y #5 ya estaban fusionados al empezar. Se revisaron ambos, sus assets y arquitectura antes de editar; no se aplica la antigua rama de fase 2. El nuevo brief autoriza ampliar la capa visual completa preservando el trabajo de Claude.
+
+Se implementan puerta sólida en CSS con marco/espesor/tirador, retrato oficial y presentación tipográfica preparada para site.logo; 2,1 s normales, una vez por sesión, solo entrada inicial por home, espera crítica acotada a 5 s y todas las salidas seguras anteriores. La escena está memoizada; enlaza su salida con hero y cabecera. Hero y pie utilizan arquitectura de marca en lugar de viviendas ilustrativas, conservando ficheros y créditos de las fotos anteriores. No se generan personas ni imágenes de inmuebles.
+
+`cinematic.css` solo se importa en el layout público. Profundidad por puntero/scroll en dispositivos elegibles, fuera de viewport inactiva y sin bucle de frames; fallback estático en móvil, ahorro de datos, poca memoria declarada y movimiento reducido. Menú escalonado con su control de foco intacto, revelados diferenciados, retrato editorial, tarjetas y contacto refinados.
+
+La lectura pública real de Supabase respondió 200 con cero publicaciones. Catálogo vacío con contacto; el servicio solo lee publicadas no demo. Si se desactiva Supabase, ya no hay ejemplos automáticos: requieren THONY_TEST_FIXTURES=1 al compilar y ejecutar, sin VERCEL_ENV. CI valida una compilación de regresiones y otra pública sin fixtures. Ninguna prueba crea datos en Supabase.
+
+Panel, proxy, Auth, acciones, archivos, esquema/RLS, mapping de propiedades y dependencias preservados sin cambios. Se comprobó redirección anónima /admin → /admin/login con configuración real y su aspecto aislado; no se hicieron operaciones autenticadas ni escrituras. Facebook continúa eliminado. El retrato sí está disponible; las imágenes de logo del chat siguen sin fichero local reutilizable. site.logo y el plano interior admiten futuros recursos autorizados, sin reconstruir la marca.
+
+Lint, tipos y builds aprobados; **82 regresiones y 6 comprobaciones públicas sin fixtures aprobadas, ninguna omitida ni fallida**. Revisión y capturas en [CINEMATIC-REVIEW](CINEMATIC-REVIEW.md). Lighthouse móvil simulado: performance 92/100, accesibilidad automática 100/100, LCP 3,125 s, TBT 67 ms y CLS 0; no equivale a validación de dispositivos físicos o campo. Una regresión intermedia de TBT se detectó, optimizó y conserva en el informe. Revisar los checks del nuevo PR antes de fusionar; esta tarea no fusiona producción.
+
+## Registro anterior — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
 
 **Retrato y Facebook (2026-10-18):** retrato oficial incorporado (`site.portrait`); Thony no tiene Facebook y se eliminó de la web. Pendientes de contenido: logo reutilizable, biografía, datos definitivos de Alberobello y propiedades reales.
 
