@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import "@/components/cinematic.css";
 
 // Envoltorio del sitio público; el panel /admin queda fuera de este grupo.
 export default function SiteLayout({

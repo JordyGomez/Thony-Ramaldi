@@ -26,8 +26,20 @@ jobs:
           # Vacías: las pruebas usan los datos locales, no el panel en vivo.
           NEXT_PUBLIC_SUPABASE_URL: ""
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
+          THONY_TEST_FIXTURES: "1"
       - run: npx playwright install --with-deps chromium
       - run: npm test
+        env:
+          CI: "true"
+      # Otra compilación sin fixtures demuestra que un entorno sin Supabase
+      # conserva el catálogo vacío y nunca publica los ejemplos de las pruebas.
+      - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SUPABASE_URL: ""
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
+          THONY_TEST_FIXTURES: ""
+      - run: npx playwright test --config=playwright.public.config.ts
         env:
           CI: "true"
       - uses: actions/upload-artifact@v4

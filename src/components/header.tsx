@@ -11,7 +11,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { site, whatsappUrl } from "@/lib/site";
-import { editorialEase } from "@/lib/motion";
+import { editorialEase, motionTiming } from "@/lib/motion";
 import styles from "./header.module.css";
 
 const links = [
@@ -48,14 +48,21 @@ function MenuPanel({
       inert={!present}
       aria-hidden={present ? undefined : true}
     >
-      <nav aria-label="Navegación móvil">
+      <motion.nav
+        aria-label="Navegación móvil"
+        initial={reduced ? false : "closed"}
+        animate="open"
+        variants={{ open: { transition: { staggerChildren: motionTiming.stagger } }, closed: {} }}
+      >
         {links.map((link, i) => (
-          <Link key={link.href} href={link.href} onClick={close}>
+          <motion.div key={link.href} variants={{ closed: { opacity: 0, y: 16 }, open: { opacity: 1, y: 0 } }} transition={{ duration: reduced ? 0 : motionTiming.normal, ease: editorialEase }}>
+          <Link href={link.href} onClick={close}>
             <span>0{i + 1}</span>
             {link.title}
           </Link>
+          </motion.div>
         ))}
-      </nav>
+      </motion.nav>
       <div className="menu-footer">
         <p>Tu próximo espacio empieza con una conversación.</p>
         <a
@@ -130,13 +137,13 @@ export function Header() {
       <Link
         className="brand"
         href="/"
-        aria-label="Thony Paulino · Ramaldi, inicio"
+        aria-label="Thony Paulino Ramaldi, inicio"
         onClick={() => setOpen(false)}
       >
         {site.logo && (
           <Image src={site.logo} alt="Ramaldi" width={100} height={38} />
         )}
-        <span className="brand-name">Thony Paulino</span>
+        <span className="brand-name">Thony Paulino</span>{" "}
         <span className="brand-sub">Ramaldi</span>
       </Link>
       <button

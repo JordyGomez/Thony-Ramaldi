@@ -15,11 +15,15 @@ export const PROPERTIES_REVALIDATE = 60;
 /**
  * Fuente única de propiedades para las páginas públicas: solo las fichas
  * publicadas en el panel /admin. Si la tabla está vacía, la web no muestra
- * propiedades. Con Supabase desactivado (variables vacías, como en CI) se
- * usan los datos de ejemplo para poder probar la interfaz.
+ * propiedades. Las fixtures requieren una autorización explícita de pruebas
+ * y nunca se activan en un despliegue de Vercel.
  */
 export const getProperties = cache(async (): Promise<Property[]> => {
-  if (!isSupabaseConfigured) return sampleProperties;
+  if (!isSupabaseConfigured) {
+    return process.env.THONY_TEST_FIXTURES === "1" && !process.env.VERCEL_ENV
+      ? sampleProperties
+      : [];
+  }
   const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false },
     global: {
@@ -34,6 +38,7 @@ export const getProperties = cache(async (): Promise<Property[]> => {
     .from("properties")
     .select("*")
     .eq("published", true)
+    .eq("demo", false)
     .order("sort_order", { ascending: true, nullsFirst: false })
     .order("created_at", { ascending: false });
   // Un error no debe vaciar la web: al lanzarlo, Next conserva la última

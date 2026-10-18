@@ -24,7 +24,9 @@ import {
 } from "@/data/properties";
 import { propertyTypes } from "@/data/property-options";
 import { editorialEase, motionTiming } from "@/lib/motion";
-import { whatsappUrl } from "@/lib/site";
+import { site, whatsappUrl } from "@/lib/site";
+import { ArchitecturalDoor } from "./architectural-door";
+import { Reveal } from "./reveal";
 import { PropertyCard } from "./property-card";
 import styles from "./catalog.module.css";
 
@@ -136,15 +138,18 @@ export function Catalog({ properties }: { properties: Property[] }) {
         id="propiedades"
         className={`catalog section-pad ${styles.catalog}`}
       >
-        <div className="empty-state catalog-empty">
+        <Reveal className="empty-state catalog-empty" variant="soft">
+          <div className="catalog-empty-architecture" aria-hidden="true"><ArchitecturalDoor variant="empty" /></div>
+          <div className="catalog-empty-copy">
+          <span className="label">Cada búsqueda tiene su momento</span>
           <h2>
-            Pronto publicaremos <strong>nuevas propiedades.</strong>
+            Estamos preparando nuestra <strong>selección de propiedades.</strong>
           </h2>
           <p>
             Mientras tanto, cuéntale a Thony qué buscas y te ayudará a
             encontrar opciones para vivir o invertir.
           </p>
-          <a
+          <div className="catalog-empty-actions"><a
             className="button button-solid"
             href={whatsappUrl()}
             target="_blank"
@@ -152,7 +157,9 @@ export function Catalog({ properties }: { properties: Property[] }) {
           >
             Escribir a Thony <ArrowRight size={16} aria-hidden="true" />
           </a>
-        </div>
+          <a className="link-arrow" href={site.phoneHref}>Llamar a Thony <ArrowRight size={16} aria-hidden="true" /></a></div>
+          </div>
+        </Reveal>
       </section>
     );
   return (
