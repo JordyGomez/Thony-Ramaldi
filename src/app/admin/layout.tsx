@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import styles from "./admin.module.css";
 
 export const metadata: Metadata = {
-  title: "Panel de propiedades",
+  title: "Administración de la web",
   robots: { index: false, follow: false },
 };
 

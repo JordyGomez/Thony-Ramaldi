@@ -1,9 +1,10 @@
 "use client";
+import { useExperienceReducedMotion } from "./site-provider";
 
 import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent, TouchEvent } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   ArrowUpRight,
   ChevronLeft,
@@ -38,7 +39,7 @@ function GalleryImage({
     "loading",
   );
   const [attempt, setAttempt] = useState(0);
-  const reduced = useReducedMotion();
+  const reduced = useExperienceReducedMotion();
   const original = imageKey(image.src);
   const isProjectRender = kind === "project-render";
   // A retry requests the local original, independently of an optimizer failure.

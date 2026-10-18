@@ -16,7 +16,7 @@ export function DeleteButton({ id, title }: { id: string; title: string }) {
       onClick={() => {
         if (
           !window.confirm(
-            `¿Borrar «${title}»? Se quitará de la web y se eliminarán sus fotos. No se puede deshacer.`,
+            `¿Borrar «${title}»? Se quitará de la web. Los archivos compartidos de la biblioteca se conservan. No se puede deshacer.`,
           )
         )
           return;
@@ -50,7 +50,9 @@ export function ImportButton() {
           })
         }
       >
-        {pending ? "Importando… (puede tardar un minuto)" : "Importar Alberobello"}
+        {pending
+          ? "Importando… (puede tardar un minuto)"
+          : "Importar Alberobello"}
       </button>
       {message && (
         <p role="status" className={styles.hint}>

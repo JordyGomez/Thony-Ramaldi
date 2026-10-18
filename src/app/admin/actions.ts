@@ -30,8 +30,7 @@ export async function signIn(
     return { ok: false, error: "Escribe tu correo y tu contraseña." };
   const supabase = await createAdminClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error)
-    return { ok: false, error: "Correo o contraseña incorrectos." };
+  if (error) return { ok: false, error: "Correo o contraseña incorrectos." };
   redirect("/admin");
 }
 
@@ -41,7 +40,9 @@ export async function signOut() {
   redirect("/admin/login");
 }
 
-export async function saveProperty(input: PropertyInput): Promise<ActionResult> {
+export async function saveProperty(
+  input: PropertyInput,
+): Promise<ActionResult> {
   const { supabase, user } = await getAdminUser();
   if (!user) return { ok: false, error: "Tu sesión terminó. Vuelve a entrar." };
   const problem = validatePropertyInput(input);
@@ -54,14 +55,20 @@ export async function saveProperty(input: PropertyInput): Promise<ActionResult> 
   const { data, error } = await query.select("id").maybeSingle();
   if (error) {
     if (error.code === "23505")
-      return { ok: false, error: "Ya existe otra propiedad con esa dirección web. Cámbiala." };
+      return {
+        ok: false,
+        error: "Ya existe otra propiedad con esa dirección web. Cámbiala.",
+      };
     console.error("saveProperty", error);
     return { ok: false, error: "No se pudo guardar. Inténtalo de nuevo." };
   }
   // Con las políticas de seguridad, un usuario que no es administrador no
   // recibe error sino cero filas.
   if (!data)
-    return { ok: false, error: "Tu cuenta no tiene permiso para publicar propiedades." };
+    return {
+      ok: false,
+      error: "Tu cuenta no tiene permiso para publicar propiedades.",
+    };
   refreshSite();
   return { ok: true, id: data.id, message: "Propiedad guardada." };
 }
@@ -81,7 +88,11 @@ export async function deleteProperty(id: string): Promise<ActionResult> {
     ...(data.images ?? []).map((image) => image.path),
     ...(data.brochure_path ? [data.brochure_path] : []),
   ];
-  if (files.length) await supabase.storage.from(STORAGE_BUCKET).remove(files);
+  // Los archivos de la biblioteca se reutilizan en la web y otras fichas.
+  // Borrar una propiedad nunca debe romper esas referencias compartidas.
+  const ownedFiles = files.filter((path) => !path.startsWith("media/"));
+  if (ownedFiles.length)
+    await supabase.storage.from(STORAGE_BUCKET).remove(ownedFiles);
   refreshSite();
   return { ok: true, message: "Propiedad borrada." };
 }
@@ -101,7 +112,11 @@ export async function importLocalProperties(): Promise<ActionResult> {
     .from("properties")
     .select("id", { count: "exact", head: true });
   if (count)
-    return { ok: false, error: "Ya hay propiedades en el panel; no se importó nada para evitar duplicados." };
+    return {
+      ok: false,
+      error:
+        "Ya hay propiedades en el panel; no se importó nada para evitar duplicados.",
+    };
 
   // Los archivos locales se leen desde la propia web desplegada.
   const head = await headers();
@@ -170,7 +185,8 @@ export async function importLocalProperties(): Promise<ActionResult> {
     console.error("importLocalProperties", error);
     return {
       ok: false,
-      error: "La importación se detuvo a mitad. Revisa el panel y borra las fichas importadas antes de reintentar.",
+      error:
+        "La importación se detuvo a mitad. Revisa el panel y borra las fichas importadas antes de reintentar.",
     };
   }
   refreshSite();

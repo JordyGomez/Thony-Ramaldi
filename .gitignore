@@ -10,3 +10,5 @@ next-env.d.ts
 !.env.example
 .vercel/
 *.log
+
+/playwright-report-admin/

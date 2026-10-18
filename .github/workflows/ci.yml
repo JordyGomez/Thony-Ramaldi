@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm run test:database
       - run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
@@ -42,10 +43,16 @@ jobs:
       - run: npx playwright test --config=playwright.public.config.ts
         env:
           CI: "true"
+      # Auth, permisos, Storage y CMS contra un doble HTTP solo en loopback.
+      # La migración SQL se comprueba además con PostgreSQL embebido arriba.
+      - run: npm run test:admin
+        env:
+          CI: "true"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
           path: |
             playwright-report/
+            playwright-report-admin/
             test-results/

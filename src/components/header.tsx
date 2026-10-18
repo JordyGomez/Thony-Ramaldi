@@ -4,22 +4,12 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import {
-  AnimatePresence,
-  motion,
-  useIsPresent,
-  useReducedMotion,
-} from "motion/react";
-import { site, whatsappUrl } from "@/lib/site";
+import { AnimatePresence, motion, useIsPresent } from "motion/react";
+import { useSite, useExperienceReducedMotion } from "./site-provider";
+import { navigation } from "@/lib/site-settings";
 import { editorialEase, motionTiming } from "@/lib/motion";
 import styles from "./header.module.css";
 
-const links = [
-  { href: "/", title: "Inicio" },
-  { href: "/#propiedades", title: "Propiedades" },
-  { href: "/#sobre-thony", title: "Sobre Thony" },
-  { href: "/#contacto", title: "Contacto" },
-];
 const subscribeScroll = (callback: () => void) => {
   window.addEventListener("scroll", callback, { passive: true });
   return () => window.removeEventListener("scroll", callback);
@@ -34,8 +24,10 @@ function MenuPanel({
   menu: React.RefObject<HTMLDivElement | null>;
   close: () => void;
 }) {
+  const { settings, whatsappUrl } = useSite();
+  const links = navigation(settings);
   const present = useIsPresent();
-  const reduced = useReducedMotion();
+  const reduced = useExperienceReducedMotion();
   return (
     <motion.div
       ref={menu}
@@ -52,26 +44,49 @@ function MenuPanel({
         aria-label="Navegación móvil"
         initial={reduced ? false : "closed"}
         animate="open"
-        variants={{ open: { transition: { staggerChildren: motionTiming.stagger } }, closed: {} }}
+        variants={{
+          open: { transition: { staggerChildren: motionTiming.stagger } },
+          closed: {},
+        }}
       >
         {links.map((link, i) => (
-          <motion.div key={link.href} variants={{ closed: { opacity: 0, y: 16 }, open: { opacity: 1, y: 0 } }} transition={{ duration: reduced ? 0 : motionTiming.normal, ease: editorialEase }}>
-          <Link href={link.href} onClick={close}>
-            <span>0{i + 1}</span>
-            {link.title}
-          </Link>
+          <motion.div
+            key={link.href}
+            variants={{
+              closed: {
+                opacity: 0,
+                y: 24,
+                rotateX: -28,
+                transformPerspective: 1000,
+              },
+              open: {
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                transformPerspective: 1000,
+              },
+            }}
+            transition={{
+              duration: reduced ? 0 : motionTiming.normal,
+              ease: editorialEase,
+            }}
+          >
+            <Link href={link.href} onClick={close}>
+              <span>0{i + 1}</span>
+              {link.title}
+            </Link>
           </motion.div>
         ))}
       </motion.nav>
       <div className="menu-footer">
-        <p>Tu próximo espacio empieza con una conversación.</p>
+        <p>{settings.texts.menuText}</p>
         <a
           href={whatsappUrl()}
           className="button"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Contactar a Thony <ArrowUpRight size={16} strokeWidth={1.5} />
+          {settings.texts.menuCta} <ArrowUpRight size={16} strokeWidth={1.5} />
         </a>
       </div>
     </motion.div>
@@ -79,6 +94,8 @@ function MenuPanel({
 }
 
 export function Header() {
+  const { settings, contact: site } = useSite();
+  const links = navigation(settings);
   const [open, setOpen] = useState(false);
   const scrolled = useSyncExternalStore(
     subscribeScroll,
@@ -137,14 +154,14 @@ export function Header() {
       <Link
         className="brand"
         href="/"
-        aria-label="Thony Paulino Ramaldi, inicio"
+        aria-label={`${site.name} ${site.company}, inicio`}
         onClick={() => setOpen(false)}
       >
         {site.logo && (
           <Image src={site.logo} alt="Ramaldi" width={100} height={38} />
         )}
-        <span className="brand-name">Thony Paulino</span>{" "}
-        <span className="brand-sub">Ramaldi</span>
+        <span className="brand-name">{site.name}</span>{" "}
+        <span className="brand-sub">{site.company}</span>
       </Link>
       <button
         className="menu-toggle"

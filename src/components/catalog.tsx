@@ -1,12 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useIsPresent,
-  useReducedMotion,
-} from "motion/react";
+import { AnimatePresence, motion, useIsPresent } from "motion/react";
 import {
   ArrowRight,
   RotateCcw,
@@ -24,15 +19,14 @@ import {
 } from "@/data/properties";
 import { propertyTypes } from "@/data/property-options";
 import { editorialEase, motionTiming } from "@/lib/motion";
-import { site, whatsappUrl } from "@/lib/site";
-import { ArchitecturalDoor } from "./architectural-door";
+import { useSite, useExperienceReducedMotion } from "./site-provider";
 import { Reveal } from "./reveal";
 import { PropertyCard } from "./property-card";
 import styles from "./catalog.module.css";
 
 function CatalogResult({ children }: { children: ReactNode }) {
   const present = useIsPresent();
-  const reduced = useReducedMotion();
+  const reduced = useExperienceReducedMotion();
 
   return (
     <motion.div
@@ -56,6 +50,8 @@ function CatalogResult({ children }: { children: ReactNode }) {
 }
 
 export function Catalog({ properties }: { properties: Property[] }) {
+  const { settings, contact: site, whatsappUrl } = useSite();
+  const t = settings.texts;
   const [filters, setFilters] = useState<PropertyFilters>(emptyFilters);
   // Las ubicaciones salen de los datos para incluir las que se añadan en el panel.
   const locations = Array.from(
@@ -66,7 +62,7 @@ export function Catalog({ properties }: { properties: Property[] }) {
   const filterPanel = useRef<HTMLDivElement>(null);
   const filterToggle = useRef<HTMLButtonElement>(null);
   const allTab = useRef<HTMLButtonElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useExperienceReducedMotion();
   const filtered = filterProperties(properties, filters).filter(
     (p) => view === "all" || (view === "real" ? !p.demo : p.featured),
   );
@@ -88,7 +84,11 @@ export function Catalog({ properties }: { properties: Property[] }) {
   const summary = [
     totals.available && plural(totals.available, "disponible", "disponibles"),
     totals.preparation &&
-      plural(totals.preparation, "ficha en preparación", "fichas en preparación"),
+      plural(
+        totals.preparation,
+        "ficha en preparación",
+        "fichas en preparación",
+      ),
     totals.demo &&
       plural(totals.demo, "ficha de demostración", "fichas de demostración"),
   ]
@@ -139,25 +139,27 @@ export function Catalog({ properties }: { properties: Property[] }) {
         className={`catalog section-pad ${styles.catalog}`}
       >
         <Reveal className="empty-state catalog-empty" variant="soft">
-          <div className="catalog-empty-architecture" aria-hidden="true"><ArchitecturalDoor variant="empty" /></div>
           <div className="catalog-empty-copy">
-          <span className="label">Cada búsqueda tiene su momento</span>
-          <h2>
-            Estamos preparando nuestra <strong>selección de propiedades.</strong>
-          </h2>
-          <p>
-            Mientras tanto, cuéntale a Thony qué buscas y te ayudará a
-            encontrar opciones para vivir o invertir.
-          </p>
-          <div className="catalog-empty-actions"><a
-            className="button button-solid"
-            href={whatsappUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Escribir a Thony <ArrowRight size={16} aria-hidden="true" />
-          </a>
-          <a className="link-arrow" href={site.phoneHref}>Llamar a Thony <ArrowRight size={16} aria-hidden="true" /></a></div>
+            <span className="label">
+              {t.company} · {t.location}
+            </span>
+            <h2>
+              {t.emptyTitle} <strong>{t.emptyEmphasis}</strong>
+            </h2>
+            <p>{t.emptyDescription}</p>
+            <div className="catalog-empty-actions">
+              <a
+                className="button button-solid"
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t.emptyCta} <ArrowRight size={16} aria-hidden="true" />
+              </a>
+              <a className="link-arrow" href={site.phoneHref}>
+                Llamar a Thony <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </Reveal>
       </section>
@@ -169,13 +171,10 @@ export function Catalog({ properties }: { properties: Property[] }) {
     >
       <div className={`section-heading ${styles.heading}`}>
         <h2>
-          Encuentra tu <strong>próximo lugar</strong>
+          {t.catalogTitle} <strong>{t.catalogEmphasis}</strong>
         </h2>
         <div className="section-heading-copy">
-          <p>
-            Cada búsqueda es personal. Explora, imagina y conversemos sobre lo
-            que estás buscando.
-          </p>
+          <p>{t.catalogDescription}</p>
           <span className="demo-note">{summary}</span>
         </div>
       </div>
