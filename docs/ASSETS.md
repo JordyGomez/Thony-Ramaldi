@@ -4,7 +4,7 @@
 
 Dirección visual vigente (desde el rediseño minimalista del 2026-10-18): carbón `#2B2B2B`, superficies `#333333` y `#222222`, blanco `#FFFFFF`, grises de texto `#B0B0B0`/`#9E9E9E` (contraste AA sobre carbón) y acento dorado `#C9A96A` solo para avisos de demostración. Paleta original indicada por el propietario, conservada como referencia para cuando lleguen los logotipos: petróleo `#477D79`, dorado `#D99A00`, dorado claro `#F0CA55`, marfil `#F8F6F0`, carbón `#192B2B`, blanco `#FFFFFF`. El petróleo profundo `#285651` mejora el contraste del texto pequeño y botones. Ajustar la paleta cuando lleguen los logotipos originales; no se han declarado colores certificados.
 
-Se recibieron referencias visuales del logo Ramaldi para sus acentos; falta el archivo reutilizable y el retrato de Thony. El encabezado utiliza su nombre y el de Ramaldi como texto. `public/brand/README.md` explica la incorporación de los originales. No se ha utilizado una web externa de Ramaldi.
+Se recibieron referencias visuales del logo Ramaldi para sus acentos; falta el archivo reutilizable. El retrato de Thony (`public/images/thony-paulino.jpg`, 853×1280, JPEG) lo entregó Yordi Lewis el 2026-10-18 como foto oficial de Thony. El encabezado utiliza su nombre y el de Ramaldi como texto. `public/brand/README.md` explica la incorporación de los originales. No se ha utilizado una web externa de Ramaldi.
 
 ## Fotografías de demostración
 

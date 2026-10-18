@@ -2,6 +2,8 @@
 
 ## Estado actual — panel de propiedades con Supabase, 2026-10-18 (Claude / Yordi Lewis)
 
+**Retrato y Facebook (2026-10-18):** retrato oficial incorporado (`site.portrait`); Thony no tiene Facebook y se eliminó de la web. Pendientes de contenido: logo reutilizable, biografía, datos definitivos de Alberobello y propiedades reales.
+
 **Actualización:** por petición del usuario la web pública muestra solo las fichas publicadas en el panel (sin respaldo local con Supabase activo; ver CHANGELOG). Proyecto Supabase: `uowylfdlirlfqksvdeer`, configurado por defecto en `src/lib/supabase/env.ts`. El usuario ejecutó `supabase/schema.sql` sin cambiar el correo de ejemplo; se le indicó reemplazarlo por `yordilewis@gmail.com` en `admin_users` y crear ese usuario en Auth. Al fusionar el PR #5, la web principal quedará sin propiedades hasta que se importe Alberobello o se publiquen fichas: conviene hacerlo en la preview antes de fusionar.
 
 Rama `claude/modest-ramanujan-526yik`, creada desde main `dfdeb8e` (merge del PR #4 de Codex), PR #5. Panel propio en `/admin` apuntando al proyecto `uowylfdlirlfqksvdeer`, **sin probar contra él desde este entorno**: la red cloud no tiene permitidos los dominios de Supabase. Con las variables vacías (CI) la web usa los datos de ejemplo. Sanity se probó y se descartó por decisión del usuario.

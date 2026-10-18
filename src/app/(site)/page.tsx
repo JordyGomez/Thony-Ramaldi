@@ -101,18 +101,13 @@ export default async function Home() {
         </Reveal>
         <Reveal className="about-visual">
           <Image
-            src={site.portrait || propertyImages.living}
-            alt={
-              site.portrait
-                ? "Thony Paulino, asesor inmobiliario"
-                : "Interior residencial ilustrativo; no es una fotografía de Thony"
-            }
+            src={site.portrait}
+            alt="Thony Paulino, asesor inmobiliario de Ramaldi"
             fill
             sizes="(max-width: 900px) 92vw, 46vw"
+            className="about-portrait"
           />
-          <span className="photo-note">
-            {site.portrait ? "Thony Paulino" : "Imagen de inspiración"}
-          </span>
+          <span className="photo-note">Thony Paulino · Ramaldi</span>
         </Reveal>
       </section>
 
@@ -147,18 +142,11 @@ export default async function Home() {
             <span>{site.instagramHandle}</span>
             <ArrowUpRight size={17} strokeWidth={1.25} />
           </a>
-          {site.facebook ? (
-            <a href={site.facebook} target="_blank" rel="noopener noreferrer">
-              <small>Facebook</small>
-              <span>Thony Paulino</span>
-              <ArrowUpRight size={17} strokeWidth={1.25} />
-            </a>
-          ) : (
-            <div className="contact-pending">
-              <small>Facebook · Thony Paulino</small>
-              <span>Enlace por confirmar</span>
-            </div>
-          )}
+          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+            <small>WhatsApp</small>
+            <span>{site.phone}</span>
+            <ArrowUpRight size={17} strokeWidth={1.25} />
+          </a>
         </div>
       </section>
       <a

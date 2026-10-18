@@ -1,3 +1,5 @@
+import thonyPortrait from "../../public/images/thony-paulino.jpg";
+
 function publicUrl(value: string | undefined): string | undefined {
   if (!value) return undefined;
   try {
@@ -16,18 +18,6 @@ export const site = {
   email: "brokerthonypaulino@ramaldigroup.com",
   instagram: "https://www.instagram.com/thonypaulino_ramaldi/",
   instagramHandle: "@thonypaulino_ramaldi",
-  facebook: (() => {
-    const value = process.env.NEXT_PUBLIC_FACEBOOK_URL;
-    try {
-      const url = new URL(value || "");
-      return url.protocol === "https:" &&
-        ["facebook.com", "www.facebook.com"].includes(url.hostname)
-        ? url.href
-        : undefined;
-    } catch {
-      return undefined;
-    }
-  })(),
   url:
     publicUrl(process.env.NEXT_PUBLIC_SITE_URL) ||
     publicUrl(
@@ -40,7 +30,8 @@ export const site = {
     ),
   // Referencias del logo recibidas en conversación; falta el archivo local reutilizable.
   logo: null as string | null,
-  portrait: null as string | null,
+  // Retrato entregado por el propietario el 2026-10-18.
+  portrait: thonyPortrait,
 };
 
 export function whatsappUrl(property?: {

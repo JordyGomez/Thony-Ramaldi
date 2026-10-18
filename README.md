@@ -12,7 +12,7 @@ Se incorporan selección Reales, filtros activos retirables, galerías con tecla
 - WhatsApp: `https://wa.me/18294045770`, con mensaje codificado y contexto de la ficha.
 - Correo: `brokerthonypaulino@ramaldigroup.com`.
 - Instagram: `@thonypaulino_ramaldi`.
-- Facebook: **Thony Paulino**, URL exacta pendiente; no se inventa un perfil.
+- Facebook: Thony no tiene perfil; la web no muestra Facebook (confirmado por Yordi Lewis el 2026-10-18).
 
 Los datos están centralizados en `src/lib/site.ts`. No se han inventado biografía, estadísticas, testimonios o credenciales profesionales.
 
@@ -73,7 +73,6 @@ Copiar `.env.example` a `.env.local` solo si se necesitan personalizaciones. El 
 | Variable | Uso | Valor por defecto |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Dominio público HTTPS para canonical, Open Graph y sitemap | Se detecta a partir de `VERCEL_PROJECT_PRODUCTION_URL` o `VERCEL_URL`; sin dominio configurado se utiliza una base local de desarrollo y sitemap vacío |
-| `NEXT_PUBLIC_FACEBOOK_URL` | URL HTTPS confirmada de `facebook.com` | Vacío: muestra “Enlace por confirmar”, sin botón falso |
 | `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto de Supabase para el panel `/admin` | Proyecto oficial (`uowylfdlirlfqksvdeer`) definido en `src/lib/supabase/env.ts`; vacía desactiva Supabase |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública (publishable) de Supabase | La del proyecto oficial; vacía desactiva Supabase |
 
@@ -120,7 +119,7 @@ Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una s
 
 ## Identidad y recursos pendientes
 
-Se recibieron dos referencias del logo Ramaldi en la conversación y se usaron para acentos de marca. Falta un archivo reutilizable de logo en el checkout y el retrato de Thony. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, configurando `site.logo` y `site.portrait`.
+Se recibieron dos referencias del logo Ramaldi en la conversación y se usaron para acentos de marca. Falta un archivo reutilizable de logo en el checkout. El retrato de Thony (`public/images/thony-paulino.jpg`, `site.portrait`) se usa en “Sobre Thony” y en la tarjeta de consulta de cada ficha. El encabezado utiliza identidad tipográfica provisional, sin inventar un logotipo corporativo. Incorporar los recursos autorizados según `public/brand/README.md`, configurando `site.logo`.
 
 La presentación del servicio es una propuesta editorial que el propietario puede revisar; no pretende ser una biografía verificada. Incorporar contenido e inventario aprobados antes de un lanzamiento comercial. Procedencia y condiciones pendientes de las fotografías: [docs/ASSETS.md](docs/ASSETS.md).
 

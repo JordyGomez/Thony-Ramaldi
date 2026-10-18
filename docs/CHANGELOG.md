@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — Retrato de Thony y sin Facebook
+
+- Yordi Lewis entregó la foto oficial de Thony y confirmó que no tiene Facebook.
+- Retrato en `public/images/thony-paulino.jpg` (importación estática en `site.portrait`): “Sobre Thony” lo muestra anclado arriba para no recortar el rostro, y la tarjeta de consulta de cada ficha añade un recorte circular con nombre y cargo.
+- Se elimina Facebook: `site.facebook`, la variable `NEXT_PUBLIC_FACEBOOK_URL` y el marcador “Enlace por confirmar”. Su lugar en el bloque de contacto lo ocupa WhatsApp.
+- Prueba ajustada: en lugar de exigir “Enlace por confirmar”, comprueba que no aparezca Facebook y que el retrato esté presente.
+- Validación: lint, typecheck y build aprobados; `npm test` 76 aprobadas, 0 fallidas; capturas a 1440 y 390 px del retrato, el contacto y la tarjeta de consulta.
+
+
 ## 2026-10-18 — Claude / Yordi Lewis — La web muestra solo las propiedades del panel
 
 - Solicitud de Yordi Lewis: quitar las propiedades estáticas para que todas las que aparezcan sean las subidas al panel.

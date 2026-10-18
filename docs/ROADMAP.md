@@ -8,7 +8,7 @@
 - Rediseño minimalista oscuro inspirado en maddockdesign.com: hero a pantalla completa, carrusel, fichas con tabla de información y pie con el nombre a todo el ancho.
 - Seis inmuebles ficticios marcados como demostración, selección de destacados y filtros combinables.
 - Fichas estáticas con galería, descripción, características, navegación y consulta contextual por WhatsApp.
-- Sobre Thony, teléfono, correo, Instagram y Facebook pendiente sin enlace inventado.
+- Sobre Thony con retrato, teléfono, correo, Instagram y WhatsApp (Thony no tiene Facebook).
 - Metadatos, imagen Open Graph, estado 404 y exclusión de fichas ficticias de indexación.
 - Documentación compartida y pruebas automatizadas.
 
@@ -29,9 +29,8 @@
 ## Planificadas — Contenido y lanzamiento
 
 - Recibir e incorporar los dos logotipos originales y ajustar colores a sus archivos.
-- Incorporar retrato y biografía aprobados por Thony.
+- Incorporar biografía aprobada por Thony (retrato incorporado el 2026-10-18).
 - Recibir fotografías autorizadas y datos verificables de propiedades reales.
-- Confirmar URL de Facebook.
 - Revisar todos los mensajes y datos con el propietario.
 - Revisar la Preview del nuevo PR en el proyecto Vercel ya conectado y fusionar a main cuando corresponda publicar; confirmar contenido antes del lanzamiento comercial.
 - Medir Lighthouse/Core Web Vitals y probar Safari/iPhone y Android reales antes de publicar.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Phone } from "lucide-react";
@@ -247,6 +248,15 @@ export default async function PropertyPage({
                       : "Confirma con Thony la disponibilidad, la unidad, el precio y las condiciones de compra."
                     : "Pregúntale a Thony por la disponibilidad, las visitas y las condiciones."}
               </p>
+              <div className="advisor-identity">
+                <span className="advisor-photo">
+                  <Image src={site.portrait} alt="" fill sizes="112px" />
+                </span>
+                <span>
+                  Thony Paulino
+                  <small>Asesor inmobiliario · Ramaldi</small>
+                </span>
+              </div>
               <a
                 className="button button-solid"
                 href={whatsappUrl(property)}

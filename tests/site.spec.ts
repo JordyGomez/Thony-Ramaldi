@@ -31,7 +31,11 @@ test("inicio, imágenes locales, contacto y ausencia de errores de aplicación",
       .locator('a[href="https://www.instagram.com/thonypaulino_ramaldi/"]')
       .first(),
   ).toBeVisible();
-  await expect(page.getByText("Enlace por confirmar")).toBeVisible();
+  // Thony no tiene Facebook: no debe aparecer ningún enlace ni marcador.
+  await expect(page.getByText(/facebook/i)).toHaveCount(0);
+  await expect(
+    page.getByRole("img", { name: "Thony Paulino, asesor inmobiliario de Ramaldi" }),
+  ).toHaveCount(1);
   for (const image of await page.locator("main img").all()) {
     await image.scrollIntoViewIfNeeded();
     await expect
