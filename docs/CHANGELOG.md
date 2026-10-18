@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Retirada de la foto ilustrativa del pie
+
+- Petición del propietario mediante captura: quitar `villa.jpg` del pie y esperar una propiedad de los administradores. Base main `6ef6e98` (PR #7), rama `fix/footer-real-property-photo`, sin avances remotos ni cambios ajenos al iniciar.
+- El pie conserva firma y contactos sin imagen ni hueco mientras falten fotos de una propiedad pública no demo; excluye renders y usa la primera foto real disponible. Layout y preview comparten selección; el recurso fijo se ignora también en configuraciones antiguas. Selección propia opcional en el editor y revalidación existente al publicar/ocultar/borrar.
+- Adaptadas las comprobaciones públicas sin inventario y la prueba local de publicar/borrar una propiedad para verificar el ciclo de la foto. No se crean propiedades ni se ejecuta SQL en Supabase; la migración del editor continúa pendiente de quien administra ese proyecto.
+- Lint, tipos y builds sin fixtures y con configuración pública real aprobados; **6 pruebas públicas + 12 de panel aprobadas**, incluidas aparición y retirada de la imagen al publicar/borrar en el doble local. Los checks remotos se verifican antes de integrar; no se afirma una publicación real de inventario.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Diseño de Claude con 3D y administración integral
 
 - Petición posterior del propietario: recuperar la composición de Claude, añadir 3D sobre ella, reparar las subidas y administrar el contenido. Base main `3adaf47` (PR #6); implementación **f164bd3**, rama `feat/claude-design-full-admin`. Se revisó el remoto sin avances nuevos antes de integrar; el usuario autorizó expresamente llevar la entrega a main al terminar.

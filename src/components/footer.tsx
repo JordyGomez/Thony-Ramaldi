@@ -6,11 +6,15 @@ import { useEffect, useRef } from "react";
 import { Instagram, Mail, Phone } from "lucide-react";
 import { useSite } from "./site-provider";
 import { navigation, siteImage } from "@/lib/site-settings";
+import type { FooterPropertyImage } from "@/lib/footer-property-image";
 import { WhatsAppIcon } from "./icons";
 
-export function Footer() {
+export function Footer({ image }: { image?: FooterPropertyImage }) {
   const { settings, contact: site, whatsappUrl } = useSite();
   const links = navigation(settings);
+  // Ignorar también el recurso fijo de configuraciones guardadas anteriormente.
+  const customPhoto =
+    settings.assets.footer && settings.assets.footer !== "/images/villa.jpg";
   const signature = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     // La firma original conserva la medida exacta de Claude. Otras firmas se ajustan.
@@ -47,16 +51,22 @@ export function Footer() {
       <p ref={signature} className="footer-wordmark" aria-hidden="true">
         {settings.texts.footerWordmark}
       </p>
-      <div className="footer-image">
-        <Image
-          src={siteImage(settings.assets.footer)}
-          alt={settings.texts.footerAlt}
-          fill
-          sizes="100vw"
-          className="footer-photo"
-        />
-        <span className="photo-note">{settings.texts.footerNote}</span>
-      </div>
+      {image && (
+        <div className="footer-image">
+          <Image
+            src={customPhoto ? siteImage(settings.assets.footer) : image.src}
+            alt={customPhoto ? settings.texts.footerAlt : image.alt || image.title}
+            fill
+            sizes="110vw"
+            className="footer-photo"
+          />
+          {(customPhoto ? settings.texts.footerNote : image.title) && (
+            <span className="photo-note">
+              {customPhoto ? settings.texts.footerNote : image.title}
+            </span>
+          )}
+        </div>
+      )}
       <div className="footer-bottom">
         <span>
           © {new Date().getFullYear()} {site.name} · {site.company} ·{" "}

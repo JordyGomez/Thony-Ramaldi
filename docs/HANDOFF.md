@@ -1,5 +1,15 @@
 # Transferencia de contexto
 
+## Corrección vigente — foto del pie, 2026-10-18
+
+El PR #7 quedó fusionado en main `6ef6e98`, con 111 pruebas de main aprobadas y Vercel publicado. El propietario mostró una captura del pie y pidió quitar la foto ilustrativa de baja calidad y esperar propiedades de los administradores. Rama `fix/footer-real-property-photo`, sobre ese main sin avances remotos ni cambios locales ajenos.
+
+El pie omite el bloque completo de imagen mientras no haya una propiedad pública no demo con fotografías; también se excluyen renders. Selección compartida en `src/lib/footer-property-image.ts`, usada por el layout público y la preview. Solo se pasa esa imagen al cliente, reutilizando la lectura pública cacheada. La primera foto incluye su alt y el título de la propiedad. La selección propia del editor queda opcional y requiere inventario; `villa.jpg` se ignora incluso en configuraciones anteriores. Firma, contactos, portada y movimiento se conservan; no se elimina el archivo de fixtures ni se crea contenido en Supabase.
+
+La activación del CMS sigue pendiente del administrador de Supabase: el usuario indicó que no tiene acceso al proyecto. Esta corrección del pie funciona sin instalar esa migración. La prueba de publicación/borrado del panel ahora comprueba también ausencia inicial, aparición de la foto publicada y retirada posterior, conservando los archivos compartidos. Consultar los checks del PR de esta rama para los resultados de la entrega.
+
+Verificación local de esta corrección: lint, tipos y builds sin fixtures y con configuración pública real aprobados; **6 pruebas públicas y 12 de panel aprobadas**, incluyendo el ciclo del pie, con servicios locales de prueba. Los checks de GitHub/Vercel se comprueban al integrar. No se creó inventario en producción ni se ejecutó la migración pendiente.
+
 ## Estado vigente — diseño de Claude + 3D + editor, 2026-10-18
 
 El usuario rechazó la portada arquitectónica del PR #6 y pidió la composición de Claude con animaciones y novedades, corregir el error de fotos y controlar el contenido desde el panel. **Autorizó explícitamente llevar esta entrega a main al terminar**. Base revisada: main `3adaf47`; implementación **f164bd3** en `feat/claude-design-full-admin`. Se conserva el checkout; no se crea worktree ni se aplica la antigua rama del PR #2.

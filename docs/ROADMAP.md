@@ -1,5 +1,11 @@
 # Roadmap
 
+## Corrección — imagen del pie procedente del inventario
+
+- Retirar la fotografía ilustrativa `villa.jpg` del pie; mantener firma y contactos sin hueco reservado.
+- Mostrar una foto solo al existir una propiedad pública no demo con fotografías, excluyendo renders; actualizar con la publicación/ocultación/borrado del inventario existente.
+- Selección propia opcional del panel, preview coherente y exclusión del recurso antiguo incluso desde configuraciones anteriores. Ver HANDOFF y checks de la rama `fix/footer-real-property-photo`.
+
 ## Terminada en código — restauración de Claude y administración integral
 
 - Composición fotográfica de Claude con 3D por capas, revelados, menú, tarjetas, galería, controles y búsqueda personal.
