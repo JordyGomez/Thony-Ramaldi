@@ -1,0 +1,225 @@
+.root {
+  min-width: 0;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--petroleum-deep);
+  outline-offset: 6px;
+}
+
+.root :global(.gallery-main) {
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.imageLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.contained > img {
+  object-fit: contain;
+}
+
+.unavailable {
+  visibility: hidden;
+}
+
+.loading {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 8px 11px;
+  background: var(--ivory);
+  color: var(--charcoal);
+  font-size: 11px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 58px;
+  text-align: center;
+  background: #e8ece3;
+  color: var(--charcoal);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.error button,
+.error a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  font-size: 11px;
+  padding: 9px 12px;
+}
+
+.error button {
+  border: 1px solid var(--petroleum-deep);
+}
+
+.error a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.root :global(.gallery-arrow),
+.root :global(.gallery-expand),
+.root :global(.lightbox-close) {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+}
+
+.root :global(.gallery-arrow) {
+  top: calc(50% - 22px);
+  box-shadow: 0 2px 16px #192b2b1a;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.root :global(.gallery-arrow):focus-visible,
+.root :global(.gallery-expand):focus-visible {
+  outline-color: var(--gold-light);
+  outline-width: 3px;
+  background: var(--petroleum-deep);
+  color: white;
+}
+
+.root :global(.gallery-expand) {
+  right: 16px;
+  bottom: 16px;
+}
+
+.root :global(.gallery-counter) {
+  bottom: 22px;
+  min-height: 29px;
+  display: flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+}
+
+.root :global(.gallery-thumbs) {
+  gap: 12px;
+  padding: 16px 0 10px;
+  overflow-x: auto;
+}
+
+.root :global(.gallery-thumbs) > button {
+  width: 108px;
+  min-width: 78px;
+  height: 74px;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.root :global(.gallery-thumbs) > button:hover,
+.root :global(.gallery-thumbs) > button:focus-visible,
+.root :global(.gallery-thumbs) > :global(.selected) {
+  opacity: 1;
+  border-color: var(--petroleum-deep);
+}
+
+.thumbIndex {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  padding: 2px 4px;
+  color: white;
+  background: #192b2be6;
+  font-size: 9px;
+}
+
+.help {
+  color: var(--petroleum-deep);
+  font-size: 10px;
+  line-height: 1.6;
+  margin-bottom: 7px;
+}
+
+.root :global(.gallery-note) {
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.lightbox {
+  max-height: calc(100dvh - 28px);
+  overflow-y: auto;
+  padding-top: 58px;
+}
+
+.lightbox :global(.lightbox-image) {
+  touch-action: pan-y;
+  height: min(72dvh, 800px);
+  min-height: 220px;
+}
+
+.lightbox :global(.lightbox-close) {
+  top: 7px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.lightbox :global(.lightbox-close):focus-visible {
+  outline-color: var(--gold-light);
+}
+
+.fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 14px;
+}
+
+.fallback a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--petroleum-deep);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 620px) {
+  .root :global(.gallery-arrow.previous) {
+    left: 12px;
+  }
+
+  .root :global(.gallery-arrow.next) {
+    right: 12px;
+  }
+
+  .root :global(.gallery-thumbs) > button {
+    width: calc((100% - 24px) / 3);
+    max-width: 120px;
+  }
+
+  .root :global(.gallery-note),
+  .help {
+    font-size: 11px;
+  }
+
+  .error {
+    gap: 8px;
+    padding-inline: 58px;
+  }
+
+  .lightbox :global(.lightbox-image) {
+    height: min(65dvh, 650px);
+  }
+}
