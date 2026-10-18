@@ -111,7 +111,7 @@ export const properties: Property[] = [
     area: 260,
     parking: 2,
     images: [
-      image("villa", "Fachada residencial de referencia con jardín"),
+      image("pool", "Balcón de referencia con vegetación tropical"),
       image("living", "Sala de referencia"),
       image("bedroom", "Dormitorio ilustrativo"),
     ],
@@ -136,7 +136,7 @@ export const properties: Property[] = [
     area: 380,
     parking: 2,
     images: [
-      image("pool", "Balcón de referencia con vegetación tropical"),
+      image("villa", "Fachada residencial de referencia con jardín"),
       image("hero", "Residencia con piscina, fotografía ilustrativa"),
       image("kitchen", "Sala de referencia con sofá oscuro"),
     ],

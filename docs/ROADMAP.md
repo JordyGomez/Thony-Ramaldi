@@ -15,6 +15,16 @@
 
 - Ninguna funcionalidad adicional abierta; las verificaciones de la entrega se registran en HANDOFF y CHANGELOG.
 
+## Implementadas — Fase 2 de experiencia
+
+- Auditoría actual de portada, catálogo y ficha, local y publicada; evidencia y límites en `AUDIT-PHASE-2.md`.
+- Hero cinematográfico con fotografía protagonista, dos acciones y movimiento coordinado.
+- Profundidad e iluminación de la puerta CSS existente, respetando sesión, salida segura y movimiento reducido.
+- Menú móvil animado con foco, fondo inerte y alternativa sin JavaScript.
+- Filtros activos removibles y transiciones de catálogo accesibles, con legibilidad y precios mejorados.
+- Galería con teclado normal/ampliado, gesto táctil, carga/error/reintento reales y consulta contextual móvil persistente.
+- Pruebas de los estados nuevos y de regresión, con resultados en HANDOFF.
+
 ## Planificadas — Contenido y lanzamiento
 
 - Recibir e incorporar los dos logotipos originales y ajustar colores a sus archivos.
@@ -22,7 +32,7 @@
 - Recibir fotografías autorizadas y datos verificables de propiedades reales.
 - Confirmar URL de Facebook.
 - Revisar todos los mensajes y datos con el propietario.
-- Configurar Vercel, revisar Preview Deployment y autorizar el lanzamiento comercial.
+- Revisar la preview de fase 2 y sus checks; el despliegue de la fase 1 ya existe. Confirmar el SHA servido por el alias y autorizar el lanzamiento comercial.
 - Medir Lighthouse/Core Web Vitals y probar Safari/iPhone y Android reales antes de publicar.
 
 ## Planificada — Representación 3D con IA, fase posterior
@@ -37,4 +47,4 @@ El tipo `Property` permite una referencia opcional `virtualTour` con `modelUrl`,
 - CRM, cuentas, reservas, chatbot, pagos o aplicación móvil.
 - Proveedores de reconstrucción 3D, costes, consentimiento, retención y almacenamiento.
 
-Estas ideas no forman parte de la fase 1 implementada.
+Estas ideas no forman parte de las fases 1 y 2 implementadas.

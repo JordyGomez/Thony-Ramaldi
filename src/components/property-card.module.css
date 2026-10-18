@@ -1,0 +1,199 @@
+.card {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.card .imageLink {
+  isolation: isolate;
+}
+
+.card .imageLink::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  pointer-events: none;
+  background: linear-gradient(transparent, #192b2b73);
+}
+
+.card .imageLink .image,
+.card .imageLink:hover .image {
+  filter: saturate(0.9);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:focus-within .imageLink .image,
+.card:hover .imageLink .image {
+  transform: scale(1.035);
+}
+
+.card :global(.property-badges),
+.card :global(.image-action),
+.card :global(.image-index) {
+  z-index: 1;
+}
+
+.card :global(.property-badges) {
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.card :global(.property-badges > span) {
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.card :global(.property-badges) .sale {
+  background: var(--ivory);
+  color: var(--charcoal);
+}
+
+.card :global(.property-badges) .rental {
+  background: #285651;
+  color: #ffffff;
+}
+
+.card :global(.property-badges .demo-badge) {
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.6px;
+  background: #192b2be8;
+}
+
+.card :global(.image-action) {
+  width: 42px;
+  height: 42px;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover :global(.image-action),
+.card:focus-within :global(.image-action) {
+  transform: translate(2px, -2px);
+  background: var(--gold-light);
+}
+
+.card :global(.image-index) {
+  bottom: 20px;
+  font-size: 11px;
+}
+
+.card :global(.property-info) {
+  padding-top: 21px;
+}
+
+.card :global(.property-location) {
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.card :global(.property-location > span) {
+  font-size: 11px;
+}
+
+.card :global(.property-info) h3 {
+  margin: 12px 0 18px;
+  font-size: clamp(30px, 2.4vw, 36px);
+  line-height: 1.12;
+  letter-spacing: -0.4px;
+}
+
+.card:focus-within h3,
+.card:hover h3 {
+  color: var(--petroleum-deep);
+}
+
+.card :global(.property-specs) {
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.card :global(.property-specs svg) {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.4;
+}
+
+.card :global(.property-bottom) {
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.card :global(.property-bottom p) {
+  font-size: 23px;
+  line-height: 1.4;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.card :global(.property-bottom p > span) {
+  font-size: 11px;
+}
+
+.card :global(.property-bottom p small) {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.card :global(.property-bottom > a) {
+  min-height: 44px;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) and (min-width: 621px) {
+  .card :global(.property-bottom) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .card :global(.property-specs) {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 620px) {
+  .card :global(.property-info) h3 {
+    font-size: 34px;
+  }
+
+  .card :global(.property-location > span) {
+    font-size: 11px;
+  }
+
+  .card :global(.property-bottom) {
+    gap: 8px;
+  }
+
+  .card :global(.property-bottom p) {
+    font-size: 24px;
+  }
+
+  .card :global(.property-bottom > a) {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 370px) {
+  .card :global(.property-bottom) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .imageLink .image,
+  .card:focus-within .imageLink .image,
+  .card:hover :global(.image-action),
+  .card:focus-within :global(.image-action) {
+    transform: none;
+  }
+}

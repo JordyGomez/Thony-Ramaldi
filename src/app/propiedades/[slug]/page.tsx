@@ -15,8 +15,10 @@ import {
 import { properties, formatPrice } from "@/data/properties";
 import { Gallery } from "@/components/gallery";
 import { PropertyCard } from "@/components/property-card";
+import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
+import styles from "./property-detail.module.css";
 
 export function generateStaticParams() {
   return properties.map((property) => ({ slug: property.slug }));
@@ -47,12 +49,12 @@ export default async function PropertyPage({
   const property = properties.find((p) => p.slug === slug);
   if (!property) notFound();
   return (
-    <main className="property-page section-pad" id="contenido">
+    <main className={`property-page section-pad ${styles.page}`} id="contenido">
       <Link className="back-link" href="/#propiedades">
         <ArrowLeft size={16} />
         Volver a propiedades
       </Link>
-      <div className="detail-heading">
+      <Reveal className="detail-heading">
         <div>
           <span className="eyebrow">
             {property.type.toUpperCase()} · {property.operation.toUpperCase()}{" "}
@@ -72,7 +74,7 @@ export default async function PropertyPage({
           </span>
           <p>{formatPrice(property.price)}</p>
         </div>
-      </div>
+      </Reveal>
       <div className="demo-alert">
         <span>DEMOSTRACIÓN</span>Esta ficha contiene datos ficticios e imágenes
         ilustrativas. No representa una propiedad disponible ni una oferta
@@ -81,7 +83,7 @@ export default async function PropertyPage({
       <div className="detail-grid">
         <div>
           <Gallery images={property.images} />
-          <div className="detail-specs">
+          <Reveal className="detail-specs">
             <div>
               <BedDouble size={23} />
               <strong>{property.bedrooms}</strong>
@@ -102,7 +104,7 @@ export default async function PropertyPage({
               <strong>{property.parking}</strong>
               <span>Parqueos</span>
             </div>
-          </div>
+          </Reveal>
           <section className="detail-description">
             <span className="eyebrow">EL ESPACIO</span>
             <h2>Imagina las posibilidades.</h2>
@@ -124,7 +126,7 @@ export default async function PropertyPage({
             </p>
           </section>
         </div>
-        <aside className="advisor-card">
+        <aside className="advisor-card" aria-label="Consulta con tu asesor">
           <span className="eyebrow">CONVERSEMOS</span>
           <h2>
             ¿Buscas algo
@@ -161,7 +163,7 @@ export default async function PropertyPage({
         </aside>
       </div>
       <section className="related-properties">
-        <div className="section-heading">
+        <Reveal className="section-heading">
           <h2>
             Más espacios.
             <br />
@@ -170,7 +172,7 @@ export default async function PropertyPage({
           <Link className="text-link" href="/#propiedades">
             Explorar el catálogo <ArrowUpRight size={19} />
           </Link>
-        </div>
+        </Reveal>
         <div className="property-grid">
           {properties
             .filter((p) => p.slug !== slug)
@@ -180,6 +182,27 @@ export default async function PropertyPage({
             ))}
         </div>
       </section>
+      <aside
+        className={styles.mobileContact}
+        aria-label="Consulta rápida de esta ficha"
+      >
+        <div className={styles.mobileSummary}>
+          <span>{property.title}</span>
+          <small>
+            Demostración · USD {formatPrice(property.price)}
+            {property.operation === "Alquiler" ? " / mes" : ""}
+          </small>
+        </div>
+        <a
+          href={whatsappUrl(property)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Consultar por WhatsApp sobre ${property.title}, ficha de demostración`}
+        >
+          <WhatsAppIcon width={18} height={18} aria-hidden="true" /> Hablemos
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </aside>
     </main>
   );
 }

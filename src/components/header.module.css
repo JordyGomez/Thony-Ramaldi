@@ -1,0 +1,95 @@
+.header:global(.site-header) {
+  transition:
+    box-shadow 0.35s,
+    border-color 0.35s;
+}
+.scrolled:global(.site-header) {
+  border-bottom-color: #c7d2c5;
+  box-shadow: 0 10px 32px #192b2b0c;
+}
+.header :global(.desktop-nav a) {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.header :global(.desktop-nav a:focus-visible)::after {
+  width: 100%;
+}
+.header :global(.header-contact) {
+  min-height: 46px;
+  font-size: 12px;
+}
+.header :global(.header-contact:hover) {
+  background: var(--petroleum-deep);
+}
+.header :global(.brand) {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.menu:global(.mobile-navigation) {
+  animation: none;
+  background: linear-gradient(140deg, #f8f6f0 55%, #e8eddf);
+}
+.menuEyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--petroleum-deep);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.menu :global(nav) {
+  margin-top: 12px;
+}
+.menu :global(nav a) {
+  min-height: 72px;
+}
+.menu :global(nav a span) {
+  font-size: 11px;
+}
+.menu :global(nav a:hover),
+.menu :global(nav a:focus-visible) {
+  color: var(--petroleum-deep);
+}
+.menu > p {
+  font-size: 13px;
+  max-width: 250px;
+  line-height: 1.85;
+}
+.menu :global(.button) {
+  min-height: 48px;
+  font-size: 12px;
+}
+.fallback {
+  display: none;
+}
+.fallbackNav {
+  display: none;
+}
+@media (max-width: 899px) {
+  .fallbackNav {
+    display: flex;
+    gap: 8px 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 10px;
+  }
+  .fallbackNav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 12px;
+  }
+}
+@media (max-height: 560px) {
+  .menu:global(.mobile-navigation) {
+    padding-top: 20px;
+  }
+  .menu :global(nav a) {
+    min-height: 58px;
+    padding-block: 12px;
+    font-size: 30px;
+  }
+}

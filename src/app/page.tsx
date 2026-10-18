@@ -1,96 +1,18 @@
 import Image from "next/image";
-import {
-  ArrowDown,
-  ArrowDownRight,
-  ArrowRight,
-  ArrowUpRight,
-  Instagram,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Instagram, Mail, Phone } from "lucide-react";
 import { Catalog } from "@/components/catalog";
 import { Preloader } from "@/components/preloader";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/icons";
 import { site, whatsappUrl } from "@/lib/site";
 import { propertyImages } from "@/data/properties";
+import { Hero } from "@/components/hero";
 
 export default function Home() {
   return (
     <main id="contenido">
       <Preloader />
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="hero-overline">
-          <span>
-            <i /> REAL ESTATE, CON UN ENFOQUE PERSONAL.
-          </span>
-          <span>
-            REPÚBLICA DOMINICANA <span className="tiny-star">✳</span>
-          </span>
-        </div>
-        <div className="hero-intro">
-          <h1 id="hero-title">
-            Tu próximo espacio.
-            <br />
-            <em>Tu próxima historia.</em>
-          </h1>
-          <div className="hero-copy">
-            <p>
-              Hay un lugar para lo que viene.
-              <br />
-              Encuéntralo con el acompañamiento de Thony Paulino, asesor
-              inmobiliario de Ramaldi.
-            </p>
-            <a href="#propiedades" className="text-link">
-              Explorar propiedades <ArrowDownRight size={22} />
-            </a>
-          </div>
-        </div>
-        <div className="hero-image-frame">
-          <Image
-            src={propertyImages.hero}
-            alt="Residencia con piscina, fotografía ilustrativa de inspiración"
-            fill
-            sizes="100vw"
-            preload
-            className="hero-image"
-          />
-          <div className="hero-image-shade" />
-          <div className="hero-image-copy">
-            <span>UN NUEVO COMIENZO</span>
-            <h2>
-              Más que un lugar.
-              <br />
-              Una forma de vivir.
-            </h2>
-          </div>
-          <a
-            href={whatsappUrl()}
-            className="hero-circle"
-            aria-label="Hablar con Thony sobre mi próximo hogar"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ArrowUpRight strokeWidth={1} size={40} />
-          </a>
-          <span className="hero-image-note">FOTOGRAFÍA ILUSTRATIVA</span>
-          <div className="hero-image-caption">
-            <span>VIVIR. INVERTIR. PERTENECER.</span>
-            <a href="#propiedades">
-              DESCUBRIR <ArrowDown size={14} />
-            </a>
-          </div>
-        </div>
-        <div className="hero-bottom">
-          <span>ASESORÍA INMOBILIARIA PERSONAL</span>
-          <span className="hero-bottom-center">
-            Un espacio para cada nueva etapa.
-          </span>
-          <span>
-            REPÚBLICA DOMINICANA <ArrowDown size={14} />
-          </span>
-        </div>
-      </section>
+      <Hero />
 
       <Catalog />
 
@@ -100,7 +22,7 @@ export default function Home() {
           <span className="section-number">02 /</span>
         </div>
         <div className="about-grid">
-          <Reveal className="about-visual">
+          <Reveal className="about-visual" variant="image">
             <Image
               src={site.portrait || propertyImages.living}
               alt={
@@ -123,7 +45,7 @@ export default function Home() {
               {site.portrait ? "THONY PAULINO" : "IMAGEN DE INSPIRACIÓN"}
             </span>
           </Reveal>
-          <Reveal className="about-copy">
+          <Reveal className="about-copy" delay={0.12}>
             <span className="eyebrow">TU ASESOR INMOBILIARIO</span>
             <h2>
               Thony Paulino.
@@ -177,7 +99,7 @@ export default function Home() {
           <span className="section-number">03 /</span>
         </div>
         <div className="contact-grid">
-          <Reveal>
+          <Reveal variant="soft">
             <h2>
               Todo comienza
               <br />

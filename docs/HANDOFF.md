@@ -1,6 +1,42 @@
 # Transferencia de contexto
 
-## Estado al 2026-10-18
+## Estado actual — Fase 2, 2026-10-18
+
+La base remota revisada es `106e9ced92847bfd2125535f3bd94e113a998a94`, merge del PR #1. El árbol de main coincide con la fase 1; no se encontraron cambios de código adicionales atribuibles a Claude/Yordi Lewis. La API de GitHub ya responde en esta sesión: el bloqueo histórico descrito abajo no continúa.
+
+Rama actual: `feat/thony-phase-two`. Commits de código: `1b2b57e` (hero, entrada y navegación) y `464bbbe` (catálogo, galerías y contacto móvil). Los documentos posteriores se identifican en Git. Ningún archivo queda reservado a un asistente.
+
+### Qué cambió
+
+- Hero cinematográfico extraído a componente, preservando el resto de la portada, con dos CTA y parallax moderado solo en escritorio visible y sin movimiento reducido.
+- Puerta CSS existente con profundidad, iluminación y fotografía; mismo máximo de 2,3 s y sesión. Salida segura con almacenamiento bloqueado, pestaña oculta o cambio de preferencia de movimiento. Eventos locales coordinan la entrada de títulos.
+- Menú Motion con enlaces retirados inaccesibles durante la salida, foco, fondo inerte y navegación alternativa sin JavaScript.
+- Constantes en `src/lib/motion.ts` y variantes de Reveal para imagen, bloque y contacto; no se añadieron dependencias.
+- Filtros activos removibles, conteos derivados, transición de resultados inert, precios/controles legibles y foco conservado. Sin JS permanecen seis fichas navegables.
+- Galería con teclado normal y ampliado, Home/End, gesto horizontal, controles de 44 px y carga/error/reintento reales. Se conservan diálogo nativo, Escape y recuperación del foco.
+- CTA contextual fija en fichas móviles, con espacio al pie. Se mantienen datos, rutas, WhatsApp y advertencias de demostración.
+- Fotografías ilustrativas de balcón y fachada reordenadas para mayor coherencia entre Penthouse Horizonte y Villa Serena; no cambian fichas, precios ni datos comerciales ficticios.
+
+### Evidencia y comprobaciones actuales
+
+- Auditoría y capturas antes/después en `docs/AUDIT-PHASE-2.md` y `docs/audit/`. Se revisaron producción, local y la referencia estética sin copiar recursos.
+- `npm run lint`, `npm run typecheck` y `npm run build`: aprobados.
+- `CI=true npm test`: **43 aprobadas, 1 omitida por no aplicar, 0 fallidas**. Incluye regresiones anteriores, foco durante salidas, teclado/gestos, error real de imagen, filtros retirables, entrada segura, preferencia dinámica y rutas sin JS.
+- Axe sin infracciones detectadas en los estados de portada, ficha y menú probados; no es una certificación completa.
+- Medianas locales sin throttling en tres contextos nuevos por tamaño: LCP 336 ms escritorio / 236 ms móvil emulado. Suma observada de desplazamientos 0.001569 / 0; no se calcula el CLS oficial por ventanas de sesión. Ver protocolo y comparación en auditoría, no extrapolar a rendimiento público o móviles físicos.
+- Se detectó y corrigió un overflow de noscript en el encabezado durante la primera ronda. También se corrigieron fixtures de pruebas para Touch válido y búsqueda explícita del contenido noscript; se mantuvieron las aserciones funcionales.
+
+### Despliegue y continuidad
+
+GitHub informa `Vercel: success` y calidad aprobada para `main` 106e9ce. Eso no identifica de forma suficiente el SHA servido por el alias público; el contenido auditado coincide con la fase 1. No se ha fusionado fase 2 a main ni ejecutado despliegue manual de producción. Revisar la rama/PR y los checks antes de integrar.
+
+Continúan pendientes los dos logos, retrato, fotografías autorizadas de mayor resolución, inventario real y Facebook confirmado. Los límites de licencia de imágenes se mantienen en ASSETS. No hay mapas, backend, motor IA ni visor 3D nuevo. El prompt adjunto de fase 2 terminaba en la sección de contacto; se conservaron todos los datos confirmados en la fase 1.
+
+Antes de la siguiente tarea, consultar nuevamente main, la rama de trabajo, PR y documentación; no inferir que cambios privados de otro colaborador están disponibles. El stack y los comandos de instalación/arranque del entorno continúan siendo los mismos.
+
+---
+
+## Contexto conservado de la fase 1 — 2026-10-18
 
 Fase 1 técnica implementada por **Codex**, en la sesión de **Yordi Gómez** según el brief proporcionado. No se han observado cambios atribuibles a Claude o Yordi Lewis. El único commit remoto encontrado y revisado al inicio y durante la tarea fue `6032a98216c0c841b56b8b1ab5c725441a65cbb8` (`Initial commit`, autor Git: JordyGomez). Ese autor por sí solo no demuestra el uso de un asistente.
 

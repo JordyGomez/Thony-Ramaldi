@@ -1,8 +1,20 @@
 # Thony Paulino · Ramaldi
 
-Primera versión del portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientada a República Dominicana. La experiencia combina composición editorial, fotografía ilustrativa, una entrada de puerta CSS 3D y consultas directas al asesor.
+Portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La fase 2 evoluciona la aplicación existente con una composición cinematográfica, movimiento coordinado y consultas directas al asesor.
 
 Todos los inmuebles de esta entrega son **DEMOSTRACIÓN**: nombres, precios, características y ubicaciones son ficticios. No constituyen anuncios ni ofertas reales. Los contactos sí son los proporcionados por el propietario.
+
+## Evolución de la fase 2
+
+- Hero inmersivo, acciones claras y títulos coordinados con la puerta existente, que conserva su límite de 2,3 s y reproducción por sesión.
+- Movimiento con Motion y constantes comunes en `src/lib/motion.ts`; sin librerías nuevas. Parallax ligero solo cuando corresponde al dispositivo, la preferencia y la visibilidad.
+- Menú móvil animado con control de foco y fondo inerte; navegación alternativa sin JavaScript.
+- Catálogo con filtros activos removibles, transiciones accesibles, lectura más cómoda y estados de venta/alquiler claros.
+- Galería con teclado, gesto horizontal, controles táctiles de 44 px, estados reales de imagen, reintento y alternativas sin JavaScript.
+- Consulta contextual fija en fichas móviles, sin tapar el final del contenido.
+- Cambios acotados mediante componentes existentes y CSS Modules. Se conservan rutas, seis propiedades, datos públicos, demostración y arquitectura.
+
+La [auditoría de fase 2](docs/AUDIT-PHASE-2.md) documenta las capturas actuales, decisiones y límites de evidencia del despliegue. Los resultados de validación de esta entrega se mantienen en HANDOFF y CHANGELOG.
 
 ## Contacto oficial
 
@@ -36,7 +48,7 @@ src/
 public/
   images/                       Fotografías ilustrativas locales
   brand/README.md               Incorporación de logotipos originales
-tests/site.spec.ts              Pruebas de navegador y accesibilidad
+tests/                          Pruebas de navegador, accesibilidad y fase 2
 docs/                           Memoria compartida y procedencia de recursos
 .github/workflows/ci.yml         Validación propuesta para GitHub Actions
 ```
@@ -106,7 +118,7 @@ La presentación del servicio es una propuesta editorial que el propietario pued
 | Carbón | `--charcoal` | `#192B2B` |
 | Blanco | `--white` | `#FFFFFF` |
 
-Son aproximaciones proporcionadas en el brief, no códigos certificados de Ramaldi. No se utilizó ninguna web externa como referencia corporativa. La referencia estética Maddock no pudo capturarse: el entorno respondió HTTP 403.
+Son aproximaciones proporcionadas en el brief, no códigos certificados de Ramaldi. No se utilizó ninguna web externa como referencia corporativa. Maddock pudo inspeccionarse en la fase 2 como referencia estética, sin reutilizar sus recursos; el transporte y límites de esa revisión se documentan en la auditoría.
 
 ## Comprobaciones
 
@@ -121,6 +133,8 @@ npm test
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
 `npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las seis rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El caso específico de menú móvil se omite en el proyecto de escritorio por no aplicar. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
+
+La fase 2 añade pruebas de filtros retirables y foco, salidas inertes, teclado y gestos de galería, fallo/reintento de fotografías, almacenamiento bloqueado y cambio dinámico de movimiento reducido. Resultado de esta entrega: **43 aprobadas, 1 omitida por no aplicar, 0 fallidas**.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 
@@ -139,7 +153,7 @@ npm run start
 4. Habilitar Preview Deployments para ramas/PR y revisar móvil, contactos, fotografías y metadatos en la preview.
 5. Incorporar activos y datos autorizados, confirmar derechos de las fotografías, medir rendimiento en el despliegue y obtener autorización antes de publicar producción.
 
-No se ha desplegado automáticamente ni conectado una cuenta de Vercel desde esta sesión. El workflow de GitHub Actions se añade como configuración; sus resultados remotos deben comprobarse cuando la rama se publique.
+La fase 1 fue integrada mediante el PR #1 y el propietario proporcionó el sitio publicado `https://thony-ramaldi.vercel.app/`. GitHub informa un despliegue Vercel aprobado para el commit de main `106e9ce` y un check de calidad aprobado. La auditoría distingue ese estado de la identificación exacta del alias. La fase 2 se entrega en una rama y PR de trabajo: no se fusiona ni se publica manualmente a producción. Revisar los checks de la nueva rama antes de integrar.
 
 ## Convenciones y colaboración
 
