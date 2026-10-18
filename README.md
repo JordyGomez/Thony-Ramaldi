@@ -1,6 +1,6 @@
 # Thony Paulino · Ramaldi
 
-Primera versión del portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientada a República Dominicana. La experiencia combina composición editorial, fotografía ilustrativa, una entrada de puerta CSS 3D y consultas directas al asesor.
+Primera versión del portafolio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientada a República Dominicana. La experiencia sigue una dirección minimalista oscura inspirada en estudios de arquitectura (referencia: maddockdesign.com): fondo carbón, una sola tipografía sans fina, fotografía a pantalla completa y consultas directas al asesor.
 
 Todos los inmuebles de esta entrega son **DEMOSTRACIÓN**: nombres, precios, características y ubicaciones son ficticios. No constituyen anuncios ni ofertas reales. Los contactos sí son los proporcionados por el propietario.
 
@@ -16,7 +16,7 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 ## Tecnologías y arquitectura
 
-Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografías Manrope y Cormorant Garamond servidas localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
+Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, un sistema visual en CSS, Motion para revelados, Lucide React y `next/image`. Tipografía Inter (variable) servida localmente mediante Fontsource. Node 24 recomendado; Node 22 o superior requerido.
 
 Los componentes de servidor generan la portada y las seis fichas. Los componentes de cliente gestionan filtros, menú, galería y animaciones. El catálogo utiliza datos locales tipados; no hay API, base de datos, autenticación ni servicios comerciales necesarios para ejecutar la aplicación. No se ha añadido GSAP ni Three.js porque esta fase no los necesita.
 
@@ -77,7 +77,7 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 ## Funcionalidades de la fase 1
 
-- Portada editorial, paleta petróleo/marfil/dorado y hero con fotografía ilustrativa.
+- Portada con fotografía a pantalla completa, paleta carbón/blanco con acento dorado sutil, carrusel horizontal de propiedades y pie con el nombre a todo el ancho.
 - Header sticky, navegación móvil, control de foco y cierre con Escape.
 - Puerta CSS con perspectiva, duración máxima de 2,3 s y una reproducción por sesión; omitida con movimiento reducido. No muestra porcentajes ficticios ni impide acceder al contenido si falla JavaScript.
 - Catálogo de seis fichas de demostración, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos.

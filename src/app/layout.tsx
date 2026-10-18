@@ -1,10 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource/manrope/latin-400.css";
-import "@fontsource/manrope/latin-500.css";
-import "@fontsource/manrope/latin-600.css";
-import "@fontsource/cormorant-garamond/latin-400.css";
-import "@fontsource/cormorant-garamond/latin-400-italic.css";
-import "@fontsource/cormorant-garamond/latin-500.css";
+import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -31,7 +26,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export const viewport: Viewport = { themeColor: "#192B2B" };
+export const viewport: Viewport = { themeColor: "#2B2B2B" };
 
 export default function RootLayout({
   children,

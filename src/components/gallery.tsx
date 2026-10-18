@@ -35,14 +35,14 @@ export function Gallery({ images }: { images: Property["images"] }) {
         onClick={() => move(-1)}
         className="gallery-arrow previous"
       >
-        <ChevronLeft />
+        <ChevronLeft strokeWidth={1.25} />
       </button>
       <button
         aria-label="Imagen siguiente"
         onClick={() => move(1)}
         className="gallery-arrow next"
       >
-        <ChevronRight />
+        <ChevronRight strokeWidth={1.25} />
       </button>
     </>
   );
@@ -54,9 +54,10 @@ export function Gallery({ images }: { images: Property["images"] }) {
           src={images[index].src}
           alt={images[index].alt}
           fill
-          sizes="(max-width: 900px) 95vw, 68vw"
+          sizes="100vw"
           preload={index === 0}
         />
+        <div className="gallery-shade" />
         <span className="gallery-counter" aria-live="polite">
           {index + 1} / {images.length}
         </span>
@@ -64,9 +65,8 @@ export function Gallery({ images }: { images: Property["images"] }) {
         <button
           className="gallery-expand"
           onClick={() => dialog.current?.showModal()}
-          aria-label="Ampliar galería"
         >
-          <Expand size={18} />
+          <Expand size={16} strokeWidth={1.25} /> Ampliar galería
         </button>
       </div>
       <div
@@ -82,21 +82,21 @@ export function Gallery({ images }: { images: Property["images"] }) {
             aria-pressed={index === i}
             className={index === i ? "selected" : ""}
           >
-            <Image src={image.src} alt={image.alt} fill sizes="160px" />
+            <Image src={image.src} alt={image.alt} fill sizes="240px" />
           </button>
         ))}
+        <p className="gallery-note">
+          Galería ilustrativa. Las imágenes de referencia no representan un
+          mismo inmueble real.
+        </p>
       </div>
-      <p className="gallery-note">
-        Galería ilustrativa. Las imágenes de referencia no representan un mismo
-        inmueble real.
-      </p>
       <dialog ref={dialog} className="lightbox" aria-label="Galería ampliada">
         <button
           className="lightbox-close"
           onClick={() => dialog.current?.close()}
           aria-label="Cerrar galería"
         >
-          <X />
+          <X strokeWidth={1.25} />
         </button>
         <div className="lightbox-image">
           <Image

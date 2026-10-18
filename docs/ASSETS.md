@@ -2,7 +2,7 @@
 
 ## Identidad
 
-Paleta aproximada indicada por el propietario: petróleo `#477D79`, dorado `#D99A00`, dorado claro `#F0CA55`, marfil `#F8F6F0`, carbón `#192B2B`, blanco `#FFFFFF`. El petróleo profundo `#285651` mejora el contraste del texto pequeño y botones. Ajustar la paleta cuando lleguen los logotipos originales; no se han declarado colores certificados.
+Dirección visual vigente (desde el rediseño minimalista del 2026-10-18): carbón `#2B2B2B`, superficies `#333333` y `#222222`, blanco `#FFFFFF`, grises de texto `#B0B0B0`/`#9E9E9E` (contraste AA sobre carbón) y acento dorado `#C9A96A` solo para avisos de demostración. Paleta original indicada por el propietario, conservada como referencia para cuando lleguen los logotipos: petróleo `#477D79`, dorado `#D99A00`, dorado claro `#F0CA55`, marfil `#F8F6F0`, carbón `#192B2B`, blanco `#FFFFFF`. El petróleo profundo `#285651` mejora el contraste del texto pequeño y botones. Ajustar la paleta cuando lleguen los logotipos originales; no se han declarado colores certificados.
 
 Los logotipos y el retrato de Thony no están disponibles. El encabezado utiliza su nombre y el de Ramaldi como texto. `public/brand/README.md` explica la incorporación de los originales. No se ha utilizado una web externa de Ramaldi.
 
@@ -25,7 +25,7 @@ Se intentó acceder a `maddockdesign.com/?ref=minimal.gallery` para revisar la r
 
 ## Tipografías e iconos
 
-- Manrope y Cormorant Garamond, instaladas con Fontsource y servidas localmente; sus licencias se distribuyen con los paquetes.
+- Inter (variable), instalada con `@fontsource-variable/inter` y servida localmente; licencia OFL distribuida con el paquete. Sustituye a Manrope y Cormorant Garamond.
 - Lucide React, licencia ISC.
 - Icono de WhatsApp dibujado como SVG de interfaz; no sustituye a los logotipos corporativos.
 - Open Graph: composición tipográfica propia, generada por Next.js sin fotografías externas.

@@ -1,5 +1,18 @@
 # Registro de cambios
 
+## 2026-10-18 — Claude / Yordi Lewis — Rediseño minimalista oscuro
+
+- Solicitud de Yordi Lewis: tomar maddockdesign.com como referencia de diseño. Se revisó la referencia con capturas reales (escritorio, móvil, ficha y listado de proyectos) tras habilitar `maddockdesign.com` y `www.datocms-assets.com` en la red del entorno. Decisiones confirmadas por el usuario: tema oscuro y una sola tipografía sans fina.
+- Paleta carbón/blanco con acento dorado sutil; Inter variable sustituye a Manrope y Cormorant Garamond (dependencias eliminadas).
+- Portada: fotografía a pantalla completa con titular fino, presentación centrada, carrusel horizontal de propiedades con desplazamiento nativo y botones, catálogo con los mismos cinco filtros, "Sobre Thony" con tabla de pasos, contacto con titular grande y datos en columnas.
+- Encabezado fijo con logotipo textual y menú a pantalla completa en todos los tamaños. Pie con navegación repartida, "THONY PAULINO" a todo el ancho y fotografía.
+- Ficha: galería a pantalla completa con "Ampliar galería" y miniaturas; descripción a la izquierda y tabla de información a la derecha; tarjeta de consulta por WhatsApp.
+- La entrada por sesión pasa de la puerta 3D a una entrada tipográfica sobria; conserva la limitación por sesión y la alternativa sin movimiento.
+- Se mantienen todas las advertencias de demostración, el contacto oficial, los mensajes de WhatsApp y la ausencia de enlaces inventados.
+- Prueba ajustada: la comparación del título con el mensaje de WhatsApp usa `textContent`, porque el título se muestra en mayúsculas solo por CSS; la aserción conserva su intención.
+- Archivos: `src/app/` (layout, page, globals.css, ficha, 404, error, icono, Open Graph), `src/components/` (header, footer, catalog, property-card, gallery, preloader y nuevo `showcase.tsx`), `package.json`, `package-lock.json`, `tests/site.spec.ts`, README, AGENTS, ASSETS, ROADMAP, HANDOFF y este registro.
+- Validación: `npm ci`, `npm run lint`, `npm run typecheck` y `npm run build` aprobados; `npm test` con Chromium preinstalado (configuración temporal fuera del repositorio para la ruta del navegador): 17 aprobadas, 1 omitida por no aplicar, 0 fallidas, incluidas axe WCAG A/AA y ausencia de desbordamiento a 360–1440 px. Revisión visual con capturas a 1440 y 390 px. No se midieron Core Web Vitals ni dispositivos físicos.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Corrección de caché de imágenes
 
 - En la revisión visual posterior se detectaron imágenes optimizadas anteriores pese a haber sustituido los archivos locales. Se utilizan importaciones estáticas para que Next genere URLs con hash del contenido en portada, catálogo y galerías.

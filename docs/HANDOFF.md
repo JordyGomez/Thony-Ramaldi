@@ -1,5 +1,19 @@
 # Transferencia de contexto
 
+## Actualización 2026-10-18 — Claude / Yordi Lewis: rediseño minimalista oscuro
+
+Estado: `main` (con la fase 1 fusionada mediante el PR #1) está desplegado en Vercel en https://thony-ramaldi.vercel.app; el proyecto de Vercel pertenece a otro equipo (`los-yordis`) según el bot de Vercel en el PR #1. Los cambios que llegan a `main` se publican allí; las ramas generan vistas previas.
+
+Rama de trabajo: `claude/modest-ramanujan-526yik`, creada desde `origin/main` (`106e9ce`). Rediseño completo inspirado en maddockdesign.com a petición de Yordi Lewis: tema carbón, Inter variable como única familia, hero a pantalla completa, carrusel `src/components/showcase.tsx`, ficha con galería a pantalla completa y tabla de información, menú a pantalla completa en todos los tamaños y pie con el nombre a todo el ancho. Detalle, archivos y validación en CHANGELOG.
+
+Decisiones: se conservan filtros del catálogo y el botón flotante de WhatsApp (la referencia es un estudio de diseño; aquí la conversión importa). Las fotografías ilustrativas actuales son el punto débil de este estilo: la calidad de las fotos reales es ahora prioritaria. El nombre del pie usa `font-size: calc((100vw - 2 * var(--gutter)) / 7.72)` calibrado para "THONY PAULINO" en Inter 500; si cambia el texto o el tracking, recalibrar midiendo el ancho del texto.
+
+Entorno: Chromium preinstalado en `/opt/pw-browsers/chromium-1194`; para `npm test` en esta nube se usó una configuración temporal fuera del repositorio que solo cambia `executablePath`. La red del entorno necesita `maddockdesign.com` y `www.datocms-assets.com` para volver a revisar la referencia.
+
+Pendiente: revisar la vista previa de Vercel del PR, logos y retrato originales, inventario y fotografías reales, enlace de Facebook, medición de rendimiento y dispositivos reales.
+
+---
+
 ## Estado al 2026-10-18
 
 Fase 1 técnica implementada por **Codex**, en la sesión de **Yordi Gómez** según el brief proporcionado. No se han observado cambios atribuibles a Claude o Yordi Lewis. El único commit remoto encontrado y revisado al inicio y durante la tarea fue `6032a98216c0c841b56b8b1ab5c725441a65cbb8` (`Initial commit`, autor Git: JordyGomez). Ese autor por sí solo no demuestra el uso de un asistente.

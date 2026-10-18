@@ -25,15 +25,9 @@ export function Catalog() {
   };
   return (
     <section id="propiedades" className="catalog section-pad">
-      <div className="section-eyebrow">
-        <span className="gold-line" /> ESPACIOS CON POSIBILIDADES{" "}
-        <span className="section-number">01 /</span>
-      </div>
       <div className="section-heading">
         <h2>
-          Encuentra tu
-          <br />
-          <em>próximo lugar.</em>
+          Encuentra tu <strong>próximo lugar</strong>
         </h2>
         <div className="section-heading-copy">
           <p>
@@ -41,7 +35,7 @@ export function Catalog() {
             que estás buscando.
           </p>
           <span className="demo-note">
-            <span /> Catálogo de demostración · Sin ofertas reales
+            Catálogo de demostración · Sin ofertas reales
           </span>
         </div>
       </div>
@@ -56,7 +50,7 @@ export function Catalog() {
             className={view === "all" ? "active" : ""}
             onClick={() => setView("all")}
           >
-            Todas las propiedades
+            Todas
           </button>
           <button
             aria-pressed={view === "featured"}
@@ -72,7 +66,7 @@ export function Catalog() {
           aria-expanded={expanded}
           aria-controls="catalog-filters"
         >
-          <SlidersHorizontal size={16} />
+          <SlidersHorizontal size={16} strokeWidth={1.25} />
           Filtros
         </button>
       </div>
@@ -179,8 +173,8 @@ export function Catalog() {
       </div>
       {filtered.length ? (
         <div className="property-grid">
-          {filtered.map((property, i) => (
-            <PropertyCard property={property} index={i} key={property.slug} />
+          {filtered.map((property) => (
+            <PropertyCard property={property} key={property.slug} />
           ))}
         </div>
       ) : (
@@ -190,8 +184,8 @@ export function Catalog() {
           <p>
             Prueba otra combinación para explorar el catálogo de demostración.
           </p>
-          <button className="button button-outline" onClick={reset}>
-            Limpiar filtros <ArrowRight size={16} />
+          <button className="button" onClick={reset}>
+            Limpiar filtros <ArrowRight size={16} strokeWidth={1.25} />
           </button>
         </div>
       )}

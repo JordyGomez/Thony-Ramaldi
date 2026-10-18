@@ -23,15 +23,9 @@ export function Preloader() {
   if (!visible) return null;
   return (
     <div className="preloader" aria-hidden="true">
-      <div className="entry-brand">
-        THONY PAULINO <span>RAMALDI</span>
-      </div>
-      <div className="door-frame">
-        <div className="door-leaf">
-          <i />
-        </div>
-      </div>
-      <span className="entry-caption">La puerta hacia tu próximo hogar</span>
+      <div className="entry-brand">THONY PAULINO</div>
+      <span className="entry-line" />
+      <span className="entry-caption">Ramaldi · República Dominicana</span>
     </div>
   );
 }
