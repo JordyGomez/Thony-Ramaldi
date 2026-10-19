@@ -4,10 +4,8 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { AnimatePresence, motion, useIsPresent } from "motion/react";
-import { useSite, useExperienceReducedMotion } from "./site-provider";
+import { useSite } from "./site-provider";
 import { navigation } from "@/lib/site-settings";
-import { editorialEase, motionTiming } from "@/lib/motion";
 import styles from "./header.module.css";
 
 const subscribeScroll = (callback: () => void) => {
@@ -26,58 +24,18 @@ function MenuPanel({
 }) {
   const { settings, whatsappUrl } = useSite();
   const links = navigation(settings);
-  const present = useIsPresent();
-  const reduced = useExperienceReducedMotion();
   return (
-    <motion.div
-      ref={menu}
-      id="mobile-navigation"
-      className="mobile-navigation"
-      initial={reduced ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: reduced ? 0 : 0.2, ease: editorialEase }}
-      inert={!present}
-      aria-hidden={present ? undefined : true}
-    >
-      <motion.nav
-        aria-label="Navegación móvil"
-        initial={reduced ? false : "closed"}
-        animate="open"
-        variants={{
-          open: { transition: { staggerChildren: motionTiming.stagger } },
-          closed: {},
-        }}
-      >
+    <div ref={menu} id="mobile-navigation" className="mobile-navigation">
+      <nav aria-label="Navegación móvil">
         {links.map((link, i) => (
-          <motion.div
-            key={link.href}
-            variants={{
-              closed: {
-                opacity: 0,
-                y: 24,
-                rotateX: -28,
-                transformPerspective: 1000,
-              },
-              open: {
-                opacity: 1,
-                y: 0,
-                rotateX: 0,
-                transformPerspective: 1000,
-              },
-            }}
-            transition={{
-              duration: reduced ? 0 : motionTiming.normal,
-              ease: editorialEase,
-            }}
-          >
+          <div key={link.href}>
             <Link href={link.href} onClick={close}>
               <span>0{i + 1}</span>
               {link.title}
             </Link>
-          </motion.div>
+          </div>
         ))}
-      </motion.nav>
+      </nav>
       <div className="menu-footer">
         <p>{settings.texts.menuText}</p>
         <a
@@ -89,7 +47,7 @@ function MenuPanel({
           {settings.texts.menuCta} <ArrowUpRight size={16} strokeWidth={1.5} />
         </a>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -187,9 +145,7 @@ export function Header() {
           </nav>
         </noscript>
       </header>
-      <AnimatePresence>
-        {open && <MenuPanel menu={menu} close={() => setOpen(false)} />}
-      </AnimatePresence>
+      {open && <MenuPanel menu={menu} close={() => setOpen(false)} />}
     </>
   );
 }

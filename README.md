@@ -1,19 +1,19 @@
 # Thony Paulino · Ramaldi
 
-Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y firma grande al pie. Las capas de profundidad, revelados 3D e interacciones se añaden sobre esa maqueta, con alternativas para movimiento reducido y ahorro de datos.
+Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y firma grande al pie. La presentación actual es estática, por petición del propietario: sin introducción, paralaje, giros, zoom ni efectos decorativos. El contenido aparece directamente y los controles responden de inmediato.
 
 El pie espera las fotografías de una propiedad publicada por un administrador: sin ellas se muestran solo firma, navegación y contactos, sin imagen ilustrativa ni hueco reservado. Se usa la primera foto del inventario público, excluyendo demostraciones y renders. La selección propia del panel es opcional y también requiere ese inventario; el recurso antiguo `villa.jpg` no se reactiva desde configuraciones anteriores. Guardar, ocultar o borrar propiedades actualiza el pie mediante la revalidación existente.
 
 La web pública obtiene **solo propiedades publicadas y no marcadas como demostración en Supabase**. Sin inventario, muestra una selección en preparación y contacto por WhatsApp o teléfono. Los datos locales de ejemplo son fixtures explícitas de pruebas fuera de Vercel. No se crean anuncios ni se escriben datos en Supabase durante esta evolución.
 
-La entrada 3D revela el retrato real y se coordina con la portada elegida por Claude. La experiencia «Mi próximo espacio» prepara una búsqueda por intención, zona, presupuesto y plazo, que el visitante puede compartir por WhatsApp. Se conservan filtros, galerías, inventario real y autenticación. El panel gestiona también textos, marca, imágenes, orden y visibilidad de secciones, animaciones y SEO, con borradores privados, vista previa e historial. Ver [administración y validación](docs/CLAUDE-ADMIN-REVIEW.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md).
+El retrato oficial se conserva en la presentación de Thony. La experiencia «Mi próximo espacio» prepara una búsqueda por intención, zona, presupuesto y plazo, que el visitante puede compartir por WhatsApp. Se conservan filtros, galerías, inventario real y autenticación. El panel gestiona también textos, marca, imágenes, orden y visibilidad de secciones y SEO, con borradores privados, vista previa e historial. Ver [administración y validación](docs/CLAUDE-ADMIN-REVIEW.md), [Alberobello](docs/ALBEROBELLO.md) y [marca](docs/BRAND.md).
 
 ## Activar la administración de toda la web
 
 El panel existente conserva sus propiedades y usuarios. La ampliación requiere ejecutar **una vez** [supabase/migrations/20261018_site_editor.sql](supabase/migrations/20261018_site_editor.sql) en **SQL Editor del proyecto Supabase existente**. Es aditiva e idempotente: no borra inventario ni cuentas. Añade publicación, borradores e historial separados y comprueba las políticas del almacén de archivos.
 
 - `/admin`: crear, editar, publicar y borrar propiedades.
-- `/admin/web`: textos, contactos, menú, portada, presentación, catálogo, búsqueda personal, pasos, pie y SEO; elegir imágenes y logo, ordenar/ocultar secciones y ajustar paleta y movimiento.
+- `/admin/web`: textos, contactos, menú, portada, presentación, catálogo, búsqueda personal, pasos, pie y SEO; elegir imágenes y logo, ordenar/ocultar secciones y ajustar la paleta.
 - `/admin/archivos`: subir y reutilizar fotos y PDF. Los archivos compartidos se conservan al borrar una ficha.
 - `/admin/configuracion`: diagnóstico de sesión, rol, almacenamiento y ampliación; descarga del SQL necesario.
 - `/admin/vista-previa`: borrador privado, con previsualización en escritorio/móvil integrada en el editor.
@@ -38,7 +38,7 @@ Los datos están centralizados en `src/lib/site.ts`. No se han inventado biograf
 
 Next.js **16.4.2** con App Router, React **19.3.1**, TypeScript estricto, Tailwind CSS 4, Motion, Lucide React y `next/image`. Inter variable local. Node 24 recomendado; Node 22 o superior requerido. PGlite es una dependencia exclusiva de desarrollo para comprobar el SQL y RLS con PostgreSQL embebido; no se incluye en el frontend ni reemplaza Supabase.
 
-Los componentes de servidor generan la portada y las fichas publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú, galería y animaciones. Con Supabase desactivado el catálogo queda vacío. Las fixtures requieren `THONY_TEST_FIXTURES=1` al compilar y ejecutar las pruebas, sin `VERCEL_ENV`; nunca se activan en Vercel. No se añaden dependencias, GSAP, WebGL ni Three.js.
+Los componentes de servidor generan la portada y las fichas publicadas en el panel `/admin` (Supabase). Los componentes de cliente gestionan filtros, menú y galería sin efectos de movimiento. Con Supabase desactivado el catálogo queda vacío. Las fixtures requieren `THONY_TEST_FIXTURES=1` al compilar y ejecutar las pruebas, sin `VERCEL_ENV`; nunca se activan en Vercel. No se añaden dependencias, GSAP, WebGL ni Three.js.
 
 ```text
 src/
@@ -103,12 +103,12 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 
 - Portada de Claude con profundidad por capas y aviso ilustrativo; retrato oficial en presentación y entrada, carrusel cuando hay propiedades publicadas y firma grande al pie. El pie espera fotografías del inventario público en lugar de usar una imagen ilustrativa.
 - Header fijo y menú de las tres rayas a pantalla completa en todos los tamaños, independiente de las animaciones y el desenfoque de la cabecera. Conserva todas las opciones al desplazarse o redimensionar, sin desbordamiento horizontal; las ventanas bajas permiten desplazamiento vertical. Control de foco, Escape y navegación de respaldo cuando JavaScript está desactivado.
-- Entrada con hoja sólida, marco, espesor, tirador y retrato real. Una vez por sesión y solo al abrir inicialmente la home; 2,1 s en carga normal y máximo 5 s si el contenido crítico tarda. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica en [PRELOADER](docs/PRELOADER.md).
+- Entrada directa a la portada, sin preloader ni espera decorativa. Las fotos lentas o fallidas no bloquean el contenido, el menú ni el teclado. Las configuraciones antiguas se normalizan a presentación estática; historial en [PRELOADER](docs/PRELOADER.md).
 - Catálogo publicado, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. Los importes provisionales y datos desconocidos no satisfacen filtros numéricos.
 - Estado sin resultados y limpieza de filtros.
 - Fichas con galería, miniaturas, ampliación, teclado, gestos, recuperación de imágenes y consulta contextual de WhatsApp. Las demostraciones se identifican como ficticias; Alberobello solicita confirmar renta, unidad y fotos actuales.
 - Presentación profesional de Thony y enlaces de llamada, correo, Instagram y WhatsApp.
-- Transiciones de interfaz y revelados de scroll respetando `prefers-reduced-motion`.
+- Presentación estática para todos los visitantes, también al pasar el cursor o cambiar las preferencias de movimiento. El editor no reactiva efectos desde publicaciones o versiones antiguas.
 - Imágenes optimizadas con Next, carga diferida, tipografías locales, foco visible y estructura semántica.
 - Metadatos sociales y SEO. Las fichas de demostración llevan `noindex` y no están en el sitemap.
 
@@ -176,9 +176,9 @@ La CI comprueba ambos modos. Nunca configurar el flag de fixtures en Vercel.
 
 Si ya existe `/usr/bin/chromium`, la configuración de Playwright lo utiliza y no hace falta descargar otro navegador. En Linux, si faltan bibliotecas del sistema, la instalación oficial de Playwright permite `npx playwright install --with-deps chromium`. La CI usa ese procedimiento.
 
-`npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada por sesión, movimiento reducido y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
+`npm test` inicia el servidor **de producción previamente compilado** en el puerto 3100 y ejecuta Chromium en escritorio y móvil. Comprueba imágenes y consola, contactos, filtros combinados, alquiler, ausencia de resultados, destacados, las siete rutas, 404, galerías, foco, menú, tamaños 360/390/768/844/1440 px, accesibilidad con axe, entrada directa sin overlay, ausencia de movimiento y renderizado sin JavaScript. El menú completo se comprueba en ambos tamaños; ya no corresponde omitirlo en escritorio. La suite combinada añade clasificación del carrusel, precio provisional, datos null y verificación del PDF original. No reutilizar un servidor antiguo al probar otra compilación; `CI=true npm test` exige un puerto libre y arranca uno nuevo.
 
-Las pruebas del preloader incluyen llegada por una ficha y retorno SPA, carga lenta, error, límite y teclado. La evolución añade retrato real, relevo al hero y profundidad desactivada fuera de pantalla, con ahorro de datos o movimiento reducido. Resultados actuales en CLAUDE-ADMIN-REVIEW.
+Las pruebas de entrada incluyen llegada por una ficha y retorno SPA, carga lenta, error y teclado sin overlay. Se verifica que fotos y controles permanezcan estáticos al mover el puntero o desplazarse y que no haya animaciones activas. Los informes de profundidad anteriores pertenecen a versiones históricas.
 
 El reporte HTML queda en `playwright-report/` y los fallos en `test-results/`, ambos ignorados por Git. Resultados reales y límites de la entrega en [HANDOFF](docs/HANDOFF.md). No se consideran medidas las Core Web Vitals de usuarios reales ni el comportamiento de Safari o dispositivos físicos por haber pasado Chromium.
 

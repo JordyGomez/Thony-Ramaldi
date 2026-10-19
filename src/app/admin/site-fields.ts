@@ -47,7 +47,6 @@ export const textGroups: { title: string; fields: [TextKey, string][] }[] = [
       ["heroAlt", "Descripción accesible de la foto de portada"],
       ["heroNote", "Nota de la fotografía de portada"],
       ["heroSignature", "Firma de la experiencia"],
-      ["entryCaption", "Texto de la introducción animada"],
     ],
   },
   {

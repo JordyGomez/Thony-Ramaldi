@@ -1,5 +1,17 @@
 # Transferencia de contexto
 
+## Dirección vigente — presentación estática, 2026-10-18
+
+El propietario rechazó el movimiento exagerado y pidió profesionalizarlo o eliminarlo. Se retiran las animaciones decorativas. Base main `530fd51`, PR #9 ya publicado; rama `fix/remove-decorative-motion`, sin avances remotos ni cambios locales ajenos al iniciar. Esta instrucción sustituye la petición 3D de los registros históricos.
+
+HomeContent ya no monta Preloader; SiteFrame no monta MotionDirector. Reveal conserva solo estructura. Header mantiene el panel como hermano, a pantalla completa y con el mismo foco/Escape, pero sin Motion, escalonado ni giros. El perfil off anula transiciones, zoom y desplazamientos al pasar el cursor; anclas y carrusel responden inmediatamente. Los archivos anteriores de puerta/preloader/controlador quedan como legado sin montar, no como capacidades activas.
+
+Defaults y parseSiteSettings fijan motion=off/entry=false, y SiteProvider aplica ese mismo perfil a publicación y preview. Los valores anteriores se validan y normalizan; cargar historia no debe reactivar efectos. El editor retira sus selectores de movimiento/intro y usa Marca y presentación. Las otras opciones de edición se conservan. Sigue vigente el pie sin imagen hasta tener fotografías públicas de propiedades y la retirada del importador Alberobello.
+
+Las pruebas de entrada ahora verifican acceso inmediato, fotos lentas/fallidas y teclado. Las de movimiento comprueban superficies estáticas y ausencia de animaciones activas; el panel comprueba configuraciones antiguas. Consultar los checks del PR para resultados finales. La activación externa del CMS en Supabase sigue pendiente; esta presentación funciona con los valores por defecto sin ejecutar SQL ni crear datos.
+
+Verificación local: lint/tipos/builds de pruebas, 8 públicas, 13 de panel y 10 regresiones focalizadas aprobadas. La primera ronda completa tuvo 81 aprobadas y tres incidencias ya corregidas en la comprobación CSS y el respaldo sin JS del carrusel; CI vuelve a ejecutar las 84 completas. La compilación real, integración y Vercel se verifican al publicar. No se usan credenciales reales ni se escribe en Supabase.
+
 ## Corrección vigente — menú completo e importación retirada, 2026-10-18
 
 Base main `6b63e76`, PR #8 ya fusionado/publicado. El propietario mostró el menú recortado en una franja frente a la versión completa y pidió uniformidad, además de quitar totalmente Importar Alberobello. Rama `fix/fullscreen-menu-and-remove-import`; sin cambios remotos nuevos ni modificaciones locales ajenas al comenzar.

@@ -202,12 +202,11 @@ test("accesibilidad automática de inicio, ficha y menú abierto", async ({
   expect(detail.violations).toEqual([]);
 });
 
-test("introducción limitada a una vez por sesión y alternativa sin movimiento", async ({
+test("la portada aparece sin introducción al abrir y recargar", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await expect(page.locator(".preloader")).toBeVisible();
   await expect(page.locator(".preloader")).toHaveCount(0, { timeout: 4000 });
   await page.reload();
   await expect(page.locator(".preloader")).toHaveCount(0);

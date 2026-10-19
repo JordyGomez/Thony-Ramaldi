@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Presentación estática y controles inmediatos
+
+- Petición posterior del propietario: las animaciones resultan exageradas; pide profesionalizarlas o retirarlas. Se elige presentación estática sobre el diseño existente. Base main `530fd51` (PR #9), rama `fix/remove-decorative-motion`, sin avances remotos ni cambios ajenos al iniciar.
+- La home deja de montar la puerta/preloader y el marco público deja de montar el controlador de paralaje. Reveal pasa a ser un envoltorio estático; el menú pierde giros, escalonado y cierre animado. Fotos, iconos y controles no cambian de escala o posición al pasar el cursor; anclas y carrusel se desplazan sin animación.
+- Defaults, validación de configuración y contexto fijan motion=off/entry=false para que una publicación o un historial antiguo no reactiven los efectos. El editor muestra Marca y presentación, conservando contenido/paleta/secciones y retirando controles de animación. El respaldo del carrusel se limita a scripting:none, evitando ocultar sus botones con JS activo.
+- Se actualizan las pruebas de entrada para comprobar contenido inmediato con fotos lentas o fallidas, teclado y navegación; se comprueban inmovilidad al mover el puntero, ausencia de animaciones activas y compatibilidad con configuraciones antiguas. Los resultados se registran al validar la entrega; no se escribe en el Supabase real.
+- Verificación local: lint/tipos, builds de fixtures/público/panel y 8 pruebas públicas + 13 de panel aprobados. La ronda completa inicial dio 81 aprobadas y tres incidencias corregidas (nombre de propiedad CSS en una prueba y especificidad del respaldo sin JS); la repetición focalizada de movimiento/carrusel dio 10 aprobadas. CI ejecuta de nuevo las 84 regresiones completas y el SQL existente antes de integrar.
+- Compilación con la configuración pública real de Supabase aprobada; la presentación estática no requiere la migración pendiente del CMS.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Menú completo y retirada de importación
 
 - Base main `6b63e76` (PR #8), sin avances remotos ni modificaciones ajenas al iniciar; rama `fix/fullscreen-menu-and-remove-import`. El propietario mostró dos estados del menú y pidió siempre el completo, además de eliminar Importar Alberobello.

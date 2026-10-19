@@ -1,5 +1,7 @@
 # Recursos visuales
 
+Presentación vigente: estática, por petición posterior del propietario. La puerta y la introducción ya no se montan; el retrato oficial se conserva en Sobre Thony y las fotografías de portada/inventario mantienen sus usos y procedencia. El pie sigue esperando fotos de propiedades publicadas. Los registros de profundidad/3D siguientes son históricos y no autorizan reactivar esos efectos.
+
 ## Uso actual — pie sin fotografía ilustrativa
 
 Petición posterior del propietario: retirar `villa.jpg` del pie por su calidad y esperar fotos de propiedades publicadas. Sin inventario público no demo con fotografías (no renders), se omite todo el bloque de imagen, manteniendo firma/contactos. Cuando existe, se utiliza la primera foto de ese inventario o la selección propia opcional del editor. El aviso automático identifica la propiedad, sin llamarla ilustrativa. El archivo histórico se conserva por las fixtures; no debe reaparecer en el pie desde una configuración antigua. La portada `portada.jpg` sigue con su aviso ilustrativo.
