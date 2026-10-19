@@ -11,7 +11,7 @@ import {
 } from "@/data/properties";
 import type { PropertyRow } from "@/data/property-row";
 import { AdminBar } from "./admin-bar";
-import { DeleteButton, ImportButton } from "./list-actions";
+import { DeleteButton } from "./list-actions";
 import styles from "./admin.module.css";
 
 export default async function AdminPage() {
@@ -143,13 +143,12 @@ export default async function AdminPage() {
             <div className={styles.empty}>
               <p>
                 La web solo muestra las propiedades publicadas aquí, así que
-                ahora mismo no aparece ninguna. Importa la ficha de Alberobello
-                (con sus fotos y su folleto) o crea la primera desde cero.
+                ahora mismo no aparece ninguna. Crea la primera propiedad con
+                sus fotografías y datos desde el panel.
               </p>
               <div className={styles.emptyActions}>
-                <ImportButton />
                 <Link href="/admin/nueva" className="button">
-                  Crear desde cero
+                  Crear propiedad
                 </Link>
               </div>
             </div>

@@ -56,8 +56,8 @@ const image = (name: keyof typeof propertyImages, alt: string) => ({
 });
 
 // Datos de ejemplo: la web pública NO los muestra cuando Supabase está activo.
-// Solo se usan con Supabase desactivado (desarrollo y pruebas automáticas) y
-// como origen de la importación de fichas reales (Alberobello) desde /admin.
+// Solo se usan con fixtures explícitas de pruebas fuera de Vercel.
+// El panel crea propiedades manualmente; no importa estos registros.
 export const sampleProperties: Property[] = [
   {
     slug: "alberobello-residences",

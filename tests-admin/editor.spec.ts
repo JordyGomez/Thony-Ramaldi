@@ -25,6 +25,10 @@ const login = async (page: import("@playwright/test").Page) => {
     .getByRole("button", { name: "Entrar al panel", exact: true })
     .click();
   await expect(page).toHaveURL(/\/admin$/);
+  await expect(
+    page.getByRole("button", { name: /Importar Alberobello/i }),
+  ).toHaveCount(0);
+  await expect(page.getByText(/Importa la ficha de Alberobello/)).toHaveCount(0);
 };
 
 test("las rutas de medios y edición rechazan visitas sin sesión", async ({

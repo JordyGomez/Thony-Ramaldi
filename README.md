@@ -102,7 +102,7 @@ Estas variables son públicas y se leen al compilar. No colocar contraseñas, to
 ## Funcionalidades actuales
 
 - Portada de Claude con profundidad por capas y aviso ilustrativo; retrato oficial en presentación y entrada, carrusel cuando hay propiedades publicadas y firma grande al pie. El pie espera fotografías del inventario público en lugar de usar una imagen ilustrativa.
-- Header fijo, menú completo en todos los tamaños, control de foco y cierre con Escape.
+- Header fijo y menú de las tres rayas a pantalla completa en todos los tamaños, independiente de las animaciones y el desenfoque de la cabecera. Conserva todas las opciones al desplazarse o redimensionar, sin desbordamiento horizontal; las ventanas bajas permiten desplazamiento vertical. Control de foco, Escape y navegación de respaldo cuando JavaScript está desactivado.
 - Entrada con hoja sólida, marco, espesor, tirador y retrato real. Una vez por sesión y solo al abrir inicialmente la home; 2,1 s en carga normal y máximo 5 s si el contenido crítico tarda. Se puede saltar al interactuar, se omite con movimiento reducido y no bloquea contenido sin JavaScript. Lógica en [PRELOADER](docs/PRELOADER.md).
 - Catálogo publicado, selección de destacados y filtros combinados por tipo, operación, ubicación, precio máximo y mínimo de habitaciones. El alquiler muestra precio mensual; al cambiar operación se restablece el filtro de precio para evitar mezclar rangos. Los importes provisionales y datos desconocidos no satisfacen filtros numéricos.
 - Estado sin resultados y limpieza de filtros.
@@ -122,7 +122,7 @@ Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los 
 - **La web muestra solo lo publicado en el panel.** Sin fichas publicadas, el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Si Supabase falla, la página lanza un error y Next conserva la última versión publicada (en un build, el despliegue falla en lugar de publicar una web vacía).
 - **Desactivado** (variables vacías): `/admin` muestra “Panel pendiente de activar” y el catálogo queda vacío. Solo pruebas fuera de Vercel que habiliten `THONY_TEST_FIXTURES=1` usan `sampleProperties`. Las demostraciones tampoco se leen del panel para la web pública.
 - **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
-- El panel vacío ofrece **Importar Alberobello**, que copia esa ficha real con sus renders y su folleto. Las seis demostraciones ficticias no se importan.
+- El panel vacío ofrece **Crear propiedad**; las fichas se añaden manualmente con sus datos y fotos. El botón y la acción de importar Alberobello se retiraron por petición del propietario.
 
 Seguridad (`supabase/schema.sql`): lectura pública solo de fichas publicadas; crear, editar, borrar y subir archivos solo para correos de la tabla `admin_users`. La clave del navegador es pública por diseño; nunca usar ni guardar la clave `service_role` en el proyecto.
 
@@ -134,7 +134,7 @@ Activación pendiente:
 2. En **SQL Editor**, pegar y ejecutar `supabase/schema.sql`, cambiando antes el correo de la última línea por el de Thony.
 3. En **Authentication → Users → Add user**, crear el usuario de Thony con ese correo y una contraseña. En **Authentication → Sign In / Providers**, desactivar *Allow new users to sign up*.
 4. URL y clave publishable ya están en `src/lib/supabase/env.ts`. Para otro proyecto, cambiarlas allí o definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel y volver a desplegar.
-5. Entrar en `/admin`, pulsar **Importar Alberobello** (opcional) y publicar las demás propiedades desde **Nueva propiedad**.
+5. Entrar en `/admin` y crear/publicar las fichas autorizadas desde **Nueva propiedad**.
 
 Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, las páginas seguirían mostrando su última versión generada hasta reactivarlo desde su panel.
 

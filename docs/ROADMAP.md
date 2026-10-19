@@ -1,5 +1,11 @@
 # Roadmap
 
+## Corrección — menú completo en todas las pantallas
+
+- Panel fijo al viewport, separado de la cabecera animada y de sus filtros; sin ancho fijo de escritorio ni recorte horizontal.
+- Respaldo sin JavaScript limitado por CSS; opciones completas al desplazarse, redimensionar y cambiar orientación, con foco y Escape.
+- Botón y acción de importar Alberobello retirados; alta manual de propiedades conservada. Ver HANDOFF y checks de `fix/fullscreen-menu-and-remove-import`.
+
 ## Corrección — imagen del pie procedente del inventario
 
 - Retirar la fotografía ilustrativa `villa.jpg` del pie; mantener firma y contactos sin hueco reservado.

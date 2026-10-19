@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 2026-10-18 — Codex / Yordi Gómez — Menú completo y retirada de importación
+
+- Base main `6b63e76` (PR #8), sin avances remotos ni modificaciones ajenas al iniciar; rama `fix/fullscreen-menu-and-remove-import`. El propietario mostró dos estados del menú y pidió siempre el completo, además de eliminar Importar Alberobello.
+- Reproducción local anterior: con movimiento normal, un viewport de 1600×800 dejaba el panel en 1600×192; con movimiento reducido ocupaba los 800 px. La transformación persistente de la cabecera capturaba el hijo fixed. El estilo de respaldo dentro del noscript cliente también alcanzaba la cabecera.
+- Menú trasladado como hermano de la cabecera, fijado al viewport con 100dvh, control de ancho, adaptación a ventanas bajas y desplazamiento vertical. El respaldo sin JS pasa a CSS condicionado por scripting; se conserva el diseño, 3D, foco, Escape y contenido accesible.
+- Eliminados botón, acción de importación y recomendación del estado vacío. Las propiedades se crean manualmente; no se borran fichas ni archivos existentes ni se escribe en Supabase.
+- Ampliadas las pruebas públicas para movimiento normal, scroll, seis tamaños/orientaciones, redimensionado abierto, enlaces visibles, teclado y axe; el login de pruebas comprueba la ausencia del importador. Los resultados se registran al validar la entrega.
+- Lint/tipos y builds público/fixtures/panel/configuración pública real aprobados; **8 pruebas públicas, 10 regresiones seleccionadas de navegación/sin JS/axe y 12 del panel aprobadas**, sin fallos. El panel utiliza servicios locales de prueba. Los checks remotos se verifican al publicar; sin operaciones autenticadas reales en Supabase.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Retirada de la foto ilustrativa del pie
 
 - Petición del propietario mediante captura: quitar `villa.jpg` del pie y esperar una propiedad de los administradores. Base main `6ef6e98` (PR #7), rama `fix/footer-real-property-photo`, sin avances remotos ni cambios ajenos al iniciar.
