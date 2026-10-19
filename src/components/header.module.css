@@ -1,6 +1,12 @@
 .fallback {
   display: none;
 }
+/* El respaldo no debe inyectar estilos que alcancen la cabecera con JS activo. */
+@media (scripting: none) {
+  .fallback {
+    display: contents;
+  }
+}
 .plainNav {
   display: flex;
   flex-wrap: wrap;

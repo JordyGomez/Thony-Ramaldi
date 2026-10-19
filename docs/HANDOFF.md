@@ -1,5 +1,15 @@
 # Transferencia de contexto
 
+## Corrección vigente — menú completo e importación retirada, 2026-10-18
+
+Base main `6b63e76`, PR #8 ya fusionado/publicado. El propietario mostró el menú recortado en una franja frente a la versión completa y pidió uniformidad, además de quitar totalmente Importar Alberobello. Rama `fix/fullscreen-menu-and-remove-import`; sin cambios remotos nuevos ni modificaciones locales ajenas al comenzar.
+
+Reproducción: viewport 1600×800, panel 1600×192 con movimiento normal y 1600×800 con movimiento reducido. El header con transformación final 3D crea un containing block para el hijo fixed; el filtro al desplazarse también puede hacerlo. El noscript cliente contenía un style que alcanzaba la cabecera con JS activo. Ahora Header renderiza el panel como hermano, conservando contexto/tema/3D, y el respaldo usa `@media (scripting: none)`. El menú ocupa el viewport y adapta las ventanas bajas; teclado, foco y Escape permanecen. No volver a introducir un estilo dentro del noscript ni anidar el panel en el header.
+
+Se eliminan ImportButton e importLocalProperties, sus imports y el texto del estado vacío; la creación manual y el contenido histórico de Alberobello permanecen. No se borra inventario ni se ejecuta SQL. La migración del CMS continúa pendiente de quien administra Supabase; este ajuste no depende de ella. Las pruebas públicas ejercitan scroll/movimiento normal/redimensionado/teclado/axe; la suite autenticada usa el doble HTTP y comprueba ausencia del botón. Consultar los checks del PR para resultados finales.
+
+Validación local de la corrección: lint, tipos y builds público, fixtures, panel y configuración pública real aprobados; 8 pruebas públicas + 10 regresiones seleccionadas de navegación/sin JS/cierre/axe + 12 de panel aprobadas. Vercel y los checks remotos se comprueban al entregar. No confundir el doble de Auth/Storage local con una sesión del proyecto real.
+
 ## Corrección vigente — foto del pie, 2026-10-18
 
 El PR #7 quedó fusionado en main `6ef6e98`, con 111 pruebas de main aprobadas y Vercel publicado. El propietario mostró una captura del pie y pidió quitar la foto ilustrativa de baja calidad y esperar propiedades de los administradores. Rama `fix/footer-real-property-photo`, sobre ese main sin avances remotos ni cambios locales ajenos.

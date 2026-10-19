@@ -148,46 +148,48 @@ export function Header() {
     };
   }, [open]);
   return (
-    <header
-      className={`site-header${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}
-    >
-      <Link
-        className="brand"
-        href="/"
-        aria-label={`${site.name} ${site.company}, inicio`}
-        onClick={() => setOpen(false)}
+    <>
+      <header
+        className={`site-header${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}
       >
-        {site.logo && (
-          <Image src={site.logo} alt="Ramaldi" width={100} height={38} />
-        )}
-        <span className="brand-name">{site.name}</span>{" "}
-        <span className="brand-sub">{site.company}</span>
-      </Link>
-      <button
-        className="menu-toggle"
-        ref={toggle}
-        aria-expanded={open}
-        aria-controls="mobile-navigation"
-        aria-label={open ? "Cerrar menú" : "Abrir menú"}
-        onClick={() => setOpen(!open)}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+        <Link
+          className="brand"
+          href="/"
+          aria-label={`${site.name} ${site.company}, inicio`}
+          tabIndex={open ? -1 : undefined}
+          onClick={() => setOpen(false)}
+        >
+          {site.logo && (
+            <Image src={site.logo} alt="Ramaldi" width={100} height={38} />
+          )}
+          <span className="brand-name">{site.name}</span>{" "}
+          <span className="brand-sub">{site.company}</span>
+        </Link>
+        <button
+          className="menu-toggle"
+          ref={toggle}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          onClick={() => setOpen(!open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <noscript className={styles.fallback}>
+          <nav className={styles.plainNav} aria-label="Navegación sin JavaScript">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.title}
+              </Link>
+            ))}
+          </nav>
+        </noscript>
+      </header>
       <AnimatePresence>
         {open && <MenuPanel menu={menu} close={() => setOpen(false)} />}
       </AnimatePresence>
-      <noscript className={styles.fallback}>
-        <style>{`.site-header > noscript { display: contents; } .site-header { position: absolute; height: auto; min-height: var(--header-h); flex-wrap: wrap; gap: 16px; padding-block: 24px; background: var(--bg-deep); } .site-header .menu-toggle { display: none; }`}</style>
-        <nav className={styles.plainNav} aria-label="Navegación sin JavaScript">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.title}
-            </Link>
-          ))}
-        </nav>
-      </noscript>
-    </header>
+    </>
   );
 }

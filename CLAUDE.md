@@ -1,5 +1,7 @@
 # Contexto para Claude
 
+Corrección vigente: desde main `6b63e76` (PR #8), rama `fix/fullscreen-menu-and-remove-import`. El propietario pidió que las tres rayas abran siempre el menú completo y retirar Importar Alberobello. El panel del menú se separa de la cabecera para que su 3D/desenfoque no lo recorte; el respaldo sin JS se limita por media query. Se eliminan botón, acción de importación y texto asociado; conservar creación manual e inventario existente. Ver HANDOFF y los checks del PR para estado remoto.
+
 Este es el mismo producto y repositorio que desarrolla Codex. Puedes modificar cualquier archivo, incluidos componentes, estilos, datos, dependencias y código escrito por otro asistente. No hay una división permanente de responsabilidades.
 
 Al iniciar cada tarea:
