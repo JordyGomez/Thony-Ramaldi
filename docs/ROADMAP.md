@@ -1,5 +1,11 @@
 # Roadmap
 
+## Dirección vigente — presentación estática
+
+- Retirar la introducción de puerta, paralaje, entradas 3D, zoom y desplazamientos decorativos.
+- Contenido inmediato y menú, filtros, carrusel y galería sin animación; conservar la composición de Claude.
+- Normalizar configuraciones antiguas e historial a off/entry=false y retirar opciones de efectos del panel. Ver HANDOFF y checks de `fix/remove-decorative-motion`.
+
 ## Corrección — menú completo en todas las pantallas
 
 - Panel fijo al viewport, separado de la cabecera animada y de sus filtros; sin ancho fijo de escritorio ni recorte horizontal.

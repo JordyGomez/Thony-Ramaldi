@@ -1,4 +1,8 @@
-# Entrada 3D sobre la composición de Claude
+# Estado vigente: introducción retirada
+
+El propietario pidió profesionalizar el movimiento o quitarlo. La presentación actual es estática: HomeContent no monta Preloader, la portada se muestra inmediatamente y no espera a que termine una foto. Los valores antiguos de movimiento/intro se normalizan a off/entry=false. Las pruebas conservan cobertura de fotos lentas/fallidas, teclado y navegación, verificando acceso sin overlay. El contenido siguiente documenta implementaciones anteriores; no debe reactivarse a partir de ese historial.
+
+## Registro anterior — entrada 3D sobre la composición de Claude
 
 La instrucción vigente recupera la portada fotográfica de Claude. La entrada sigue revelando el retrato oficial, una vez por sesión y con las salidas seguras documentadas abajo; espera la fotografía de portada, ahora `portada.jpg`, no el retrato de la pantalla principal anterior. La identidad y el logo se gestionan en `/admin/web` y las preferencias permiten desactivar la introducción o todo el movimiento. La geometría de la puerta se utiliza en la entrada; la portada y el catálogo vuelven a su composición fotográfica y tipográfica.
 

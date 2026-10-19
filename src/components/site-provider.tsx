@@ -3,6 +3,7 @@
 import {
   createContext,
   useContext,
+  useMemo,
   type CSSProperties,
   type ReactNode,
 } from "react";
@@ -47,6 +48,13 @@ export function SiteProvider({
   settings: SiteSettings;
   children: ReactNode;
 }) {
+  const presentation = useMemo(
+    () => ({
+      ...settings,
+      experience: { ...settings.experience, motion: "off" as const, entry: false },
+    }),
+    [settings],
+  );
   const style = {
     "--bg": settings.theme.background,
     "--bg-deep": `color-mix(in srgb, ${settings.theme.background}, black 20%)`,
@@ -59,10 +67,10 @@ export function SiteProvider({
     "--brand-ink": settings.theme.accent,
   } as CSSProperties;
   return (
-    <SiteContext.Provider value={settings}>
+    <SiteContext.Provider value={presentation}>
       <div
         className="site-experience"
-        data-motion={settings.experience.motion}
+        data-motion="off"
         style={style}
       >
         {children}

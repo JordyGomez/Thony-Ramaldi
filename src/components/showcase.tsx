@@ -19,10 +19,9 @@ export function Showcase({ properties }: { properties: Property[] }) {
     if (!element) return;
     const card = element.querySelector("li");
     const step = card ? card.getBoundingClientRect().width + 20 : 400;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     element.scrollBy({
       left: step * direction,
-      behavior: reduced.matches ? "auto" : "smooth",
+      behavior: "auto",
     });
   };
   if (!ordered.length) return null;
@@ -45,9 +44,6 @@ export function Showcase({ properties }: { properties: Property[] }) {
           </Link>
         </div>
       </div>
-      <noscript>
-        <style>{`.showcase-controls button { display: none; }`}</style>
-      </noscript>
       <ul
         className="showcase-track"
         ref={track}

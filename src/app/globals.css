@@ -34,7 +34,7 @@
   box-sizing: border-box;
 }
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: 96px;
   background: var(--bg);
 }
@@ -204,7 +204,8 @@ strong {
     padding-block: 24px;
     background: var(--bg-deep);
   }
-  .site-header .menu-toggle {
+  .site-header .menu-toggle,
+  .showcase .showcase-controls button {
     display: none;
   }
 }

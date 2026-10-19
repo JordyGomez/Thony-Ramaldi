@@ -120,8 +120,8 @@ export const defaultSettings: SiteSettings = {
   },
   theme: { background: "#2B2B2B", text: "#FFFFFF", accent: "#F5E8B3" },
   experience: {
-    motion: "expressive",
-    entry: true,
+    motion: "off",
+    entry: false,
     floatingContact: true,
     footer: true,
     indexable: true,
@@ -329,8 +329,9 @@ export function parseSiteSettings(value: unknown): SiteSettings {
       accent: theme.accent,
     },
     experience: {
-      motion: experience.motion,
-      entry: experience.entry,
+      // Compatibilidad con ediciones antiguas, sin reactivar el movimiento retirado.
+      motion: "off",
+      entry: false,
       floatingContact: experience.floatingContact,
       footer: experience.footer,
       indexable: experience.indexable,

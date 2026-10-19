@@ -1,84 +1,38 @@
 import { expect, test } from "@playwright/test";
 
-test("la entrada revela el retrato autorizado y entrega el control a la portada de Claude", async ({
-  page,
-}) => {
+test("la portada aparece directamente sin puerta ni introducción", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  const entry = page.locator(".preloader");
-  await expect(entry).toBeVisible();
-  await expect(entry.locator('[data-door-scene="entry"]')).toBeVisible();
-  await expect(entry.locator(".entry-portrait")).toHaveAttribute(
-    "src",
-    /thony-paulino/,
-  );
-  await expect(entry.locator(".entry-brand")).toHaveText("THONY PAULINO");
-  await expect(entry).toHaveCount(0, { timeout: 5500 });
-  await expect(page.locator("html")).toHaveAttribute(
-    "data-entry-state",
-    "revealed",
-  );
-  await expect(
-    page.getByRole("heading", {
-      name: "Tu próximo espacio. Tu próxima historia.",
-    }),
-  ).toBeVisible();
+  await expect(page.locator(".preloader, [data-door-scene]")).toHaveCount(0);
+  await expect(page.locator(".site-experience")).toHaveAttribute("data-motion", "off");
+  await expect(page.getByRole("heading", { name: "Tu próximo espacio. Tu próxima historia." })).toBeVisible();
   await expect(page.locator(".hero-image")).toHaveAttribute("src", /portada/);
-  await expect(page.locator(".hero .photo-note")).toHaveText(
-    "Fotografía ilustrativa",
-  );
+  await expect(page.locator(".hero .photo-note")).toHaveText("Fotografía ilustrativa");
 });
 
-test("la profundidad se desactiva fuera de pantalla y al reducir movimiento", async ({
-  page,
-}, info) => {
-  await page.addInitScript(() => {
-    sessionStorage.setItem("thony-entry", "seen");
-    Object.defineProperty(navigator, "deviceMemory", {
-      value: 8,
-      configurable: true,
-    });
-  });
+test("fotos y controles permanecen estáticos al mover el puntero y desplazarse", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  const scene = page.locator(".hero-depth-layer");
-  if (info.project.name === "desktop") {
-    await scene.hover();
-    await expect(scene).toHaveAttribute("data-depth-active", "true");
-    await page.waitForTimeout(750);
-    const initialTransform = await scene.evaluate((element) => getComputedStyle(element).transform);
-    await page.mouse.move(120, 230);
-    await expect.poll(() => scene.evaluate((element) => getComputedStyle(element).transform)).not.toBe(initialTransform);
-    await page.locator("#sobre-thony").scrollIntoViewIfNeeded();
-    await expect(scene).not.toHaveAttribute("data-depth-active", "true");
-    await page.locator(".hero").scrollIntoViewIfNeeded();
-    await expect(scene).toHaveAttribute("data-depth-active", "true");
-  } else {
-    await expect(scene).not.toHaveAttribute("data-depth-active", "true");
-  }
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(scene).not.toHaveAttribute("data-depth-active", "true");
-  await expect(page.locator(".hero-depth-layer")).toHaveCSS(
-    "transform",
-    "none",
-  );
+  await page.mouse.move(120, 230);
+  await expect(page.locator(".hero-depth-layer")).toHaveCSS("transform", "none");
+  await expect(page.locator(".hero-image")).toHaveCSS("transform", "none");
+  await page.locator("#sobre-thony").scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-depth-active="true"]')).toHaveCount(0);
+  await page.locator(".button").first().hover();
+  await expect(page.locator(".button").first()).toHaveCSS("transform", "none");
+  expect(await page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
 });
 
-test("el ahorro de datos mantiene la composición estática", async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    sessionStorage.setItem("thony-entry", "seen");
-    Object.defineProperty(navigator, "connection", {
-      value: { saveData: true },
-      configurable: true,
-    });
-  });
+test("el menú responde sin animación y conserva todas sus opciones", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await expect(page.locator(".hero-depth-layer")).not.toHaveAttribute(
-    "data-depth-active",
-    "true",
-  );
-  await expect(page.locator("#hero-title")).toBeVisible();
+  await page.getByRole("button", { name: "Abrir menú" }).click();
+  const menu = page.locator("#mobile-navigation");
+  await expect(menu).toHaveCSS("animation-name", "none");
+  await expect(menu.getByRole("navigation").getByRole("link")).toHaveCount(4);
+  await expect(menu.getByRole("link", { name: /Contacto/ })).toBeInViewport();
+  expect(await page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
+  await page.keyboard.press("Escape");
+  await expect(menu).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Abrir menú" })).toBeFocused();
 });

@@ -17,6 +17,8 @@ Repetir la revisión remota después de una tarea significativa y antes del comm
 
 ## Implementación
 
+- La petición vigente sustituye el movimiento expresivo por una presentación estática. No montar Preloader ni MotionDirector, no añadir giros, paralaje, zoom, entradas escalonadas o desplazamiento automático suave. `defaultSettings`, `parseSiteSettings` y SiteProvider fijan motion=off y entry=false, también para configuraciones/historial antiguos. El panel muestra Marca y presentación, sin controles para reactivar efectos. Mantener menú, filtros, carrusel y galería con respuesta inmediata. Los archivos de animación anteriores son legado sin montar.
+
 - El menú completo es hermano de `.site-header`, nunca su descendiente: las transformaciones 3D y el backdrop-filter de la cabecera capturan los hijos fixed y recortan el panel. Mantener el panel anclado al viewport, sin anchura fija de escritorio; el respaldo sin JS usa CSS `@media (scripting: none)`, nunca un `<style>` dentro del `<noscript>` cliente. El propietario retiró el botón y la acción de importar Alberobello; las propiedades se crean manualmente.
 
 - La instrucción vigente conserva la composición de Claude (main `0742704`): portada `portada.jpg`, carbón/Inter, firma y contactos. El propietario retiró después la foto ilustrativa `villa.jpg` del pie: no mostrar una imagen ni reservar su espacio hasta que haya una propiedad pública no demo con fotografías, excluyendo renders. La foto del pie se obtiene de ese inventario; no reactivar el recurso fijo aunque aparezca en configuraciones antiguas. La portada conserva su aviso ilustrativo; no volver a sustituirla por retrato o geometría.

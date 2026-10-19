@@ -733,6 +733,23 @@
   transition: none !important;
   scroll-behavior: auto !important;
 }
+.site-experience[data-motion="off"] :is(
+  img,
+  svg,
+  .floating-whatsapp,
+  .gallery-thumbs button,
+  .search-stack > span,
+  .search-invitation,
+  .search-choices input + span
+) {
+  transform: none !important;
+}
+.site-experience[data-motion="off"] .mobile-navigation nav a:hover {
+  padding-left: 0;
+}
+.site-experience[data-motion="off"] .link-arrow:hover {
+  gap: 10px;
+}
 .site-experience[data-motion="off"]
   :is(
     .depth-plane,

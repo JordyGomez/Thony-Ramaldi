@@ -14,7 +14,6 @@ import {
   parseSiteSettings,
   sectionNames,
   defaultSettings,
-  type SiteSettings,
   type TextKey,
 } from "@/lib/site-settings";
 import type { EditorState } from "@/lib/admin-site";
@@ -42,7 +41,7 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
     { id: "contenido", label: "Textos y contacto" },
     { id: "imagenes", label: "Imágenes y logo" },
     { id: "secciones", label: "Secciones y orden" },
-    { id: "apariencia", label: "Marca y animaciones" },
+    { id: "apariencia", label: "Marca y presentación" },
     { id: "historial", label: "Historial" },
   ];
   const changeText = (key: TextKey, value: string) =>
@@ -539,33 +538,12 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
             </fieldset>
             <fieldset className={styles.fieldset}>
               <legend>Experiencia y publicación</legend>
-              <label className={styles.field}>
-                Intensidad de las animaciones
-                <select
-                  value={settings.experience.motion}
-                  onChange={(event) =>
-                    setSettings((previous) => ({
-                      ...previous,
-                      experience: {
-                        ...previous.experience,
-                        motion: event.target
-                          .value as SiteSettings["experience"]["motion"],
-                      },
-                    }))
-                  }
-                >
-                  <option value="expressive">3D expresivo</option>
-                  <option value="subtle">3D suave</option>
-                  <option value="off">Sin animaciones</option>
-                </select>
-              </label>
               <p className={styles.hint}>
-                La web respeta automáticamente las preferencias de movimiento y
-                ahorro de datos de cada visitante.
+                Presentación estática, sin introducción ni efectos de movimiento.
+                El menú, los filtros y la galería responden de inmediato.
               </p>
               {(
                 [
-                  ["entry", "Introducción animada al entrar"],
                   ["floatingContact", "Botón flotante de WhatsApp"],
                   ["footer", "Pie de página"],
                   ["indexable", "Permitir indexación de la web en buscadores"],

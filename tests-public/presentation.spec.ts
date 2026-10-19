@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("el menú ocupa la pantalla completa con animaciones, scroll y cambios de tamaño", async ({
+test("el menú ocupa la pantalla completa con scroll y cambios de tamaño", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
