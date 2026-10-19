@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 2026-10-19 — Claude / Yordi Lewis — Portada solo con el título
+
+- Petición del propietario mediante captura: quitar los textos marcados en la portada. Base main `6b63e76` (PR #8), rama `claude/modest-ramanujan-526yik` reiniciada sobre ese main.
+- El hero conserva fotografía, profundidad y título. Se retiran la nota «Fotografía ilustrativa», la firma «TP · Una perspectiva personal» y el bloque derecho con subtítulo, «Descubrir» y «Hablar con Thony». El WhatsApp flotante, el menú y los contactos del resto de la página no cambian.
+- Se eliminan del editor y de `defaultTexts` los campos ya sin uso (`heroSubtitle`, `heroDiscover`, `heroCta`, `heroNote`, `heroSignature`). La normalización solo lee claves conocidas, así que contenido guardado con esas claves se ignora sin error. CSS huérfano retirado.
+- Pruebas adaptadas para comprobar la ausencia de esos textos y enlaces en la portada. Lint, tipos y builds con y sin fixtures aprobados; **84 regresiones + 6 públicas + 12 de panel + 9 SQL aprobadas**. Sin cambios en Supabase.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Retirada de la foto ilustrativa del pie
 
 - Petición del propietario mediante captura: quitar `villa.jpg` del pie y esperar una propiedad de los administradores. Base main `6ef6e98` (PR #7), rama `fix/footer-real-property-photo`, sin avances remotos ni cambios ajenos al iniciar.

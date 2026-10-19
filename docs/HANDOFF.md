@@ -1,5 +1,9 @@
 # Transferencia de contexto
 
+## Corrección vigente — portada solo con el título, 2026-10-19
+
+A petición del propietario, el hero muestra únicamente fotografía y título (`src/components/hero.tsx`). Ya no existen la nota de fotografía, la firma «TP · Una perspectiva personal» ni el bloque de subtítulo/«Descubrir»/«Hablar con Thony»; sus campos se retiraron del editor y de `defaultTexts`. No reintroducirlos sin petición. Base main `6b63e76`; rama `claude/modest-ramanujan-526yik`. El acceso de administración de `jordygtbusiness@gmail.com` se resuelve en `admin_users` desde el SQL Editor, no en código.
+
 ## Corrección vigente — foto del pie, 2026-10-18
 
 El PR #7 quedó fusionado en main `6ef6e98`, con 111 pruebas de main aprobadas y Vercel publicado. El propietario mostró una captura del pie y pidió quitar la foto ilustrativa de baja calidad y esperar propiedades de los administradores. Rama `fix/footer-real-property-photo`, sobre ese main sin avances remotos ni cambios locales ajenos.

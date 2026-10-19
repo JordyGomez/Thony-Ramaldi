@@ -24,9 +24,7 @@ test("la entrada revela el retrato autorizado y entrega el control a la portada 
     }),
   ).toBeVisible();
   await expect(page.locator(".hero-image")).toHaveAttribute("src", /portada/);
-  await expect(page.locator(".hero .photo-note")).toHaveText(
-    "Fotografía ilustrativa",
-  );
+  await expect(page.locator(".hero .photo-note")).toHaveCount(0);
 });
 
 test("la profundidad se desactiva fuera de pantalla y al reducir movimiento", async ({

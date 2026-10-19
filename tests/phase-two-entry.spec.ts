@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("el hero conserva sus acciones y la navegación completa sin JavaScript", async ({
+test("el hero muestra solo el título y la navegación funciona sin JavaScript", async ({
   browser,
   baseURL,
 }, testInfo) => {
@@ -15,18 +15,10 @@ test("el hero conserva sus acciones y la navegación completa sin JavaScript", a
   try {
     await page.goto(`${baseURL}/`);
     await expect(page.locator("#hero-title")).toBeVisible();
-    const explore = page
-      .locator(".hero")
-      .getByRole("link", { name: "Descubrir", exact: true });
-    await expect(explore).toBeVisible();
-    await explore.click();
-    await expect(page).toHaveURL(/#presentacion$/);
-    const contact = page
-      .locator(".hero")
-      .getByRole("link", { name: "Hablar con Thony" });
-    await expect(contact).toHaveAttribute(
-      "href",
-      /^https:\/\/wa\.me\/18294045770\?text=/,
+    // Sin nota de fotografía, firma ni enlaces sobre la portada.
+    await expect(page.locator(".hero").getByRole("link")).toHaveCount(0);
+    await expect(page.locator(".hero")).not.toContainText(
+      /Fotografía ilustrativa|perspectiva personal|Asesoría inmobiliaria/i,
     );
     if (testInfo.project.name === "mobile") {
       const nav = page.getByRole("navigation", {
@@ -75,7 +67,6 @@ test("cambiar a movimiento reducido durante la introducción deja el hero visibl
   await expect(page.locator(".preloader")).toHaveCount(0);
   await expect(page.locator("#hero-title")).toBeVisible();
   await expect(page.locator("#hero-title strong")).toBeVisible();
-  await expect(page.locator(".hero-meta")).toBeVisible();
 });
 
 test("el cierre animado del menú libera fondo y foco sin enlaces residuales", async ({
