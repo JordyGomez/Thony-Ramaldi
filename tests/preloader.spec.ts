@@ -50,97 +50,53 @@ test("entrar por una ficha y volver por SPA no activa la introducción", async (
   );
 });
 
-test("una carga lenta mantiene solo la respiración de la línea hasta decodificar el hero", async ({
-  page,
-}) => {
+test("una foto lenta no bloquea el menú ni el contenido", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const release = await holdHero(page);
   try {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const entry = page.locator(".preloader");
-    await expect(entry).toBeVisible();
-    await expect(entry).toHaveAttribute("data-phase", "waiting", {
-      timeout: 3500,
-    });
-    await expect(entry.locator(".entry-brand")).toHaveText("THONY PAULINO");
-    expect(
-      await entry
-        .locator(".entry-line")
-        .evaluate((node) => getComputedStyle(node).animationName),
-    ).toBe("entry-breathe");
-    expect(
-      await entry
-        .locator(".entry-door")
-        .evaluate((node) => getComputedStyle(node).animationIterationCount),
-    ).toBe("1");
-    release();
-    await expect(entry).toHaveCount(0, { timeout: 2500 });
-    expect(
-      await page
-        .locator(".hero-image")
-        .evaluate(
-          (node: HTMLImageElement) => node.complete && node.naturalWidth > 0,
-        ),
-    ).toBe(true);
+    await expect(page.locator(".preloader")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toBeVisible();
+    await page.getByRole("button", { name: "Abrir menú" }).click();
+    await expect(page.locator("#mobile-navigation")).toBeVisible();
+    await expect(page.locator("#mobile-navigation").getByRole("link", { name: /Contacto/ })).toBeInViewport();
   } finally {
     release();
   }
 });
 
-test("una imagen crítica que falla permite salir de la espera", async ({
-  page,
-}) => {
+test("una foto que falla mantiene el contenido y los contactos disponibles", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const release = await holdHero(page, true);
   try {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator(".preloader")).toHaveAttribute(
-      "data-phase",
-      "waiting",
-      { timeout: 3500 },
-    );
     release();
-    await expect(page.locator(".preloader")).toHaveCount(0, { timeout: 2500 });
+    await expect(page.locator(".preloader")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toBeVisible();
+    await expect(page.locator('.floating-whatsapp[href^="https://wa.me/"]')).toBeVisible();
   } finally {
     release();
   }
 });
 
-test("el límite de seguridad libera la página aunque el hero siga pendiente", async ({
-  page,
-}) => {
+test("el resto de la página se puede usar mientras la portada sigue pendiente", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const release = await holdHero(page);
   try {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator(".preloader")).toHaveAttribute(
-      "data-phase",
-      "waiting",
-      { timeout: 3500 },
-    );
-    await expect(page.locator(".preloader")).toHaveCount(0, { timeout: 4500 });
-    expect(
-      await page
-        .locator(".hero-image")
-        .evaluate((node: HTMLImageElement) => node.complete),
-    ).toBe(false);
-    await expect(page.locator("#hero-title")).toBeVisible();
+    await page.locator("#sobre-thony").scrollIntoViewIfNeeded();
+    await expect(page.locator("#sobre-thony")).toBeInViewport();
+    expect(await page.locator(".hero-image").evaluate((image: HTMLImageElement) => image.complete)).toBe(false);
+    await expect(page.locator(".preloader")).toHaveCount(0);
   } finally {
     release();
   }
 });
 
-test("interactuar con teclado cierra la introducción y mantiene la navegación", async ({
-  page,
-}) => {
+test("el teclado accede al contenido sin pasar por una introducción", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  await expect(page.locator(".preloader")).toBeVisible();
-  await page.keyboard.press("Tab");
   await expect(page.locator(".preloader")).toHaveCount(0);
-  await expect(
-    page.getByRole("link", { name: "Saltar al contenido" }),
-  ).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "Saltar al contenido" })).toBeFocused();
 });

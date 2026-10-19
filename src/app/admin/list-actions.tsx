@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { deleteProperty, importLocalProperties } from "./actions";
+import { deleteProperty } from "./actions";
 import styles from "./admin.module.css";
 
 export function DeleteButton({ id, title }: { id: string; title: string }) {
@@ -29,36 +29,5 @@ export function DeleteButton({ id, title }: { id: string; title: string }) {
     >
       {pending ? "Borrando…" : "Borrar"}
     </button>
-  );
-}
-
-export function ImportButton() {
-  const router = useRouter();
-  const [pending, startTransition] = useTransition();
-  const [message, setMessage] = useState<string | null>(null);
-  return (
-    <>
-      <button
-        type="button"
-        className="button button-solid"
-        disabled={pending}
-        onClick={() =>
-          startTransition(async () => {
-            const result = await importLocalProperties();
-            setMessage(result.ok ? (result.message ?? null) : result.error);
-            router.refresh();
-          })
-        }
-      >
-        {pending
-          ? "Importando… (puede tardar un minuto)"
-          : "Importar Alberobello"}
-      </button>
-      {message && (
-        <p role="status" className={styles.hint}>
-          {message}
-        </p>
-      )}
-    </>
   );
 }

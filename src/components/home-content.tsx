@@ -8,7 +8,6 @@ import {
 } from "@/lib/site-settings";
 import { whatsappUrl } from "@/lib/site";
 import { Catalog } from "./catalog";
-import { Preloader } from "./preloader";
 import { Reveal } from "./reveal";
 import { Showcase } from "./showcase";
 import { FeaturedRental } from "./featured-rental";
@@ -20,7 +19,6 @@ import { PersonalSearch } from "./personal-search";
 export function HomeContent({
   properties,
   settings,
-  preview = false,
 }: {
   properties: Property[];
   settings: SiteSettings;
@@ -135,7 +133,6 @@ export function HomeContent({
   };
   return (
     <main id="contenido">
-      {!preview && settings.experience.entry && <Preloader />}
       <Hero settings={settings} />
       {settings.sections
         .filter((section) => section.visible)

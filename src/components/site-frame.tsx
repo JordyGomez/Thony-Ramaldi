@@ -5,7 +5,6 @@ import type { FooterPropertyImage } from "@/lib/footer-property-image";
 import { SiteProvider } from "./site-provider";
 import { Header } from "./header";
 import { Footer } from "./footer";
-import { MotionDirector } from "./motion-director";
 export function SiteFrame({
   settings,
   footerImage,
@@ -23,7 +22,6 @@ export function SiteFrame({
       <Header />
       {children}
       {settings.experience.footer && <Footer image={footerImage} />}
-      <MotionDirector />
     </SiteProvider>
   );
 }

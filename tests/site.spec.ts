@@ -148,6 +148,8 @@ test("navegación completa, Escape, foco y anclas", async ({ page }) => {
   await toggle.click();
   const nav = page.getByRole("navigation", { name: "Navegación móvil" });
   await expect(nav).toBeVisible();
+  await expect(page.locator("#mobile-navigation")).toHaveCSS("position", "fixed");
+  await expect(nav.getByRole("link", { name: /Contacto/ })).toBeInViewport();
   await page.keyboard.press("Escape");
   await expect(nav).not.toBeVisible();
   await expect(toggle).toBeFocused();
@@ -188,6 +190,7 @@ test("accesibilidad automática de inicio, ficha y menú abierto", async ({
     await page.getByRole("button", { name: "Abrir menú" }).click();
     const menu = await new AxeBuilder({ page })
       .include(".site-header")
+      .include("#mobile-navigation")
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
     expect(menu.violations).toEqual([]);
@@ -199,12 +202,11 @@ test("accesibilidad automática de inicio, ficha y menú abierto", async ({
   expect(detail.violations).toEqual([]);
 });
 
-test("introducción limitada a una vez por sesión y alternativa sin movimiento", async ({
+test("la portada aparece sin introducción al abrir y recargar", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await expect(page.locator(".preloader")).toBeVisible();
   await expect(page.locator(".preloader")).toHaveCount(0, { timeout: 4000 });
   await page.reload();
   await expect(page.locator(".preloader")).toHaveCount(0);

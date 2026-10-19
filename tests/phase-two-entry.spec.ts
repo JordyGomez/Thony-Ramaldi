@@ -36,7 +36,7 @@ test("el hero muestra solo el título y la navegación funciona sin JavaScript",
   }
 });
 
-test("la introducción sale de forma segura si el almacenamiento está bloqueado", async ({
+test("el contenido sigue disponible si el almacenamiento está bloqueado", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -49,7 +49,6 @@ test("la introducción sale de forma segura si el almacenamiento está bloqueado
     };
   });
   await page.goto("/");
-  await expect(page.locator(".preloader")).toBeVisible();
   await expect(page.locator(".preloader")).toHaveCount(0, { timeout: 4000 });
   await expect(page.locator("#hero-title")).toBeVisible();
   await page.locator(".property-image-link").first().click();
@@ -57,19 +56,18 @@ test("la introducción sale de forma segura si el almacenamiento está bloqueado
   await expect(page.locator(".preloader")).toHaveCount(0);
 });
 
-test("cambiar a movimiento reducido durante la introducción deja el hero visible", async ({
+test("cambiar la preferencia de movimiento mantiene el hero visible", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await expect(page.locator(".preloader")).toBeVisible();
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".preloader")).toHaveCount(0);
   await expect(page.locator("#hero-title")).toBeVisible();
   await expect(page.locator("#hero-title strong")).toBeVisible();
 });
 
-test("el cierre animado del menú libera fondo y foco sin enlaces residuales", async ({
+test("el cierre del menú libera fondo y foco sin enlaces residuales", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });

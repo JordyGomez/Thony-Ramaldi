@@ -2,7 +2,29 @@
 
 ## Corrección vigente — portada solo con el título, 2026-10-19
 
-A petición del propietario, el hero muestra únicamente fotografía y título (`src/components/hero.tsx`). Ya no existen la nota de fotografía, la firma «TP · Una perspectiva personal» ni el bloque de subtítulo/«Descubrir»/«Hablar con Thony»; sus campos se retiraron del editor y de `defaultTexts`. No reintroducirlos sin petición. Base main `6b63e76`; rama `claude/modest-ramanujan-526yik`. El acceso de administración de `jordygtbusiness@gmail.com` se resuelve en `admin_users` desde el SQL Editor, no en código.
+A petición del propietario, el hero muestra únicamente fotografía y título (`src/components/hero.tsx`). Ya no existen la nota de fotografía, la firma «TP · Una perspectiva personal» ni el bloque de subtítulo/«Descubrir»/«Hablar con Thony»; sus campos se retiraron del editor y de `defaultTexts`. No reintroducirlos sin petición. Rama `claude/modest-ramanujan-526yik`, actualizada con main `d427708` (PR #10). El acceso de administración de `jordygtbusiness@gmail.com` se resuelve en `admin_users` desde el SQL Editor, no en código.
+
+## Dirección vigente — presentación estática, 2026-10-18
+
+El propietario rechazó el movimiento exagerado y pidió profesionalizarlo o eliminarlo. Se retiran las animaciones decorativas. Base main `530fd51`, PR #9 ya publicado; rama `fix/remove-decorative-motion`, sin avances remotos ni cambios locales ajenos al iniciar. Esta instrucción sustituye la petición 3D de los registros históricos.
+
+HomeContent ya no monta Preloader; SiteFrame no monta MotionDirector. Reveal conserva solo estructura. Header mantiene el panel como hermano, a pantalla completa y con el mismo foco/Escape, pero sin Motion, escalonado ni giros. El perfil off anula transiciones, zoom y desplazamientos al pasar el cursor; anclas y carrusel responden inmediatamente. Los archivos anteriores de puerta/preloader/controlador quedan como legado sin montar, no como capacidades activas.
+
+Defaults y parseSiteSettings fijan motion=off/entry=false, y SiteProvider aplica ese mismo perfil a publicación y preview. Los valores anteriores se validan y normalizan; cargar historia no debe reactivar efectos. El editor retira sus selectores de movimiento/intro y usa Marca y presentación. Las otras opciones de edición se conservan. Sigue vigente el pie sin imagen hasta tener fotografías públicas de propiedades y la retirada del importador Alberobello.
+
+Las pruebas de entrada ahora verifican acceso inmediato, fotos lentas/fallidas y teclado. Las de movimiento comprueban superficies estáticas y ausencia de animaciones activas; el panel comprueba configuraciones antiguas. Consultar los checks del PR para resultados finales. La activación externa del CMS en Supabase sigue pendiente; esta presentación funciona con los valores por defecto sin ejecutar SQL ni crear datos.
+
+Verificación local: lint/tipos/builds de pruebas, 8 públicas, 13 de panel y 10 regresiones focalizadas aprobadas. La primera ronda completa tuvo 81 aprobadas y tres incidencias ya corregidas en la comprobación CSS y el respaldo sin JS del carrusel; CI vuelve a ejecutar las 84 completas. La compilación real, integración y Vercel se verifican al publicar. No se usan credenciales reales ni se escribe en Supabase.
+
+## Corrección vigente — menú completo e importación retirada, 2026-10-18
+
+Base main `6b63e76`, PR #8 ya fusionado/publicado. El propietario mostró el menú recortado en una franja frente a la versión completa y pidió uniformidad, además de quitar totalmente Importar Alberobello. Rama `fix/fullscreen-menu-and-remove-import`; sin cambios remotos nuevos ni modificaciones locales ajenas al comenzar.
+
+Reproducción: viewport 1600×800, panel 1600×192 con movimiento normal y 1600×800 con movimiento reducido. El header con transformación final 3D crea un containing block para el hijo fixed; el filtro al desplazarse también puede hacerlo. El noscript cliente contenía un style que alcanzaba la cabecera con JS activo. Ahora Header renderiza el panel como hermano, conservando contexto/tema/3D, y el respaldo usa `@media (scripting: none)`. El menú ocupa el viewport y adapta las ventanas bajas; teclado, foco y Escape permanecen. No volver a introducir un estilo dentro del noscript ni anidar el panel en el header.
+
+Se eliminan ImportButton e importLocalProperties, sus imports y el texto del estado vacío; la creación manual y el contenido histórico de Alberobello permanecen. No se borra inventario ni se ejecuta SQL. La migración del CMS continúa pendiente de quien administra Supabase; este ajuste no depende de ella. Las pruebas públicas ejercitan scroll/movimiento normal/redimensionado/teclado/axe; la suite autenticada usa el doble HTTP y comprueba ausencia del botón. Consultar los checks del PR para resultados finales.
+
+Validación local de la corrección: lint, tipos y builds público, fixtures, panel y configuración pública real aprobados; 8 pruebas públicas + 10 regresiones seleccionadas de navegación/sin JS/cierre/axe + 12 de panel aprobadas. Vercel y los checks remotos se comprueban al entregar. No confundir el doble de Auth/Storage local con una sesión del proyecto real.
 
 ## Corrección vigente — foto del pie, 2026-10-18
 

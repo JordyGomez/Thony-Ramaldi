@@ -1,5 +1,9 @@
 # Contexto para Claude
 
+Dirección vigente posterior: el propietario considera exageradas las animaciones y autoriza retirarlas. Rama `fix/remove-decorative-motion`, desde main `530fd51` (PR #9). La web utiliza presentación estática: sin puerta/preloader, controlador de paralaje, revelados, giros o zoom al pasar el cursor. Las configuraciones antiguas se normalizan a off/entry=false; el panel conserva la edición de contenido con Marca y presentación. No volver a la petición 3D histórica sin una nueva instrucción. Diseño de Claude, menú completo, búsqueda, inventario y contactos permanecen.
+
+Corrección vigente: desde main `6b63e76` (PR #8), rama `fix/fullscreen-menu-and-remove-import`. El propietario pidió que las tres rayas abran siempre el menú completo y retirar Importar Alberobello. El panel del menú se separa de la cabecera para que su 3D/desenfoque no lo recorte; el respaldo sin JS se limita por media query. Se eliminan botón, acción de importación y texto asociado; conservar creación manual e inventario existente. Ver HANDOFF y los checks del PR para estado remoto.
+
 Este es el mismo producto y repositorio que desarrolla Codex. Puedes modificar cualquier archivo, incluidos componentes, estilos, datos, dependencias y código escrito por otro asistente. No hay una división permanente de responsabilidades.
 
 Al iniciar cada tarea:

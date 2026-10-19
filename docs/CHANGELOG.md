@@ -2,10 +2,28 @@
 
 ## 2026-10-19 — Claude / Yordi Lewis — Portada solo con el título
 
-- Petición del propietario mediante captura: quitar los textos marcados en la portada. Base main `6b63e76` (PR #8), rama `claude/modest-ramanujan-526yik` reiniciada sobre ese main.
-- El hero conserva fotografía, profundidad y título. Se retiran la nota «Fotografía ilustrativa», la firma «TP · Una perspectiva personal» y el bloque derecho con subtítulo, «Descubrir» y «Hablar con Thony». El WhatsApp flotante, el menú y los contactos del resto de la página no cambian.
+- Petición del propietario mediante captura: quitar los textos marcados en la portada. Rama `claude/modest-ramanujan-526yik`, iniciada sobre main `6b63e76` (PR #8) y actualizada con merge de main `d427708` (PR #10, presentación estática); conflictos resueltos conservando ambos cambios.
+- El hero conserva fotografía y título, ya estáticos tras el PR #10. Se retiran la nota «Fotografía ilustrativa», la firma «TP · Una perspectiva personal» y el bloque derecho con subtítulo, «Descubrir» y «Hablar con Thony». El WhatsApp flotante, el menú y los contactos del resto de la página no cambian.
 - Se eliminan del editor y de `defaultTexts` los campos ya sin uso (`heroSubtitle`, `heroDiscover`, `heroCta`, `heroNote`, `heroSignature`). La normalización solo lee claves conocidas, así que contenido guardado con esas claves se ignora sin error. CSS huérfano retirado.
-- Pruebas adaptadas para comprobar la ausencia de esos textos y enlaces en la portada. Lint, tipos y builds con y sin fixtures aprobados; **84 regresiones + 6 públicas + 12 de panel + 9 SQL aprobadas**. Sin cambios en Supabase.
+- Pruebas adaptadas para comprobar la ausencia de esos textos y enlaces en la portada; la prueba de foto fallida del PR #10 comprueba ahora el WhatsApp flotante, ya que la portada no tiene enlaces. Tras el merge: lint, tipos y builds con y sin fixtures aprobados; **84 regresiones + 8 públicas + 13 de panel + 9 SQL aprobadas**. El build con la configuración real no pudo leer Supabase desde este entorno (DNS bloqueado); lo comprueba la preview de Vercel. Sin cambios en Supabase.
+
+## 2026-10-18 — Codex / Yordi Gómez — Presentación estática y controles inmediatos
+
+- Petición posterior del propietario: las animaciones resultan exageradas; pide profesionalizarlas o retirarlas. Se elige presentación estática sobre el diseño existente. Base main `530fd51` (PR #9), rama `fix/remove-decorative-motion`, sin avances remotos ni cambios ajenos al iniciar.
+- La home deja de montar la puerta/preloader y el marco público deja de montar el controlador de paralaje. Reveal pasa a ser un envoltorio estático; el menú pierde giros, escalonado y cierre animado. Fotos, iconos y controles no cambian de escala o posición al pasar el cursor; anclas y carrusel se desplazan sin animación.
+- Defaults, validación de configuración y contexto fijan motion=off/entry=false para que una publicación o un historial antiguo no reactiven los efectos. El editor muestra Marca y presentación, conservando contenido/paleta/secciones y retirando controles de animación. El respaldo del carrusel se limita a scripting:none, evitando ocultar sus botones con JS activo.
+- Se actualizan las pruebas de entrada para comprobar contenido inmediato con fotos lentas o fallidas, teclado y navegación; se comprueban inmovilidad al mover el puntero, ausencia de animaciones activas y compatibilidad con configuraciones antiguas. Los resultados se registran al validar la entrega; no se escribe en el Supabase real.
+- Verificación local: lint/tipos, builds de fixtures/público/panel y 8 pruebas públicas + 13 de panel aprobados. La ronda completa inicial dio 81 aprobadas y tres incidencias corregidas (nombre de propiedad CSS en una prueba y especificidad del respaldo sin JS); la repetición focalizada de movimiento/carrusel dio 10 aprobadas. CI ejecuta de nuevo las 84 regresiones completas y el SQL existente antes de integrar.
+- Compilación con la configuración pública real de Supabase aprobada; la presentación estática no requiere la migración pendiente del CMS.
+
+## 2026-10-18 — Codex / Yordi Gómez — Menú completo y retirada de importación
+
+- Base main `6b63e76` (PR #8), sin avances remotos ni modificaciones ajenas al iniciar; rama `fix/fullscreen-menu-and-remove-import`. El propietario mostró dos estados del menú y pidió siempre el completo, además de eliminar Importar Alberobello.
+- Reproducción local anterior: con movimiento normal, un viewport de 1600×800 dejaba el panel en 1600×192; con movimiento reducido ocupaba los 800 px. La transformación persistente de la cabecera capturaba el hijo fixed. El estilo de respaldo dentro del noscript cliente también alcanzaba la cabecera.
+- Menú trasladado como hermano de la cabecera, fijado al viewport con 100dvh, control de ancho, adaptación a ventanas bajas y desplazamiento vertical. El respaldo sin JS pasa a CSS condicionado por scripting; se conserva el diseño, 3D, foco, Escape y contenido accesible.
+- Eliminados botón, acción de importación y recomendación del estado vacío. Las propiedades se crean manualmente; no se borran fichas ni archivos existentes ni se escribe en Supabase.
+- Ampliadas las pruebas públicas para movimiento normal, scroll, seis tamaños/orientaciones, redimensionado abierto, enlaces visibles, teclado y axe; el login de pruebas comprueba la ausencia del importador. Los resultados se registran al validar la entrega.
+- Lint/tipos y builds público/fixtures/panel/configuración pública real aprobados; **8 pruebas públicas, 10 regresiones seleccionadas de navegación/sin JS/axe y 12 del panel aprobadas**, sin fallos. El panel utiliza servicios locales de prueba. Los checks remotos se verifican al publicar; sin operaciones autenticadas reales en Supabase.
 
 ## 2026-10-18 — Codex / Yordi Gómez — Retirada de la foto ilustrativa del pie
 

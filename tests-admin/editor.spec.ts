@@ -25,7 +25,34 @@ const login = async (page: import("@playwright/test").Page) => {
     .getByRole("button", { name: "Entrar al panel", exact: true })
     .click();
   await expect(page).toHaveURL(/\/admin$/);
+  await expect(
+    page.getByRole("button", { name: /Importar Alberobello/i }),
+  ).toHaveCount(0);
+  await expect(page.getByText(/Importa la ficha de Alberobello/)).toHaveCount(0);
 };
+
+test("una configuración antigua no reactiva la introducción ni los efectos", async ({ page, request }) => {
+  await login(page);
+  const initial = await (await page.request.get("/api/admin/site")).json();
+  const response = await page.request.post("/api/admin/site", {
+    headers: { Origin: "http://127.0.0.1:3300" },
+    data: {
+      revision: initial.revision,
+      publish: false,
+      settings: {
+        ...initial.settings,
+        experience: { ...initial.settings.experience, motion: "expressive", entry: true },
+      },
+    },
+  });
+  expect(response.status()).toBe(200);
+  const state = await (await request.get(`${fixture}/__test/state`)).json();
+  expect(state.draft.content.experience.motion).toBe("off");
+  expect(state.draft.content.experience.entry).toBe(false);
+  await page.goto("/admin/vista-previa");
+  await expect(page.locator(".site-experience")).toHaveAttribute("data-motion", "off");
+  await expect(page.locator(".preloader")).toHaveCount(0);
+});
 
 test("las rutas de medios y edición rechazan visitas sin sesión", async ({
   request,
@@ -274,7 +301,7 @@ test("un conflicto conserva la edición y no reemplaza la del otro colaborador",
   );
 });
 
-test("publicar actualiza portada, contactos, secciones, SEO y movimiento; guarda historial recuperable", async ({
+test("publicar actualiza portada, contactos, secciones y SEO; conserva presentación estática e historial", async ({
   page,
   request,
 }) => {
@@ -302,9 +329,9 @@ test("publicar actualiza portada, contactos, secciones, SEO y movimiento; guarda
     .click();
   await page.getByLabel("Búsqueda personal", { exact: true }).uncheck();
   await page
-    .getByRole("button", { name: "Marca y animaciones", exact: true })
+    .getByRole("button", { name: "Marca y presentación", exact: true })
     .click();
-  await page.getByLabel("Intensidad de las animaciones").selectOption("off");
+  await expect(page.getByText("Presentación estática", { exact: false })).toBeVisible();
   await page
     .getByRole("button", { name: "Publicar cambios", exact: true })
     .click();

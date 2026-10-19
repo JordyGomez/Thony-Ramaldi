@@ -5,6 +5,68 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
+test("el menú ocupa la pantalla completa con scroll y cambios de tamaño", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => sessionStorage.setItem("thony-entry", "seen"));
+  await page.goto("/");
+  await expect(page.locator(".preloader")).toHaveCount(0);
+  await expect(
+    page.getByRole("navigation", { name: "Navegación sin JavaScript" }),
+  ).not.toBeVisible();
+  await page.evaluate(() => window.scrollTo({ top: 650, behavior: "instant" }));
+  await expect(page.locator(".site-header")).toHaveClass(/is-scrolled/);
+  const toggle = page.getByRole("button", { name: "Abrir menú" });
+  await toggle.click();
+  const panel = page.locator("#mobile-navigation");
+  const links = panel.getByRole("navigation").getByRole("link");
+  await expect(links).toHaveCount(4);
+  for (const [width, height] of [
+    [1600, 800],
+    [1920, 1080],
+    [1366, 768],
+    [390, 844],
+    [844, 390],
+    [800, 450],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await expect
+      .poll(async () => {
+        const box = await panel.boundingBox();
+        return box && [box.x, box.y, box.width, box.height].map(Math.round);
+      })
+      .toEqual([0, 0, width, height]);
+    for (const link of await links.all())
+      await expect(link).toBeInViewport({ ratio: 1 });
+    await expect(
+      page.getByRole("button", { name: "Cerrar menú" }),
+    ).toBeInViewport();
+    expect(
+      await panel.evaluate((element) => element.scrollWidth <= element.clientWidth),
+    ).toBe(true);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await links.first().focus();
+  await page.keyboard.press("Shift+Tab");
+  await expect(page.getByRole("button", { name: "Cerrar menú" })).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(panel.getByRole("link", { name: "Contactar a Thony" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Cerrar menú" })).toBeFocused();
+  expect(
+    (await new AxeBuilder({ page })
+      .include(".site-header")
+      .include("#mobile-navigation")
+      .analyze()).violations,
+  ).toEqual([]);
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+  await expect(toggle).toBeFocused();
+  await expect(page.locator("main")).not.toHaveAttribute("inert", "");
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+});
+
 test("sin inventario, el pie espera fotografías de propiedades publicadas", async ({
   page,
 }) => {

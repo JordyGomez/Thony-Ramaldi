@@ -42,7 +42,6 @@ export const textGroups: { title: string; fields: [TextKey, string][] }[] = [
       ["heroTitle", "Primera línea del título"],
       ["heroEmphasis", "Segunda línea del título"],
       ["heroAlt", "Descripción accesible de la foto de portada"],
-      ["entryCaption", "Texto de la introducción animada"],
     ],
   },
   {
