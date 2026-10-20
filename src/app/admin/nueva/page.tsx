@@ -6,11 +6,13 @@ import { PropertyForm } from "../property-form";
 import { emptyPropertyInput } from "../property-input";
 import { knownLocations } from "../locations";
 import styles from "../admin.module.css";
+import { requireAdmin } from "@/lib/admin-access";
 
 export default async function NewPropertyPage() {
   if (!isSupabaseConfigured) redirect("/admin");
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
+  await requireAdmin();
   return (
     <>
       <AdminBar email={user.email} />

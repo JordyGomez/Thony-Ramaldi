@@ -1,5 +1,13 @@
 # Registro de cambios
 
+## 2026-10-20 — Codex / Yordi Gómez — Plataforma empresarial privada preparada
+
+- Revisados Git, ramas, PR, autores y documentación antes de editar. Se detecta el PR #11 de Claude/Yordi Lewis (`3b1931f`) y se conserva como base, incluyendo portada sin textos secundarios. Main `d427708` permanece sin cambios de esta entrega. Rama `feat/private-dual-mode-platform`, PR #12 en revisión; primer hito `4612a88`.
+- Migración aditiva de organización, permisos por UID, empleados/invitaciones, perfiles, aprobación, configuración/historial empresarial, documentación privada y auditoría. Propiedades antiguas conservan procedencia personal; no se crean cuentas o anuncios ni se asigna SUPERADMIN automáticamente.
+- Panel ampliado con gestión empresarial y configuración avanzada/preview exclusivas de SUPERADMIN. Formularios, login, editor personal y subidas existentes reutilizados; firma, fotos y diseño de Claude preservados, sin movimiento decorativo.
+- Snapshot coherente de identidad activa, contenido e inventario; modo por defecto Thony. Cambio/reversión transaccionales con revisión esperada, aprobación corporativa, confirmación y auditoría; rutas/SEO revalidados sin redeploy. Registro mediante Supabase Auth, hook privado de invitaciones, verificación de correo y aprobación de pertenencia.
+- Validación local aprobada: lint/tipos/builds, 38 comprobaciones SQL, 17 casos empresariales y 13 del panel anterior; 84 regresiones en el primer ciclo. CI del último commit vuelve a ejecutar las 84 regresiones, 8 públicas, 13 de panel, 17 empresariales y 38 SQL. No se ejecutó SQL en producción ni se configuraron servicios de Auth reales. Evidencia del SHA y límites en HANDOFF, PLATFORM-TESTING y checks del PR #12.
+
 ## 2026-10-19 — Claude / Yordi Lewis — Portada solo con el título
 
 - Petición del propietario mediante captura: quitar los textos marcados en la portada. Rama `claude/modest-ramanujan-526yik`, iniciada sobre main `6b63e76` (PR #8) y actualizada con merge de main `d427708` (PR #10, presentación estática); conflictos resueltos conservando ambos cambios.

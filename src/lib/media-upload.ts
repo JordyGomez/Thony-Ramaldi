@@ -90,10 +90,14 @@ export function uploadMediaFile(
   file: File,
   onProgress: (progress: number) => void,
   signal?: AbortSignal,
+  enterprise = false,
 ): Promise<UploadedMedia> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/admin/media");
+    xhr.open(
+      "POST",
+      enterprise ? "/api/admin/media?scope=enterprise" : "/api/admin/media",
+    );
     xhr.withCredentials = true;
     xhr.timeout = 45000;
     const abort = () => xhr.abort();

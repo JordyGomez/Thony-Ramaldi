@@ -28,11 +28,25 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   const isLogin = request.nextUrl.pathname === "/admin/login";
-  if (!user && !isLogin) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+  const isPublicAccount = ["/admin/registro", "/admin/recuperar"].includes(
+    request.nextUrl.pathname,
+  );
+  const redirectTo = (pathname: string) => {
+    const url = request.nextUrl.clone();
+    url.host = request.headers.get("host") || url.host;
+    url.pathname = pathname;
+    url.search = "";
+    const redirected = NextResponse.redirect(url);
+    response.cookies
+      .getAll()
+      .forEach((cookie) => redirected.cookies.set(cookie));
+    return redirected;
+  };
+  if (!user && !isLogin && !isPublicAccount) {
+    return redirectTo("/admin/login");
   }
   if (user && isLogin) {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return redirectTo("/admin");
   }
   return response;
 }

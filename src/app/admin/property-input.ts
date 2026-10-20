@@ -9,6 +9,8 @@ import type { PropertyRow, StoredImage } from "@/data/property-row";
 // Estado del formulario del panel. Se valida igual en navegador y servidor.
 export type PropertyInput = {
   id?: string;
+  scope?: "enterprise";
+  version?: number;
   title: string;
   slug: string;
   reference: string;
@@ -85,9 +87,11 @@ export function validatePropertyInput(input: PropertyInput): string | null {
   if (!input.title.trim()) return "Escribe el nombre de la propiedad.";
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(input.slug))
     return "La dirección web solo puede tener letras minúsculas, números y guiones.";
-  if (!input.reference.trim()) return "Escribe una referencia interna (por ejemplo ALB-002).";
+  if (!input.reference.trim())
+    return "Escribe una referencia interna (por ejemplo ALB-002).";
   if (!propertyTypes.includes(input.type)) return "Elige el tipo de propiedad.";
-  if (!propertyOperations.includes(input.operation)) return "Elige venta o alquiler.";
+  if (!propertyOperations.includes(input.operation))
+    return "Elige venta o alquiler.";
   if (input.price === null || !Number.isFinite(input.price) || input.price < 0)
     return "Escribe el precio en USD (solo el número).";
   if (!input.location.trim()) return "Escribe la ciudad o zona.";
@@ -111,9 +115,7 @@ export function validatePropertyInput(input: PropertyInput): string | null {
 const clean = (list: string[]) =>
   list.map((item) => item.trim()).filter(Boolean);
 
-export function inputToRow(
-  input: PropertyInput,
-): Omit<PropertyRow, "id"> {
+export function inputToRow(input: PropertyInput): Omit<PropertyRow, "id"> {
   return {
     slug: input.slug,
     reference: input.reference.trim(),
@@ -143,7 +145,9 @@ export function inputToRow(
     project_typologies: clean(input.projectTypologies),
     confirmation_note: input.confirmationNote.trim() || null,
     brochure_path: input.brochurePath,
-    brochure_label: input.brochurePath ? input.brochureLabel.trim() || null : null,
+    brochure_label: input.brochurePath
+      ? input.brochureLabel.trim() || null
+      : null,
     sort_order: input.sortOrder,
     published: input.published,
   };
@@ -152,6 +156,9 @@ export function inputToRow(
 export function rowToInput(row: PropertyRow): PropertyInput {
   return {
     id: row.id,
+    ...(row.organization_id
+      ? { scope: "enterprise" as const, version: row.version || 0 }
+      : {}),
     title: row.title,
     slug: row.slug,
     reference: row.reference,

@@ -22,12 +22,14 @@ export function MediaUploader({
   label = "Añadir fotos",
   multiple = true,
   pdf = false,
+  enterprise = false,
 }: {
   onUploaded: (media: UploadedMedia) => void;
   onBusyChange?: (busy: boolean) => void;
   label?: string;
   multiple?: boolean;
   pdf?: boolean;
+  enterprise?: boolean;
 }) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [busy, setBusy] = useState(false);
@@ -68,6 +70,7 @@ export function MediaUploader({
             file,
             (progress) => update(job.id, { progress }),
             active.current.signal,
+            enterprise,
           );
           if (active.current.signal.aborted) break;
           onUploaded(result);

@@ -1,4 +1,5 @@
 import "server-only";
+import { getPlatformSnapshot } from "./get-platform";
 import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 import {
@@ -15,6 +16,12 @@ import {
 /** Solo la publicación es pública. Borradores e historial tienen RLS privado. */
 export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   if (!isSupabaseConfigured) return defaultSettings;
+  const snapshot = await getPlatformSnapshot();
+  if (snapshot?.mode === "thony")
+    return parseSiteSettings(snapshot.settings || {});
+  // Los componentes empresariales leen su configuración independiente.
+  if (snapshot?.mode === "ramaldi")
+    throw new Error("Usa la configuración empresarial en esta modalidad.");
   const client = createClient(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false },
     global: {

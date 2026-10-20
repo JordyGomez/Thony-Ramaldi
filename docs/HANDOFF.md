@@ -1,5 +1,16 @@
 # Transferencia de contexto
 
+## Entrega en revisión — plataforma de dos identidades, 2026-10-20
+
+- Rama `feat/private-dual-mode-platform`; PR #12 en borrador, sin integración a main ni despliegue de producción. Primer hito `4612a88` (SQL/RLS y pruebas). La web publicada debe permanecer en Thony.
+- Git inicial limpio y fetch realizados. Main `d427708`. Detectado PR #11 de Claude/Yordi Lewis, head `3b1931f`, revisados commits/diffs y usado como base para conservar su hero de fotografía y título. PR #2 histórico queda intacto. No se puede observar trabajo privado sin publicar.
+- Misma aplicación, Auth y Supabase. Panel personal conservado; ampliación de empleados, perfiles, propiedades/aprobación, documentos y configuración separada. SUPERADMIN por UID verificado, sin promoción de administradores anteriores; selector y preview privados con validación servidor/RLS. Snapshot público por petición y protección frente a layouts de otra identidad; sin reactivar animaciones.
+- SQL nuevo `20261020_dual_mode_platform.sql`, después del editor personal. Inventario actual sin asignación empresarial automática, bucket legado preservado y bucket empresarial privado. Auditoría, CAS/revisiones, invitaciones SHA-256, hook de registro y reversión sin borrado. Bootstrap solo manual del propietario; ninguna cuenta privilegiada creada en esta tarea.
+- Comprobación pública final del 2026-10-20 a las 14:53 UTC: web 200, identidad Thony, motion=off, sin portal corporativo. GitHub main sigue en `d427708` y PR #11 en `3b1931f`.
+- Lectura real anónima: properties 200; site_content, organizations y platform_state ausentes/PGRST205. No hubo introspección privilegiada de políticas reales, escritura Auth/Storage ni migración real. El usuario carece de acceso a Supabase; no pedirle ejecutar SQL otra vez ni solicitar secretos. La instalación y configuración del hook/SMTP/CAPTCHA corresponden al propietario del proyecto.
+- Validación local: lint, tipos, builds, 13 casos del panel anterior, 17 empresariales y 38 comprobaciones SQL aprobados. Las 84 regresiones pasaron en el primer ciclo; CI del último commit ejecuta de nuevo las 84, 8 públicas y ambas suites de panel, con SQL (160 comprobaciones en total). Consultar sus checks antes de integrar; no atribuir un resultado de otro SHA. Las suites de build comparten `.next`; no ejecutarlas simultáneamente ni usar el build de loopback en Vercel.
+- Operación y requisitos corporativos en PLATFORM-OPERATIONS; permisos, arquitectura, seguridad y pruebas en los documentos PLATFORM. No fusionar una versión parcial ni dar por activo el modo empresarial porque exista código.
+
 ## Corrección vigente — portada solo con el título, 2026-10-19
 
 A petición del propietario, el hero muestra únicamente fotografía y título (`src/components/hero.tsx`). Ya no existen la nota de fotografía, la firma «TP · Una perspectiva personal» ni el bloque de subtítulo/«Descubrir»/«Hablar con Thony»; sus campos se retiraron del editor y de `defaultTexts`. No reintroducirlos sin petición. Rama `claude/modest-ramanujan-526yik`, actualizada con main `d427708` (PR #10). El acceso de administración de `jordygtbusiness@gmail.com` se resuelve en `admin_users` desde el SQL Editor, no en código.

@@ -10,7 +10,9 @@ Se inspeccionaron `schema.sql`, `20261018_site_editor.sql`, Auth/cookies/proxy, 
 
 - Una aplicación, un Supabase, un Auth y un panel `/admin`. No se introduce otra base ni un sistema de contraseñas propio.
 - `admin_users` y CMS personal se conservan. SUPERADMIN es un permiso separado por UID, asignado por el propietario de la base tras verificar la cuenta; ninguna promoción automática por correo ni metadatos del navegador.
+- El editor existente `/admin/web` maneja ambos ámbitos con autorización en servidor; cambiar el ámbito editorial no cambia la identidad pública.
 - Configuración personal en las tablas existentes; configuración empresarial, borradores e historial separados. Ningún contacto personal sirve como reserva corporativa.
+- La preview de Thony consulta únicamente su visibilidad personal aunque Ramaldi esté activo; la empresarial exige perfiles públicos aprobados para identificar a cada responsable.
 - Propiedades existentes: organización y asesor nulos, visibilidad personal conservada. Las nuevas empresariales tienen organización y responsable, aprobación y versión. Nunca duplicar inventario para cambiar de identidad.
 - Escrituras empresariales por RPC transaccional con permisos del servidor y RLS. No permitir que el cliente cambie estado, propietario, organización o permisos mediante DML directo.
 - Modo inicial Thony. La instalación no autoriza identidad corporativa, no crea empleados y no habilita registro abierto.
@@ -23,3 +25,5 @@ Se inspeccionaron `schema.sql`, `20261018_site_editor.sql`, Auth/cookies/proxy, 
 La migración del editor personal sigue pendiente en la base real; instalarla antes de la ampliación. El bucket `properties` ya es público: no mover ni privatizar los archivos actuales. Los archivos empresariales usan un bucket privado nuevo. Comprobar políticas adicionales no versionadas, copias de respaldo, propietario de funciones, URLs de Auth y verificación de email antes de habilitar incorporación.
 
 La implementación y las pruebas se entregan por PR; no se ejecuta SQL ni se cambia main/producción en esta tarea. Ver los documentos de operación, permisos y pruebas al completar la entrega.
+
+El renderizado público dinámico depende de una respuesta válida de Supabase; ya no promete servir el HTML ISR anterior durante una interrupción. No se sustituye una identidad no verificable por otra. La configuración de reversión usa una lectura mínima independiente del contenido editorial para seguir disponible ante una publicación dañada.

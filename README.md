@@ -1,5 +1,20 @@
 # Thony Paulino · Ramaldi
 
+## Plataforma de dos identidades — preparada, sin activar Ramaldi
+
+La ampliación de PR #12 conserva esta web, el panel de Claude y Supabase. Añade una identidad empresarial independiente, roles por UID, incorporación con invitación/verificación/aprobación, perfiles profesionales, inmuebles propios con revisión, planos/documentos privados y auditoría. El modo público sigue siendo **Thony**. El selector y la vista previa empresarial requieren SUPERADMIN real, validado en servidor y RLS; `admin_users` no concede ese permiso.
+
+Código y migraciones se entregan para revisión: no se ejecutó DDL ni se activó Ramaldi en producción. Requiere revisión/instalación del propietario de Supabase, bootstrap explícito de una cuenta verificada y autorización corporativa antes de activar. Los contactos corporativos desconocidos permanecen vacíos. Cambiar modo no copia ni borra inventario/configuración; volver a Thony usa la misma operación transaccional, sin redeploy.
+
+- [Arquitectura y revisión de Claude](docs/PLATFORM-ARCHITECTURE.md).
+- [Permisos, incorporación y aprobación](docs/PLATFORM-PERMISSIONS.md).
+- [Instalación, aprobación corporativa, activación y reversión](docs/PLATFORM-OPERATIONS.md).
+- [Seguridad y archivos](docs/PLATFORM-SECURITY.md) · [pruebas aisladas](docs/PLATFORM-TESTING.md).
+
+Nuevas rutas privadas: `/admin/empresa`, `/admin/plataforma` y `/admin/plataforma/vista-previa`. El formulario de propiedades, autenticación y componentes existentes se reutilizan. El contenido público usa un snapshot coherente por petición; el 404, SEO, sitemap y Open Graph también dependen del modo. Las rutas de asesores y el registro corporativo no se habilitan en Thony.
+
+La migración aditiva es `supabase/migrations/20261020_dual_mode_platform.sql`, después de la del editor personal. El hook de invitaciones debe conectarse en Supabase Auth antes de habilitar altas. Turnstile requiere `NEXT_PUBLIC_AUTH_CAPTCHA_SITE_KEY` y configuración del proveedor en Supabase. No se añaden claves privilegiadas ni otro Auth/base de datos. `npm run test:platform` comprueba Next y PostgreSQL/RLS aislados; reconstruye `.next`, como `test:admin`, por lo que las suites se ejecutan secuencialmente.
+
 Sitio profesional y catálogo inmobiliario de **Thony Paulino**, asesor de **Ramaldi**, orientado a República Dominicana. La dirección vigente recupera la composición de Claude: portada fotográfica a pantalla completa, Inter fina, carbón y firma grande al pie. La presentación actual es estática, por petición del propietario: sin introducción, paralaje, giros, zoom ni efectos decorativos. El contenido aparece directamente y los controles responden de inmediato.
 
 El pie espera las fotografías de una propiedad publicada por un administrador: sin ellas se muestran solo firma, navegación y contactos, sin imagen ilustrativa ni hueco reservado. Se usa la primera foto del inventario público, excluyendo demostraciones y renders. La selección propia del panel es opcional y también requiere ese inventario; el recurso antiguo `villa.jpg` no se reactiva desde configuraciones anteriores. Guardar, ocultar o borrar propiedades actualiza el pie mediante la revalidación existente.
@@ -119,9 +134,9 @@ La galería avisa que las fotografías ilustrativas no representan un mismo inmu
 Panel propio, en español, construido en la aplicación (`src/app/admin/`). Los datos, las fotos y el inicio de sesión viven en **Supabase** (Postgres, Storage y Auth). Las páginas públicas obtienen las propiedades con `getProperties()` (`src/data/get-properties.ts`):
 
 - **Proyecto oficial**: `uowylfdlirlfqksvdeer`, con URL y clave publishable como valores por defecto en `src/lib/supabase/env.ts` (no hace falta configurar Vercel).
-- **La web muestra solo lo publicado en el panel.** Sin fichas publicadas, el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. Si Supabase falla, la página lanza un error y Next conserva la última versión publicada (en un build, el despliegue falla en lugar de publicar una web vacía).
+- **La web muestra solo lo publicado en el panel.** Sin fichas publicadas, el catálogo muestra “Pronto publicaremos nuevas propiedades” con contacto por WhatsApp y el carrusel se oculta. El modo y su snapshot se verifican por petición. Si Supabase no responde, se muestra un error; no se publica un catálogo vacío ni otra identidad como sustitución. Esta ampliación usa renderizado dinámico, sin prometer el respaldo de HTML de la versión ISR anterior.
 - **Desactivado** (variables vacías): `/admin` muestra “Panel pendiente de activar” y el catálogo queda vacío. Solo pruebas fuera de Vercel que habiliten `THONY_TEST_FIXTURES=1` usan `sampleProperties`. Las demostraciones tampoco se leen del panel para la web pública.
-- **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y se suben directamente al bucket `properties`. Guardar regenera la web al instante (`revalidatePath`); como respaldo, las páginas se revalidan cada 60 s. Las fichas nuevas se generan bajo demanda.
+- **Configurado**: `/admin` pide correo y contraseña (`src/proxy.ts` protege todas sus rutas). Thony crea, edita, oculta y borra fichas; las fotos se reducen en el navegador (máx. 2400 px) y pasan por el servidor con validación antes de guardarse en `properties`. Guardar invalida las rutas (`revalidatePath`); cada petición pública verifica el modo y su contenido. Las fichas nuevas se sirven bajo demanda.
 - El panel vacío ofrece **Crear propiedad**; las fichas se añaden manualmente con sus datos y fotos. El botón y la acción de importar Alberobello se retiraron por petición del propietario.
 
 Seguridad (`supabase/schema.sql`): lectura pública solo de fichas publicadas; crear, editar, borrar y subir archivos solo para correos de la tabla `admin_users`. La clave del navegador es pública por diseño; nunca usar ni guardar la clave `service_role` en el proyecto.
@@ -136,7 +151,7 @@ Activación pendiente:
 4. URL y clave publishable ya están en `src/lib/supabase/env.ts`. Para otro proyecto, cambiarlas allí o definir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel y volver a desplegar.
 5. Entrar en `/admin` y crear/publicar las fichas autorizadas desde **Nueva propiedad**.
 
-Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, las páginas seguirían mostrando su última versión generada hasta reactivarlo desde su panel.
+Nota del plan gratuito: Supabase pausa los proyectos sin actividad durante una semana. Las visitas a la web cuentan como actividad; si se pausara, la lectura dinámica de esta ampliación requeriría que el propietario lo reactive. No se cambia de identidad para ocultar una interrupción del servicio.
 
 ## Identidad y recursos pendientes
 

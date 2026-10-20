@@ -7,6 +7,7 @@ import { PropertyForm } from "../property-form";
 import { rowToInput } from "../property-input";
 import { knownLocations } from "../locations";
 import styles from "../admin.module.css";
+import { requireAdmin } from "@/lib/admin-access";
 
 export default async function EditPropertyPage({
   params,
@@ -17,12 +18,14 @@ export default async function EditPropertyPage({
   const { id } = await params;
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
+  await requireAdmin();
   const { data } = await supabase
     .from("properties")
     .select("*")
     .eq("id", id)
     .maybeSingle<PropertyRow>();
   if (!data) notFound();
+  if (data.organization_id) redirect("/admin/empresa");
   return (
     <>
       <AdminBar email={user.email} />

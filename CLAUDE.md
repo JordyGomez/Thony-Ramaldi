@@ -1,5 +1,13 @@
 # Contexto para Claude
 
+## Continuidad vigente — dos identidades privadas, PR #12
+
+Tarea del 2026-10-20: preparar el modo empresarial sin cambiar producción ni sustituir diseño/panel. Rama `feat/private-dual-mode-platform`, base del PR #11 `3b1931f`, cuya atribución Claude/Yordi Lewis está confirmada por commits y descripción. Conserva la portada solo con fotografía/título y no recupera campos retirados. Main permanece `d427708` al iniciar; PR #11 sigue abierto. Revisar ambos PR y nuevos commits antes de integrar.
+
+El panel personal/CMS/Supabase se conservan. `/admin/empresa` amplía gestión por empleado, perfiles y aprobación; `/admin/plataforma` y su preview son exclusivos de SUPERADMIN por UID verificado, sin heredar `admin_users`. Modo inicial Thony, configuración empresarial separada y contactos desconocidos vacíos. Migración nueva aditiva, sin atribuir propiedades antiguas ni bootstrap automático. No se ejecutó SQL real ni se concedió un rol en producción.
+
+Leer `docs/PLATFORM-ARCHITECTURE.md`, `PLATFORM-PERMISSIONS.md`, `PLATFORM-OPERATIONS.md`, `PLATFORM-SECURITY.md` y `PLATFORM-TESTING.md`. No activar Ramaldi, registro ni identidad oficial sin autorización corporativa y confirmación administrativa. No volver a pedir al usuario acceso a Supabase: ya indicó que no lo tiene; la instalación revisada corresponde al propietario del proyecto. Ningún asistente tiene archivos o responsabilidades exclusivos.
+
 Dirección vigente posterior: el propietario considera exageradas las animaciones y autoriza retirarlas. Rama `fix/remove-decorative-motion`, desde main `530fd51` (PR #9). La web utiliza presentación estática: sin puerta/preloader, controlador de paralaje, revelados, giros o zoom al pasar el cursor. Las configuraciones antiguas se normalizan a off/entry=false; el panel conserva la edición de contenido con Marca y presentación. No volver a la petición 3D histórica sin una nueva instrucción. Diseño de Claude, menú completo, búsqueda, inventario y contactos permanecen.
 
 Corrección vigente: desde main `6b63e76` (PR #8), rama `fix/fullscreen-menu-and-remove-import`. El propietario pidió que las tres rayas abran siempre el menú completo y retirar Importar Alberobello. El panel del menú se separa de la cabecera para que su 3D/desenfoque no lo recorte; el respaldo sin JS se limita por media query. Se eliminan botón, acción de importación y texto asociado; conservar creación manual e inventario existente. Ver HANDOFF y los checks del PR para estado remoto.

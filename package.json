@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "playwright test",
     "test:database": "node --test tests-db/*.test.mjs",
-    "test:admin": "node scripts/test-admin.mjs"
+    "test:admin": "node scripts/test-admin.mjs",
+    "test:platform": "node scripts/test-platform.mjs"
   },
   "engines": {
     "node": ">=22.0.0"

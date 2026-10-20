@@ -131,8 +131,24 @@ const server = createServer(async (req, res) => {
       publishedAt: state.publication.published_at,
     });
   }
+  if (url.pathname.startsWith("/rest/v1/rpc/"))
+    return send({ code: "PGRST202", message: "Function not found" }, 404);
   if (url.pathname.startsWith("/rest/v1/")) {
     const table = url.pathname.split("/").at(-1);
+    if (table === "properties" && url.searchParams.has("thony_visible"))
+      return send(
+        {
+          code: "42703",
+          message: "Column not found before platform migration",
+        },
+        400,
+      );
+    if (
+      !["properties", "site_content", "site_drafts", "site_revisions"].includes(
+        table,
+      )
+    )
+      return send({ code: "PGRST205", message: "Table not found" }, 404);
     if (table !== "properties" && !state.installed)
       return send({ code: "PGRST205", message: "Missing table" }, 404);
     if (

@@ -36,6 +36,13 @@ export type PropertyRow = {
   brochure_label: string | null;
   sort_order: number | null;
   published: boolean;
+  organization_id?: string | null;
+  agent_id?: string | null;
+  workflow_state?: string | null;
+  thony_visible?: boolean;
+  ramaldi_visible?: boolean;
+  version?: number;
+  public_documents?: { path: string; label: string }[];
 };
 
 const emptyToUndefined = (list: string[] | null) =>
