@@ -2,7 +2,7 @@
 
 ## Estado de integración
 
-PR #12, rama `feat/private-dual-mode-platform`. La entrega prepara código y migraciones; no integra main, no despliega producción y no activa Ramaldi. El primer hito SQL se publicó en `4612a88`. La comprobación final de pruebas y GitHub se registra en HANDOFF y los checks del último commit.
+PR #12 listo para revisión, rama `feat/private-dual-mode-platform`. La entrega prepara código y migraciones; no integra main, no despliega producción y no activa Ramaldi. El primer hito SQL se publicó en `4612a88` y la implementación completa en `ca0cd1c`. La comprobación final de pruebas y GitHub se registra en HANDOFF y los checks del último commit.
 
 ## Funcionalidades implementadas
 
@@ -44,7 +44,7 @@ El renderizado dinámico requiere respuesta válida de Supabase; no promete el r
 
 ## Verificaciones
 
-Lint, tipos y builds aprobados; 13 pruebas del panel anterior, 17 empresariales y 38 comprobaciones SQL aprobadas localmente. Las 84 regresiones pasaron en el primer ciclo. CI del último SHA comprueba el conjunto completo de 160 (84 + 8 públicas + 13 de panel + 17 empresariales + 38 SQL); su estado final y SHA se verifican en los checks del PR #12 y se describen en HANDOFF/CHANGELOG. Las pruebas usan datos ficticios solo en loopback. Auth/Storage se simulan; SQL, constraints, triggers y RLS se ejecutan con PostgreSQL real embebido. No se afirma haber verificado SMTP/CAPTCHA gestionados, cuentas reales, Safari o teléfonos físicos.
+En `ca0cd1c`, [CI 39443472356](https://github.com/JordyGomez/Thony-Ramaldi/actions/runs/39443472356) aprobó lint, tipos, builds y las **160 comprobaciones**: 84 regresiones, 8 públicas, 13 del panel anterior, 17 empresariales y 38 SQL, sin fallos ni omitidas. Vercel Preview compiló correctamente y exige SSO para abrirse desde fuera; no se eludió. El arranque normal con la configuración actual también pasó las comprobaciones de Thony, login, registro desactivado y rechazo de API privada. Los checks del último SHA incluyen las actualizaciones documentales posteriores; revisarlos antes de integrar. Las pruebas usan datos ficticios solo en loopback. Auth/Storage se simulan; SQL, constraints, triggers y RLS se ejecutan con PostgreSQL real embebido. No se afirma haber verificado SMTP/CAPTCHA gestionados, cuentas reales, Safari o teléfonos físicos.
 
 ## Preparado pero desactivado
 
