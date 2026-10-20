@@ -65,7 +65,11 @@ function GalleryImage({
         fill
         sizes={expanded ? "95vw" : "100vw"}
         preload={preload && attempt === 0}
-        unoptimized={attempt > 0}
+        unoptimized={
+          attempt > 0 ||
+          (typeof image.src === "string" &&
+            image.src.startsWith("/api/platform/media/"))
+        }
         className={status === "error" ? styles.unavailable : undefined}
         onLoad={() => setStatus("ready")}
         onError={() => setStatus("error")}
@@ -260,7 +264,16 @@ export function Gallery({
             aria-pressed={index === i}
             className={index === i ? "selected" : ""}
           >
-            <Image src={image.src} alt="" fill sizes="160px" />
+            <Image
+              src={image.src}
+              alt=""
+              fill
+              sizes="160px"
+              unoptimized={
+                typeof image.src === "string" &&
+                image.src.startsWith("/api/platform/media/")
+              }
+            />
             <span className={styles.thumbIndex} aria-hidden="true">
               0{i + 1}
             </span>

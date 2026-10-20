@@ -13,12 +13,20 @@ import type { PropertyRow } from "@/data/property-row";
 import { AdminBar } from "./admin-bar";
 import { DeleteButton } from "./list-actions";
 import styles from "./admin.module.css";
+import { readPlatformAccess } from "@/lib/platform-access";
 
 export default async function AdminPage() {
   if (!isSupabaseConfigured) return <PendingSetup />;
 
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
+  const access = await readPlatformAccess(supabase);
+  if (
+    access.installed &&
+    !access.legacyAdmin &&
+    (access.status || access.superadmin)
+  )
+    redirect("/admin/empresa");
   const role = await supabase.rpc("is_admin");
   if (role.error || role.data !== true)
     return (

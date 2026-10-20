@@ -1,5 +1,20 @@
 # Registro de cambios
 
+## 2026-10-20 — Codex / Yordi Gómez — Plataforma empresarial privada preparada
+
+- Revisados Git, ramas, PR, autores y documentación antes de editar. Se detecta el PR #11 de Claude/Yordi Lewis (`3b1931f`) y se conserva como base, incluyendo portada sin textos secundarios. Main `d427708` permanece sin cambios de esta entrega. Rama `feat/private-dual-mode-platform`, PR #12 en revisión; primer hito `4612a88`.
+- Migración aditiva de organización, permisos por UID, empleados/invitaciones, perfiles, aprobación, configuración/historial empresarial, documentación privada y auditoría. Propiedades antiguas conservan procedencia personal; no se crean cuentas o anuncios ni se asigna SUPERADMIN automáticamente.
+- Panel ampliado con gestión empresarial y configuración avanzada/preview exclusivas de SUPERADMIN. Formularios, login, editor personal y subidas existentes reutilizados; firma, fotos y diseño de Claude preservados, sin movimiento decorativo.
+- Snapshot coherente de identidad activa, contenido e inventario; modo por defecto Thony. Cambio/reversión transaccionales con revisión esperada, aprobación corporativa, confirmación y auditoría; rutas/SEO revalidados sin redeploy. Registro mediante Supabase Auth, hook privado de invitaciones, verificación de correo y aprobación de pertenencia.
+- Implementación completa `ca0cd1c`: [CI 39443472356](https://github.com/JordyGomez/Thony-Ramaldi/actions/runs/39443472356) aprobó lint/tipos/builds y **160 comprobaciones** (84 regresiones, 8 públicas, 13 de panel, 17 empresariales y 38 SQL). Vercel Preview aprobado, acceso protegido por SSO. Arranque normal y comprobación pública final mantienen Thony; main y PR #11 intactos. PR #12 listo para revisión. No se ejecutó SQL en producción ni se configuraron servicios de Auth reales. Revisar los checks del último SHA antes de integrar, también para cambios documentales posteriores; evidencia y límites en HANDOFF y PLATFORM-DELIVERY.
+
+## 2026-10-19 — Claude / Yordi Lewis — Portada solo con el título
+
+- Petición del propietario mediante captura: quitar los textos marcados en la portada. Rama `claude/modest-ramanujan-526yik`, iniciada sobre main `6b63e76` (PR #8) y actualizada con merge de main `d427708` (PR #10, presentación estática); conflictos resueltos conservando ambos cambios.
+- El hero conserva fotografía y título, ya estáticos tras el PR #10. Se retiran la nota «Fotografía ilustrativa», la firma «TP · Una perspectiva personal» y el bloque derecho con subtítulo, «Descubrir» y «Hablar con Thony». El WhatsApp flotante, el menú y los contactos del resto de la página no cambian.
+- Se eliminan del editor y de `defaultTexts` los campos ya sin uso (`heroSubtitle`, `heroDiscover`, `heroCta`, `heroNote`, `heroSignature`). La normalización solo lee claves conocidas, así que contenido guardado con esas claves se ignora sin error. CSS huérfano retirado.
+- Pruebas adaptadas para comprobar la ausencia de esos textos y enlaces en la portada; la prueba de foto fallida del PR #10 comprueba ahora el WhatsApp flotante, ya que la portada no tiene enlaces. Tras el merge: lint, tipos y builds con y sin fixtures aprobados; **84 regresiones + 8 públicas + 13 de panel + 9 SQL aprobadas**. El build con la configuración real no pudo leer Supabase desde este entorno (DNS bloqueado); lo comprueba la preview de Vercel. Sin cambios en Supabase.
+
 ## 2026-10-18 — Codex / Yordi Gómez — Presentación estática y controles inmediatos
 
 - Petición posterior del propietario: las animaciones resultan exageradas; pide profesionalizarlas o retirarlas. Se elige presentación estática sobre el diseño existente. Base main `530fd51` (PR #9), rama `fix/remove-decorative-motion`, sin avances remotos ni cambios ajenos al iniciar.

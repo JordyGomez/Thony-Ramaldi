@@ -73,7 +73,7 @@ test("una foto que falla mantiene el contenido y los contactos disponibles", asy
     release();
     await expect(page.locator(".preloader")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toBeVisible();
-    await expect(page.locator('.hero a[href^="https://wa.me/"]')).toBeVisible();
+    await expect(page.locator('.floating-whatsapp[href^="https://wa.me/"]')).toBeVisible();
   } finally {
     release();
   }

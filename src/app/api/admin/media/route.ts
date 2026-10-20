@@ -12,12 +12,17 @@ import {
   storageErrorMessage,
 } from "@/lib/media-validation";
 import { STORAGE_BUCKET, storagePublicUrl } from "@/lib/supabase/env";
+import { requirePlatform } from "@/lib/platform-access";
 
 export const runtime = "nodejs";
 export async function POST(request: Request) {
   try {
     checkOrigin(request);
-    const { supabase } = await requireAdmin();
+    const enterprise =
+      new URL(request.url).searchParams.get("scope") === "enterprise";
+    const corporate = enterprise ? await requirePlatform("canWork") : null;
+    const context = corporate || (await requireAdmin());
+    const { supabase, user } = context;
     if (
       Number(request.headers.get("content-length")) >
       MAX_UPLOAD_BYTES + 65536
@@ -43,9 +48,11 @@ export async function POST(request: Request) {
         "Formato no compatible. Usa JPG, PNG, WebP o PDF; convierte las fotos HEIC a JPG.",
         415,
       );
-    const path = `media/${randomUUID()}.${format.extension}`;
+    const path = enterprise
+      ? `${corporate?.access.organizationId}/${user.id}/${randomUUID()}.${format.extension}`
+      : `media/${randomUUID()}.${format.extension}`;
     const { error } = await supabase.storage
-      .from(STORAGE_BUCKET)
+      .from(enterprise ? "platform-media" : STORAGE_BUCKET)
       .upload(path, file, {
         contentType: format.mime,
         upsert: false,
@@ -59,8 +66,8 @@ export async function POST(request: Request) {
     return adminJson(
       {
         ok: true,
-        path,
-        url: storagePublicUrl(path),
+        path: enterprise ? `platform/${path}` : path,
+        url: storagePublicUrl(enterprise ? `platform/${path}` : path),
         mime: format.mime,
         size: file.size,
       },

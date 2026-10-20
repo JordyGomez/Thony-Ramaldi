@@ -7,7 +7,7 @@ test("la portada aparece directamente sin puerta ni introducción", async ({ pag
   await expect(page.locator(".site-experience")).toHaveAttribute("data-motion", "off");
   await expect(page.getByRole("heading", { name: "Tu próximo espacio. Tu próxima historia." })).toBeVisible();
   await expect(page.locator(".hero-image")).toHaveAttribute("src", /portada/);
-  await expect(page.locator(".hero .photo-note")).toHaveText("Fotografía ilustrativa");
+  await expect(page.locator(".hero .photo-note")).toHaveCount(0);
 });
 
 test("fotos y controles permanecen estáticos al mover el puntero y desplazarse", async ({ page }) => {

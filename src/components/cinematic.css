@@ -155,23 +155,6 @@
 .hero-shade {
   pointer-events: none;
 }
-.hero-signature {
-  position: absolute;
-  right: var(--gutter);
-  top: 27%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: rgb(255 255 255 / 82%);
-  font-size: 26px;
-  font-weight: 200;
-}
-.hero-signature > span {
-  max-width: 100px;
-  font-size: 12px;
-  line-height: 1.6;
-  letter-spacing: 0.12em;
-}
 .claude-hero[data-entry-state="revealed"] h1 > span,
 .claude-hero[data-entry-state="revealed"] h1 > strong {
   display: block;
@@ -180,9 +163,6 @@
 }
 .claude-hero[data-entry-state="revealed"] h1 > strong {
   animation-delay: 120ms;
-}
-.claude-hero[data-entry-state="revealed"] .hero-meta {
-  animation: chapter-line 950ms var(--ease) 180ms both;
 }
 .site-header[data-entry-state="revealed"] {
   animation: chapter-line 700ms var(--ease) both;
@@ -650,13 +630,6 @@
     font-size: 12px;
     letter-spacing: 0.04em;
     text-align: center;
-  }
-  .hero-signature {
-    top: 25%;
-    font-size: 21px;
-  }
-  .hero-signature > span {
-    font-size: 12px;
   }
   .catalog-empty-actions {
     flex-direction: column;

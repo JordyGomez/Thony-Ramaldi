@@ -1,5 +1,21 @@
 # Roadmap
 
+## Preparada en rama — plataforma privada Thony/Ramaldi
+
+- Una app y Supabase; identidades/configuración separadas y reversibles, sin trasladar inventario legado a una empresa por defecto.
+- SUPERADMIN por UID verificado, selector privado y preview PC/móvil; cuentas empresariales por invitación, correo verificado y pertenencia aprobada.
+- Perfiles con borrador/aprobación; propiedades propias, revisión/publicación, observaciones, documentos privados y planos tras aprobación.
+- RPC/RLS, archivo empresarial privado, versiones/CAS, auditoría y snapshot coherente por petición; presentación estática conservada.
+- Entrega por PR #12, basada en #11 de Claude. No está fusionada ni activada públicamente; Thony sigue siendo el modo de producción.
+
+## Requisitos antes de una futura activación empresarial
+
+- Revisión/integración coordinada de PR #11/#12, checks completos y autorización de despliegue de código.
+- Propietario de Supabase: preflight, respaldo, migración del editor si falta, ampliación empresarial y bootstrap explícito de una cuenta verificada; no pedir al usuario acceso que ya indicó que no tiene.
+- Configurar y comprobar hook de invitación, confirmación de correo, SMTP/recuperación, CAPTCHA y límites de Auth antes de habilitar incorporación.
+- Aprobación corporativa verificable de identidad oficial, recursos, contactos, contenido y administración de empleados. Datos desconocidos vacíos, sin directorio ficticio.
+- Validación real de cuentas y publicaciones autorizadas; activar solo desde el selector de SUPERADMIN con impacto revisado y confirmación. Reversión a Thony sin borrar datos.
+
 ## Dirección vigente — presentación estática
 
 - Retirar la introducción de puerta, paralaje, entradas 3D, zoom y desplazamientos decorativos.

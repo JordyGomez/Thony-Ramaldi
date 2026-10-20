@@ -48,6 +48,11 @@ jobs:
       - run: npm run test:admin
         env:
           CI: "true"
+      # La ampliación empresarial usa Auth/Storage locales y PostgreSQL/RLS real
+      # embebido, sin usuarios ni propiedades en Supabase de producción.
+      - run: npm run test:platform
+        env:
+          CI: "true"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

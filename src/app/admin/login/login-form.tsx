@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { signIn } from "../actions";
 import styles from "../admin.module.css";
+import Link from "next/link";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState(signIn, null);
@@ -35,6 +36,7 @@ export function LoginForm() {
       <button type="submit" className="button button-solid" disabled={pending}>
         {pending ? "Entrando…" : "Entrar al panel"}
       </button>
+      <Link href="/admin/recuperar">Recuperar contraseña</Link>
     </form>
   );
 }

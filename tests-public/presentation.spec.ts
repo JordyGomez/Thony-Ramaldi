@@ -86,9 +86,7 @@ test("sin inventario, el pie espera fotografías de propiedades publicadas", asy
     page.locator('.catalog-empty a[href="tel:+18294045770"]'),
   ).toBeVisible();
   await expect(page.locator(".hero-image")).toHaveAttribute("src", /portada/);
-  await expect(
-    page.locator(".hero .photo-note"),
-  ).toHaveText("Fotografía ilustrativa");
+  await expect(page.locator(".hero .photo-note")).toHaveCount(0);
   await expect(page.locator(".footer-image, .footer-photo")).toHaveCount(0);
   await expect(page.locator(".footer-wordmark")).toHaveText("THONY PAULINO");
   await expect(page.locator(".footer-socials")).toBeVisible();

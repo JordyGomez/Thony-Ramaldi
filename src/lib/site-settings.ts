@@ -24,12 +24,8 @@ export const defaultTexts = {
   menuCta: "Contactar a Thony",
   heroTitle: "Tu próximo espacio.",
   heroEmphasis: "Tu próxima historia.",
-  heroSubtitle: "Asesoría inmobiliaria · República Dominicana",
-  heroDiscover: "Descubrir",
-  heroCta: "Hablar con Thony",
   heroAlt:
     "Casa moderna blanca entre palmeras al anochecer, fotografía ilustrativa",
-  heroNote: "Fotografía ilustrativa",
   intro:
     "Hay un lugar para lo que viene. Encuéntralo con el acompañamiento de Thony Paulino, asesor inmobiliario de Ramaldi en República Dominicana, ya sea para vivir o para invertir. Un espacio para cada nueva etapa, elegido con calma y con alguien a tu lado.",
   introCta: "Conocer a Thony",
@@ -40,7 +36,6 @@ export const defaultTexts = {
   featuredDescription:
     "Conoce el proyecto del apartamento que Thony está ofreciendo en alquiler. Explora sus espacios y consulta los detalles de la unidad.",
   featuredCta: "Ver apartamento",
-  heroSignature: "UNA PERSPECTIVA PERSONAL",
   catalogTitle: "Encuentra tu",
   catalogEmphasis: "próximo lugar",
   catalogDescription:

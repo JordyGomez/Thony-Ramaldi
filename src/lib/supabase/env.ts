@@ -21,7 +21,9 @@ export const isSupabaseConfigured =
 export const STORAGE_BUCKET = "properties";
 
 export const storagePublicUrl = (path: string) =>
-  `${supabaseUrl.replace(/\/$/, "")}/storage/v1/object/public/${STORAGE_BUCKET}/${path
-    .split("/")
-    .map(encodeURIComponent)
-    .join("/")}`;
+  path.startsWith("platform/")
+    ? `/api/platform/media/${path.slice(9).split("/").map(encodeURIComponent).join("/")}`
+    : `${supabaseUrl.replace(/\/$/, "")}/storage/v1/object/public/${STORAGE_BUCKET}/${path
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/")}`;

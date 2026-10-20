@@ -27,9 +27,11 @@ const lines = (value: string) => value.split("\n");
 export function PropertyForm({
   initial,
   locations,
+  enterprise = false,
 }: {
   initial: PropertyInput;
   locations: string[];
+  enterprise?: boolean;
 }) {
   const router = useRouter();
   const [input, setInput] = useState(initial);
@@ -55,7 +57,11 @@ export function PropertyForm({
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    const problem = validatePropertyInput(input);
+    const problem = enterprise
+      ? !input.title.trim() || !input.slug
+        ? "Completa el nombre y la dirección web del borrador."
+        : null
+      : validatePropertyInput(input);
     if (problem) {
       setError(problem);
       requestAnimationFrame(() => errorRef.current?.focus());
@@ -70,7 +76,7 @@ export function PropertyForm({
           requestAnimationFrame(() => errorRef.current?.focus());
           return;
         }
-        router.push("/admin");
+        router.push(enterprise ? "/admin/empresa" : "/admin");
         router.refresh();
       } catch {
         setError(
@@ -220,33 +226,36 @@ export function PropertyForm({
           La primera foto es la portada. Usa las flechas para cambiar el orden y
           describe brevemente qué se ve en cada una.
         </p>
-        <details>
-          <summary className={styles.summary}>
-            Usar fotos de la biblioteca
-          </summary>
-          <MediaLibrary
-            imagesOnly
-            onSelect={(media) =>
-              setInput((previous) =>
-                previous.images.some((image) => image.path === media.path)
-                  ? previous
-                  : {
-                      ...previous,
-                      images: [
-                        ...previous.images,
-                        { path: media.path, alt: "" },
-                      ],
-                    },
-              )
-            }
-          />
-        </details>
+        {!enterprise && (
+          <details>
+            <summary className={styles.summary}>
+              Usar fotos de la biblioteca
+            </summary>
+            <MediaLibrary
+              imagesOnly
+              onSelect={(media) =>
+                setInput((previous) =>
+                  previous.images.some((image) => image.path === media.path)
+                    ? previous
+                    : {
+                        ...previous,
+                        images: [
+                          ...previous.images,
+                          { path: media.path, alt: "" },
+                        ],
+                      },
+                )
+              }
+            />
+          </details>
+        )}
         <div className={styles.photos}>
           {input.images.map((image, index) => (
             <div key={image.path} className={styles.photo}>
               <div className={styles.photoImage}>
                 {index === 0 && <span className={styles.cover}>Portada</span>}
                 <Image
+                  unoptimized={enterprise}
                   src={storagePublicUrl(image.path)}
                   alt=""
                   fill
@@ -299,6 +308,7 @@ export function PropertyForm({
             </div>
           ))}
           <MediaUploader
+            enterprise={enterprise}
             onBusyChange={(busy) =>
               setUploading((count) => count + (busy ? 1 : -1))
             }
@@ -376,55 +386,67 @@ export function PropertyForm({
       </fieldset>
 
       <fieldset className={styles.fieldset}>
-        <legend>En la web</legend>
-        <div className={styles.checks}>
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              checked={input.published}
-              onChange={(event) => set("published", event.target.checked)}
-            />
-            <span>
-              Publicada
-              <small>Desmárcala para ocultarla sin borrarla.</small>
-            </span>
-          </label>
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              checked={input.featured}
-              onChange={(event) => set("featured", event.target.checked)}
-            />
-            <span>
-              Destacada
-              <small>Aparece primero en el carrusel.</small>
-            </span>
-          </label>
-          {!input.demo && (
-            <label className={styles.check}>
-              <input
-                type="checkbox"
-                checked={input.inPreparation}
-                onChange={(event) => set("inPreparation", event.target.checked)}
-              />
-              <span>
-                Ficha en preparación
-                <small>Faltan datos por confirmar (unidad, precio…).</small>
-              </span>
-            </label>
-          )}
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              checked={input.demo}
-              onChange={(event) => set("demo", event.target.checked)}
-            />
-            <span>
-              Ficha de demostración
-              <small>Solo para ejemplos ficticios.</small>
-            </span>
-          </label>
-        </div>
+        <legend>{enterprise ? "Borrador empresarial" : "En la web"}</legend>
+        {enterprise && (
+          <p>
+            Guardar retira cualquier versión pública y exige una nueva revisión.
+            Solo un administrador autorizado puede aprobar y publicar.
+          </p>
+        )}
+        {!enterprise && (
+          <>
+            <div className={styles.checks}>
+              <label className={styles.check}>
+                <input
+                  type="checkbox"
+                  checked={input.published}
+                  onChange={(event) => set("published", event.target.checked)}
+                />
+                <span>
+                  Publicada
+                  <small>Desmárcala para ocultarla sin borrarla.</small>
+                </span>
+              </label>
+              <label className={styles.check}>
+                <input
+                  type="checkbox"
+                  checked={input.featured}
+                  onChange={(event) => set("featured", event.target.checked)}
+                />
+                <span>
+                  Destacada
+                  <small>Aparece primero en el carrusel.</small>
+                </span>
+              </label>
+              {!input.demo && (
+                <label className={styles.check}>
+                  <input
+                    type="checkbox"
+                    checked={input.inPreparation}
+                    onChange={(event) =>
+                      set("inPreparation", event.target.checked)
+                    }
+                  />
+                  <span>
+                    Ficha en preparación
+                    <small>Faltan datos por confirmar (unidad, precio…).</small>
+                  </span>
+                </label>
+              )}
+              <label className={styles.check}>
+                <input
+                  type="checkbox"
+                  checked={input.demo}
+                  onChange={(event) => set("demo", event.target.checked)}
+                />
+                <span>
+                  Ficha de demostración
+                  <small>Solo para ejemplos ficticios.</small>
+                </span>
+              </label>
+            </div>
+          </>
+        )}
         <label className={styles.field}>
           Orden (opcional)
           <input
@@ -472,6 +494,7 @@ export function PropertyForm({
             </span>
           ) : (
             <MediaUploader
+              enterprise={enterprise}
               label="Subir folleto PDF"
               pdf
               multiple={false}
@@ -543,10 +566,15 @@ export function PropertyForm({
           {error ??
             (uploading
               ? "Espera a que terminen de subirse los archivos…"
-              : "Los cambios se ven en la web en cuanto guardas.")}
+              : enterprise
+                ? "Guardar conserva un borrador privado que requiere revisión antes de publicarse."
+                : "Los cambios se ven en la web en cuanto guardas.")}
         </p>
         <div className={styles.footerActions}>
-          <Link href="/admin" className="button">
+          <Link
+            href={enterprise ? "/admin/empresa" : "/admin"}
+            className="button"
+          >
             Cancelar
           </Link>
           <button
@@ -556,9 +584,11 @@ export function PropertyForm({
           >
             {saving
               ? "Guardando…"
-              : initial.id
-                ? "Guardar cambios"
-                : "Publicar propiedad"}
+              : enterprise
+                ? "Guardar borrador"
+                : initial.id
+                  ? "Guardar cambios"
+                  : "Publicar propiedad"}
           </button>
         </div>
       </div>

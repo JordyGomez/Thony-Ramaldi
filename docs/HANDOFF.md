@@ -1,5 +1,21 @@
 # Transferencia de contexto
 
+## Entrega en revisión — plataforma de dos identidades, 2026-10-20
+
+- Rama `feat/private-dual-mode-platform`; PR #12 listo para revisión, sin integración a main ni despliegue de producción. Hitos `4612a88` (SQL/RLS) y `ca0cd1c` (implementación completa). La web publicada debe permanecer en Thony.
+- Git inicial limpio y fetch realizados. Main `d427708`. Detectado PR #11 de Claude/Yordi Lewis, head `3b1931f`, revisados commits/diffs y usado como base para conservar su hero de fotografía y título. PR #2 histórico queda intacto. No se puede observar trabajo privado sin publicar.
+- Misma aplicación, Auth y Supabase. Panel personal conservado; ampliación de empleados, perfiles, propiedades/aprobación, documentos y configuración separada. SUPERADMIN por UID verificado, sin promoción de administradores anteriores; selector y preview privados con validación servidor/RLS. Snapshot público por petición y protección frente a layouts de otra identidad; sin reactivar animaciones.
+- SQL nuevo `20261020_dual_mode_platform.sql`, después del editor personal. Inventario actual sin asignación empresarial automática, bucket legado preservado y bucket empresarial privado. Auditoría, CAS/revisiones, invitaciones SHA-256, hook de registro y reversión sin borrado. Bootstrap solo manual del propietario; ninguna cuenta privilegiada creada en esta tarea.
+- Comprobación pública final del 2026-10-20 a las 14:53 UTC: web 200, identidad Thony, motion=off, sin portal corporativo. GitHub main sigue en `d427708` y PR #11 en `3b1931f`.
+- Lectura real anónima: properties 200; site_content, organizations y platform_state ausentes/PGRST205. No hubo introspección privilegiada de políticas reales, escritura Auth/Storage ni migración real. El usuario carece de acceso a Supabase; no pedirle ejecutar SQL otra vez ni solicitar secretos. La instalación y configuración del hook/SMTP/CAPTCHA corresponden al propietario del proyecto.
+- Validación completa del código `ca0cd1c`: [CI 39443472356](https://github.com/JordyGomez/Thony-Ramaldi/actions/runs/39443472356) aprobado, con lint, tipos, builds y **160 comprobaciones** (84 regresiones, 8 públicas, 13 del panel anterior, 17 empresariales y 38 SQL), sin fallos ni omitidas. Vercel Preview también aprobado; su acceso externo exige SSO de Vercel, no se eludió esa protección. Consultar los checks del último SHA antes de integrar, incluidos los posteriores cambios documentales; no atribuirles una ejecución anterior.
+- Recompilación final con configuración actual y arranque normal aprobados: home 200/Thony/motion=off, login 200, registro empresarial 404, API privada 401 y endpoint de identidad `thony`/revisión 0. Producción se volvió a comprobar por lectura: 200/Thony; main `d427708` y PR #11 `3b1931f` intactos. Las suites de build comparten `.next`; no ejecutarlas simultáneamente ni usar el build de loopback en Vercel.
+- Operación y requisitos corporativos en PLATFORM-OPERATIONS; permisos, arquitectura, seguridad y pruebas en los documentos PLATFORM. No fusionar una versión parcial ni dar por activo el modo empresarial porque exista código.
+
+## Corrección vigente — portada solo con el título, 2026-10-19
+
+A petición del propietario, el hero muestra únicamente fotografía y título (`src/components/hero.tsx`). Ya no existen la nota de fotografía, la firma «TP · Una perspectiva personal» ni el bloque de subtítulo/«Descubrir»/«Hablar con Thony»; sus campos se retiraron del editor y de `defaultTexts`. No reintroducirlos sin petición. Rama `claude/modest-ramanujan-526yik`, actualizada con main `d427708` (PR #10). El acceso de administración de `jordygtbusiness@gmail.com` se resuelve en `admin_users` desde el SQL Editor, no en código.
+
 ## Dirección vigente — presentación estática, 2026-10-18
 
 El propietario rechazó el movimiento exagerado y pidió profesionalizarlo o eliminarlo. Se retiran las animaciones decorativas. Base main `530fd51`, PR #9 ya publicado; rama `fix/remove-decorative-motion`, sin avances remotos ni cambios locales ajenos al iniciar. Esta instrucción sustituye la petición 3D de los registros históricos.
