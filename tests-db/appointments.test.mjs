@@ -186,6 +186,15 @@ test("agenda y CRM: PostgreSQL real, exclusión temporal, estados y privacidad",
           "appointment_customer_grants",
         ])
           await fails(db.query("select * from " + table), "42501");
+        for (const table of [
+          "appointments",
+          "leads",
+          "appointment_access_grants",
+        ])
+          await fails(
+            db.query("delete from " + table + " where false"),
+            "42501",
+          );
         await fails(
           call("appointment_propose", key(), starts, "thony"),
           "42501",
@@ -206,6 +215,17 @@ test("agenda y CRM: PostgreSQL real, exclusión temporal, estados y privacidad",
           await fails(call("appointment_admin_slots", day), "42501");
           assert.equal((await db.query("select * from leads")).rows.length, 0);
         }
+        await as("owner");
+        await fails(
+          db.query("update appointments set status='confirmed' where false"),
+          "42501",
+        );
+        await fails(
+          db.query(
+            "update appointment_access_grants set can_export=true where false",
+          ),
+          "42501",
+        );
         await as("limited");
         assert.equal((await call("appointment_access")).manage, true);
         assert.equal((await call("appointment_access")).leads, false);

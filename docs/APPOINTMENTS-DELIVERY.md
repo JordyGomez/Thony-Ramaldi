@@ -1,6 +1,6 @@
 # Entrega — citas, agenda y CRM privados
 
-Fecha: 2026-10-21. Colaborador: Yordi Gómez con Codex. Rama: `feat/thony-appointments-private-crm`. Base: main `cb4e376`.
+Fecha: 2026-10-21. Colaborador: Yordi Gómez con Codex. [PR #13](https://github.com/JordyGomez/Thony-Ramaldi/pull/13). Rama: `feat/thony-appointments-private-crm`. Base: main `cb4e376`.
 
 ## Qué se implementó
 
@@ -33,12 +33,12 @@ El módulo pertenece a Thony, no al directorio corporativo. No activa Ramaldi ni
 
 ## Verificación y despliegue
 
-- Lint y compilación con TypeScript: aprobados en desarrollo; comprobación final del último commit en CI.
+- `npm ci`, lint, typecheck y builds: aprobados. CI del primer hito `12fa765`: [39647376832](https://github.com/JordyGomez/Thony-Ramaldi/actions/runs/39647376832), aprobado; comprobar también los checks del último commit del PR.
 - PostgreSQL/RLS: 73 comprobaciones aprobadas, incluyendo las 38 anteriores y 35 nuevas de agenda. Scripts Cron/Vault/pausa ejecutados contra dobles SQL aislados; esto no equivale a ejecutarlos en Supabase gestionado.
-- Playwright de agenda y regresiones: validación completa en curso; registrar aquí el resultado final y checks antes de cerrar la entrega.
-- Capturas móviles revisadas, sin scroll horizontal y auditoría axe en Chromium. No se afirma prueba en Safari ni teléfonos físicos.
+- **214 comprobaciones locales aprobadas, sin fallos ni omitidas**: 73 SQL, 84 regresiones de la web, 8 públicas sin fixtures, 13 del panel anterior, 17 empresariales y 19 de agenda. Después se verificó además la captura PC/móvil y se reforzaron las denegaciones SQL directas; ambas comprobaciones aprobaron. La recuperación de contraseña existente sigue cubierta por la suite empresarial.
+- Capturas PC/móviles revisadas, sin scroll horizontal y auditoría axe en Chromium. CI conserva `agenda-capturas` con imágenes de datos exclusivamente aislados. No se afirma prueba en Safari ni teléfonos físicos. Las advertencias de optimizador al rechazar loopback son propias de las fixtures; se mantiene la protección SSRF de producción.
 
-La rama se entrega mediante PR y Preview del Vercel existente. Preview bloquea nuevas reservas, mutaciones, exportaciones y envíos reales; permite revisión autorizada de la interfaz/lecturas disponibles. No se crea dominio/proyecto nuevo ni se fusiona una implementación parcial.
+La rama se entrega mediante PR #13 y [Preview del Vercel existente](https://thony-ramaldi-git-feat-thony-appointments-pri-68a4aa-los-yordis.vercel.app/citas). El primer hito compiló correctamente en Vercel; el acceso externo devuelve 302 a SSO y no se eludió esa protección. Preview bloquea nuevas reservas, mutaciones, exportaciones y envíos reales; permite revisión autorizada de la interfaz/lecturas disponibles. No se crea dominio/proyecto nuevo ni se fusiona una implementación parcial.
 
 ## Qué funciona y qué falta activar
 

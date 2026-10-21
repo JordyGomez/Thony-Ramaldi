@@ -650,6 +650,19 @@ test("CRM busca por POST, conserva notas/tareas y exige permiso separado de expo
 test("PC y móvil: calendario completo, datos legibles, sin overflow y accesibilidad", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/citas");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Agenda una visita",
+  );
+  await page
+    .locator("main")
+    .screenshot({ path: "test-results/agenda-public-desktop.png" });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBeTruthy();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/citas");
   await page.getByRole("button", { name: "Elegir fecha", exact: true }).click();
@@ -693,6 +706,18 @@ test("PC y móvil: calendario completo, datos legibles, sin overflow y accesibil
     fullPage: true,
   });
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({
+    path: "test-results/agenda-admin-desktop.png",
+    fullPage: true,
+  });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBeTruthy();
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/admin/citas/configuracion");
   await expect(
     page.getByRole("heading", {

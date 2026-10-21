@@ -27,8 +27,12 @@ export async function AdminBar({ email }: { email?: string }) {
             <Link href="/admin/configuracion">Configuración</Link>
           </>
         )}
-        {agenda?.access.manage && <Link href="/admin/citas">Citas de Thony</Link>}
-        {agenda?.access.leads && <Link href="/admin/clientes-potenciales">Clientes potenciales</Link>}
+        {agenda?.access.manage && (
+          <Link href="/admin/citas">Citas de Thony</Link>
+        )}
+        {agenda?.access.leads && (
+          <Link href="/admin/clientes-potenciales">Clientes potenciales</Link>
+        )}
         {access?.installed && (access.status || access.superadmin) && (
           <Link href="/admin/empresa">
             {access.canReview

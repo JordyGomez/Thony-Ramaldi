@@ -24,6 +24,7 @@ Las suites que compilan (`test:admin`, `test:platform`, `test:appointments` y bu
 - Planificación 24 horas/07:00 RD, adelanto para citas tempranas, ausencia de retroactivos, configuración con revisión y regeneración sin duplicar aceptados.
 - Consentimiento WhatsApp separado y retirada; cola persistente, claims concurrentes, fallos, backoff, incertidumbre, recuperación e idempotencia de proveedor.
 - Webhooks Resend/Svix y Meta: firma inválida rechazada, evento válido, entrega real del doble HTTP, replay y no degradación de entregados.
+- Scripts Cron/Vault/pausa ejecutados en SQL aislado con dobles sin acceso de red: programación repetible, acceso privado al secreto y pausa sin borrar registros. No equivale a Cron gestionado en Supabase.
 - Denegaciones: visitante, agente, administrador legado y SUPERADMIN sin concesión; técnico sin CRM/exportación; cliente A frente a B; ayudantes SQL inaccesibles.
 - CRM con búsqueda POST, duplicados sin fusión, notas/tareas, relación terminal revocando enlaces y retención que conserva citas activas.
 - Interfaz completa, conflicto de edición conservando formulario, calendario PC/móvil, ausencia de overflow y auditoría axe en Chromium.

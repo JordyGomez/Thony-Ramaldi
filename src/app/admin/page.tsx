@@ -22,7 +22,11 @@ export default async function AdminPage() {
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
   const access = await readPlatformAccess(supabase);
-  if (!access.legacyAdmin) { const agenda = await readAppointmentAccess(supabase).catch(() => null); if (agenda?.manage) redirect("/admin/citas"); if (agenda?.leads) redirect("/admin/clientes-potenciales"); }
+  if (!access.legacyAdmin) {
+    const agenda = await readAppointmentAccess(supabase).catch(() => null);
+    if (agenda?.manage) redirect("/admin/citas");
+    if (agenda?.leads) redirect("/admin/clientes-potenciales");
+  }
   if (
     access.installed &&
     !access.legacyAdmin &&
