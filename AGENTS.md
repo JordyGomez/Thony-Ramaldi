@@ -1,5 +1,20 @@
 # Reglas de colaboración — Thony Ramaldi
 
+## Dirección vigente — agenda y CRM privados, 2026-10-21
+
+El módulo de citas se añade sobre main `cb4e376` (PR #11 y #12 ya integrados). Revisar commits/diffs/PR de Claude antes de cada integración; no reconstruir portada, menú, editor ni doble identidad. Mantener presentación estática. La petición actual permite desarrollar reservas/CRM, no activar Ramaldi ni compartir los clientes de Thony.
+
+- La autorización de agenda es independiente: UID verificado + `appointment_access_grants`; técnicos requieren SUPERADMIN vigente además de concesión. `admin_users`, membresías y correo solos no dan acceso. Separar CRM/exportación/avisos/permisos, comprobando servidor y RLS.
+- No sustituir Supabase Auth ni usar `service_role`. RPC backend con secreto privado y hash SQL; firma de enlaces con otro secreto. Enlaces del cliente limitados a su cita, caducables, revocables, nunca credenciales administrativas.
+- Toda asignación/reprogramación debe pasar por transacción y exclusión GiST `[inicio, fin + margen)`; no sustituir por comparaciones de strings o bloqueo frontend. Conservar el original confirmado mientras exista una propuesta pendiente. Instantes UTC, presentación America/Santo_Domingo.
+- No crear horarios, clientes, propiedades o mensajes de ejemplo en producción. Migración y scripts operativos se entregan preparados; la instalación/UID/Vault/Cron requieren al propietario. El usuario ya indicó que no tiene acceso a Supabase: no pedirlo otra vez ni solicitar secretos por chat.
+- Meta oficial/Resend con verificación real. Cola persistente: guardado, aceptado y entregado son estados distintos. No reintentar un resultado Meta incierto a ciegas; invalidar avisos cancelados/obsoletos y comprobar consentimiento justo antes del envío.
+- Preview bloquea reservas, mutaciones/exportación y envíos reales. Los dobles de `tests-appointments` solo funcionan en loopback fuera de Vercel. `test:appointments` compila y se ejecuta secuencialmente con los otros builds.
+- Mantener búsqueda de clientes por POST, PII fuera de URLs/logs, notas privadas, exportación auditada y consentimiento WhatsApp separado. Leer los documentos `APPOINTMENTS-*` antes de modificar este módulo.
+
+La integración de código se revisa mediante PR, checks y Preview; no implica ejecutar SQL, conceder permisos, activar proveedores ni abrir reservas. Conservar el modo público Thony.
+
+
 ## Dirección vigente — ampliación empresarial privada
 
 La tarea del 2026-10-20 prepara modalidades `thony`/`ramaldi` en una sola aplicación y Supabase. **No fusionar ni cambiar producción automáticamente en esta tarea.** Mantener Thony activo, sin altas empresariales ni anuncio corporativo. Activación exige autorización verificable, configuración publicada lista y confirmación explícita de SUPERADMIN; ver `docs/PLATFORM-OPERATIONS.md`.

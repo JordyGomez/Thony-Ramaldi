@@ -319,6 +319,7 @@ export default async function PropertyPage({
                 >
                   <WhatsAppIcon width={18} height={18} /> Consultar a Thony
                 </a>
+                {!isDemo && status === "available" && <Link className="button" href={`/citas?propiedad=${encodeURIComponent(property.slug)}`}>Solicitar visita</Link>}
                 <a className="advisor-phone" href={site.phoneHref}>
                   <Phone size={15} strokeWidth={1.25} />
                   {site.phone}

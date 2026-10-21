@@ -14,6 +14,7 @@ import { FeaturedRental } from "./featured-rental";
 import { WhatsAppIcon } from "./icons";
 import { Hero } from "./hero";
 import { DepthPlane } from "./depth-plane";
+import { AppointmentInvitation } from "./appointments/invitation";
 import { PersonalSearch } from "./personal-search";
 
 export function HomeContent({
@@ -145,6 +146,7 @@ export function HomeContent({
             {sections[section.id]}
           </div>
         ))}
+      <AppointmentInvitation />
       {settings.experience.floatingContact && (
         <a
           className="floating-whatsapp"

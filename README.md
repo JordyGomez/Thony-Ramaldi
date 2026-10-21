@@ -1,5 +1,21 @@
 # Thony Paulino · Ramaldi
 
+## Agenda y CRM privados de Thony — activación pendiente
+
+La ampliación añade `/citas` (solicitud por pasos y disponibilidad real), `/admin/citas`, `/admin/citas/configuracion` y `/admin/clientes-potenciales`. Usa Supabase Auth existente, permisos específicos por UID, reservas exclusivas con vencimiento y confirmación manual. No comparte clientes con los empleados Ramaldi ni cambia el modo público. La portada, menú y editor de Claude se conservan; solo se añaden una invitación y el enlace de visita en fichas reales.
+
+**Publicar el código no activa las reservas ni los proveedores.** La migración `20261021_appointments_crm.sql` queda preparada, no ejecutada en el Supabase real. El propietario debe revisar/instalar el esquema, asignar el UID verificado de Thony, configurar jornadas reales, secretos/CAPTCHA y Cron. Sin ello se indica disponibilidad pendiente. No se crean clientes, citas o envíos ficticios en producción.
+
+Meta WhatsApp Cloud API y Resend están integrados en servidor, con validación de remitente/plantillas/dominio y webhooks firmados. Sin credenciales verificadas los avisos quedan bloqueados, nunca marcados como entregados. Supabase Cron/pg_net procesa una cola persistente con idempotencia, reintentos y registro de errores. Preview bloquea reservas, modificaciones y envíos reales.
+
+- [Arquitectura y concurrencia](docs/APPOINTMENTS-ARCHITECTURE.md).
+- [Instalación, horarios, aprobación, CRM y recuperación](docs/APPOINTMENTS-OPERATIONS.md).
+- [Proveedores, variables y recordatorios](docs/APPOINTMENTS-NOTIFICATIONS.md).
+- [Permisos y privacidad](docs/APPOINTMENTS-SECURITY.md) · [pruebas](docs/APPOINTMENTS-TESTING.md) · [entrega y estado real](docs/APPOINTMENTS-DELIVERY.md).
+
+Ejecutar `npm run test:appointments` después de instalar Chromium. Esta suite y las de administración/plataforma comparten `.next` y deben ejecutarse secuencialmente. La única dependencia de producción nueva es Svix, para verificar callbacks de correo; no se añade otro Auth/base de datos.
+
+
 ## Plataforma de dos identidades — preparada, sin activar Ramaldi
 
 La ampliación de PR #12 conserva esta web, el panel de Claude y Supabase. Añade una identidad empresarial independiente, roles por UID, incorporación con invitación/verificación/aprobación, perfiles profesionales, inmuebles propios con revisión, planos/documentos privados y auditoría. El modo público sigue siendo **Thony**. El selector y la vista previa empresarial requieren SUPERADMIN real, validado en servidor y RLS; `admin_users` no concede ese permiso.
