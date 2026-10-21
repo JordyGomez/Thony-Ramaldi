@@ -1,5 +1,11 @@
 # Registro de cambios
 
+## 2026-10-21 — Claude / Yordi Lewis — Migraciones instaladas en Supabase
+
+- Inventario de solo lectura en el proyecto real: solo existía el esquema base; faltaban las tres migraciones. `admin_users` ya incluía jordygtbusiness@gmail.com y yordilewis@gmail.com; 0 propiedades.
+- Antes de cada paso se revisó el SQL y se repitieron sus pruebas aisladas (9 + 29 + 35; 73 SQL en total, aprobadas). El propietario ejecutó en orden `20261018_site_editor.sql`, `20261020_dual_mode_platform.sql` y `20261021_appointments_crm.sql` desde el SQL Editor.
+- Verificación posterior en el proyecto real: editor con 1 publicación/1 borrador y 4 políticas de Storage; 12 tablas de plataforma con RLS, modo `thony`, 0 superadmins y `platform-media` privado; 17 tablas de agenda con RLS, reservas cerradas, sin dueño ni permisos. Sin cambios de código ni datos creados. Pendientes de activación en HANDOFF.
+
 ## 2026-10-21 — Agenda y CRM privados de Thony (Codex / Yordi Gómez)
 
 - Base remota revisada: main `cb4e376`, PR #11 Claude/Yordi Lewis y #12 integrados; sin agenda previa. Conservados portada solo foto/título, menú, presentación estática, CMS y doble identidad.

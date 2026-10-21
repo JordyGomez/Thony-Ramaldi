@@ -1,5 +1,14 @@
 # Transferencia de contexto
 
+## Estado de Supabase — migraciones instaladas, 2026-10-21 (Claude / Yordi Lewis)
+
+Estado real comprobado en Supabase (proyecto `uowylfdlirlfqksvdeer`) el 2026-10-21. Yordi Lewis **sí tiene acceso** al SQL Editor y ejecutó las migraciones con la guía de Claude; la nota anterior de que «el usuario no tiene acceso» se refiere a otra persona.
+
+- Instaladas y verificadas en orden: `20261018_site_editor.sql` (site_content/site_drafts = 1 fila, site_revisions, 4 políticas de Storage), `20261020_dual_mode_platform.sql` (12 tablas, 12 con RLS, modo `thony`, 0 superadmins, `platform-media` privado, 6 columnas nuevas en properties) y `20261021_appointments_crm.sql` (17 tablas, 17 con RLS, agenda `thony` con `enabled=false`, sin dueño, 0 permisos, `btree_gist` activa).
+- El aviso «Potential issues detected» del SQL Editor se respondió con «Run without RLS»: las migraciones activan RLS en bucles que el detector no ve; se verificó después por `pg_tables.rowsecurity`.
+- Antes de instalar: `admin_users` = jordygtbusiness@gmail.com, yordilewis@gmail.com; 0 propiedades; cuentas Auth confirmadas de ambos y de brokerthonypaulino@ramaldigroup.com; extensiones `pg_cron`/`pg_net` no activadas.
+- Pendiente: bootstrap de la agenda con el UID real de Thony y secretos (Vault/Vercel), Cron/pg_net, Turnstile, proveedores Meta/Resend, horarios reales y apertura de reservas; bootstrap de SUPERADMIN solo cuando se decida. No se crearon cuentas, permisos ni datos.
+
 ## Trabajo vigente — citas y CRM privados, 2026-10-21
 
 - Codex/Yordi Gómez, rama `feat/thony-appointments-private-crm`, desde main `cb4e376`. PR #11 de Claude/Yordi Lewis y PR #12 ya fusionados; atribución contrastada con commits/documentación. No había implementación previa de agenda/CRM en la base. Las entradas siguientes describen entregas históricas, no el estado remoto actual.
