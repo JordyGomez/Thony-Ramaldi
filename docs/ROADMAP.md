@@ -1,5 +1,21 @@
 # Roadmap
 
+## Implementada en código — agenda y CRM privados, 2026-10-21
+
+- Reservas por pasos, disponibilidad en PostgreSQL, pendientes exclusivas con vencimiento, confirmación manual y propuestas seguras.
+- Agenda día/semana/mes/lista, horarios semanales/extraordinarios, bloqueos privados, duración/margen y políticas editables por Thony.
+- CRM privado, permisos separados por UID, notas/tareas/historial, búsqueda y exportación auditada.
+- Cola persistente, recordatorios RD, Meta Cloud API y Resend con comprobaciones y webhooks, privacidad/retención y pruebas aisladas.
+- Conservar Thony público y trabajo de Claude/doble identidad. Detalles de pruebas y revisión en APPOINTMENTS-DELIVERY.
+
+## Pendiente de activación operativa — sin simular servicios
+
+- Propietario Supabase: preflight, respaldo restaurable, migraciones anteriores/nueva, UID verificado de Thony y concesiones específicas.
+- Configurar secretos diferentes, Vault/Cron/pg_net, Turnstile de reservas, jornadas reales y heartbeat; después habilitar recepción.
+- Meta: cuenta/remitente distinto del destinatario, token, dos plantillas UTILITY aprobadas y webhook. Resend: cuenta, dominio/remitente verificado y webhook Svix. Revisar cuotas/costos actuales.
+- Aceptación operativa autorizada en el proyecto existente, sin enviar a clientes ajenos ni crear datos ficticios de producción. No activa portal Ramaldi ni comparte prospectos.
+
+
 ## Preparada en rama — plataforma privada Thony/Ramaldi
 
 - Una app y Supabase; identidades/configuración separadas y reversibles, sin trasladar inventario legado a una empresa por defecto.

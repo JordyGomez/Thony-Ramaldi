@@ -11,7 +11,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       rules: {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/api/", "/auth/"],
+        disallow: ["/admin", "/api/", "/auth/", "/citas/seguimiento"],
       },
       ...(site.url ? { sitemap: `${site.url}/sitemap.xml` } : {}),
     };
@@ -21,7 +21,16 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       userAgent: "*",
       allow: "/",
       disallow: settings.experience.indexable
-        ? ["/propiedades/", "/admin", "/api/admin/"]
+        ? [
+            "/propiedades/",
+            "/admin",
+            "/api/admin/",
+            "/api/citas/",
+            "/api/internal/",
+            "/api/webhooks/",
+            "/auth/",
+            "/citas/seguimiento",
+          ]
         : ["/"],
     },
     ...(site.url ? { sitemap: `${site.url}/sitemap.xml` } : {}),

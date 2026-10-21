@@ -13,6 +13,7 @@ import type { PropertyRow } from "@/data/property-row";
 import { AdminBar } from "./admin-bar";
 import { DeleteButton } from "./list-actions";
 import styles from "./admin.module.css";
+import { readAppointmentAccess } from "@/lib/appointments/access";
 import { readPlatformAccess } from "@/lib/platform-access";
 
 export default async function AdminPage() {
@@ -21,6 +22,11 @@ export default async function AdminPage() {
   const { supabase, user } = await getAdminUser();
   if (!user) redirect("/admin/login");
   const access = await readPlatformAccess(supabase);
+  if (!access.legacyAdmin) {
+    const agenda = await readAppointmentAccess(supabase).catch(() => null);
+    if (agenda?.manage) redirect("/admin/citas");
+    if (agenda?.leads) redirect("/admin/clientes-potenciales");
+  }
   if (
     access.installed &&
     !access.legacyAdmin &&

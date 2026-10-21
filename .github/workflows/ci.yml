@@ -53,6 +53,16 @@ jobs:
       - run: npm run test:platform
         env:
           CI: "true"
+      # Agenda/CRM con Auth, PostgreSQL y proveedores oficiales simulados solo en loopback.
+      - run: npm run test:appointments
+        env:
+          CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: agenda-capturas
+          path: test-results/agenda-*.png
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

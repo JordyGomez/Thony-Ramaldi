@@ -1,5 +1,15 @@
 # Registro de cambios
 
+## 2026-10-21 — Agenda y CRM privados de Thony (Codex / Yordi Gómez)
+
+- Base remota revisada: main `cb4e376`, PR #11 Claude/Yordi Lewis y #12 integrados; sin agenda previa. Conservados portada solo foto/título, menú, presentación estática, CMS y doble identidad.
+- Nuevos flujo público `/citas`, disponibilidad real y reserva provisional exclusiva, confirmación manual, propuestas atómicas, cancelación propia segura, calendario privado y configuración sin programación.
+- CRM privado por UID: búsqueda POST, filtros/paginación, estados comerciales, notas, tareas, duplicados sin fusión, historial, relación verificada, CSV autorizado y supresión/retención.
+- Migración aditiva con RLS/GiST, grants explícitos, capacidades caducables, auditoría y cola persistente. Sin DDL ni datos de prueba en producción.
+- Meta Cloud API/Resend oficiales y Supabase Cron/pg_net preparados, firmas de webhooks, dominio/plantillas verificables, consentimiento separado y recordatorios 24h/07:00 RD. Estados reales, reintentos/idempotencia y tratamiento de incertidumbre; no se simulan entregas.
+- Pruebas SQL/HTTP/UI aisladas añadidas a CI; documentación APPOINTMENTS-* y scripts operativos. Proveedores y recepción pública permanecen pendientes de activación por el propietario. Resultados exactos y PR en APPOINTMENTS-DELIVERY.
+
+
 ## 2026-10-20 — Codex / Yordi Gómez — Plataforma empresarial privada preparada
 
 - Revisados Git, ramas, PR, autores y documentación antes de editar. Se detecta el PR #11 de Claude/Yordi Lewis (`3b1931f`) y se conserva como base, incluyendo portada sin textos secundarios. Main `d427708` permanece sin cambios de esta entrega. Rama `feat/private-dual-mode-platform`, PR #12 en revisión; primer hito `4612a88`.

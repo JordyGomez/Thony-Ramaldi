@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { appointmentSession } from "@/lib/appointments/access";
 import { signOut } from "./actions";
 import styles from "./admin.module.css";
 import { getPlatformSession } from "@/lib/platform-access";
@@ -10,6 +11,7 @@ export async function AdminBar({ email }: { email?: string }) {
     platform.mode === "ramaldi" ? "Ramaldi Inmobiliaria" : "Thony Paulino";
   const context = email ? await getPlatformSession().catch(() => null) : null;
   const access = context?.access;
+  const agenda = email ? await appointmentSession().catch(() => null) : null;
   const legacy = !access || access.legacyAdmin;
   return (
     <header className={styles.bar}>
@@ -24,6 +26,12 @@ export async function AdminBar({ email }: { email?: string }) {
             <Link href="/admin/archivos">Archivos</Link>
             <Link href="/admin/configuracion">Configuración</Link>
           </>
+        )}
+        {agenda?.access.manage && (
+          <Link href="/admin/citas">Citas de Thony</Link>
+        )}
+        {agenda?.access.leads && (
+          <Link href="/admin/clientes-potenciales">Clientes potenciales</Link>
         )}
         {access?.installed && (access.status || access.superadmin) && (
           <Link href="/admin/empresa">

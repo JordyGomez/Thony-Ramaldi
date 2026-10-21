@@ -1,3 +1,4 @@
+import { publicAgenda } from "@/lib/appointments/public";
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { getSiteSettings } from "@/data/get-site-settings";
@@ -22,8 +23,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ]
       : [];
   const settings = await getSiteSettings();
+  const agenda = await publicAgenda().catch(() => null);
   // Las fichas ficticias permanecen fuera del índice de búsqueda.
   return site.url && settings.experience.indexable
-    ? [{ url: site.url, changeFrequency: "monthly", priority: 1 }]
+    ? [
+        { url: site.url, changeFrequency: "monthly", priority: 1 },
+        ...(agenda?.enabled
+          ? [
+              {
+                url: `${site.url}/citas`,
+                changeFrequency: "weekly" as const,
+                priority: 0.7,
+              },
+            ]
+          : []),
+      ]
     : [];
 }

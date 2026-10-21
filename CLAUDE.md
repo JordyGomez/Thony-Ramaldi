@@ -1,5 +1,16 @@
 # Contexto para Claude
 
+## Continuidad vigente — agenda/CRM privados, 2026-10-21
+
+Codex/Yordi Gómez añade `feat/thony-appointments-private-crm` sobre main `cb4e376`. PR #11 de Claude/Yordi Lewis (`3b1931f`) y #12 de doble identidad (`3567f70`) ya están integrados: los párrafos anteriores de octubre 20 que los describen abiertos son históricos. No se detectó una agenda o CRM previo en esa base. Hero, menú, diseño estático, panel/editor y arquitectura de modalidades se conservan; invitación de citas y CTA de ficha son adiciones puntuales.
+
+Rutas: `/citas`, seguimiento por capacidad privada, `/admin/citas`, `/admin/citas/configuracion`, `/admin/clientes-potenciales`. Las concesiones de agenda son explícitas por UID y distintas de los roles empresariales. Un SUPERADMIN sin concesión tampoco lee clientes de Thony. Los técnicos pueden recibir gestión sin CRM/exportación. Autenticación existente; backend sin `service_role`.
+
+Migración aditiva `20261021_appointments_crm.sql`, **no instalada en producción**. GiST + bloqueo transaccional impiden superposiciones incluyendo margen. Propuestas mantienen el original hasta aceptación; idempotencia, vencimientos, máquina de estados, RLS, auditoría, CRM y cola/leases son persistentes. Meta Cloud API + Resend + Supabase Cron/pg_net preparados, no activos: no afirmar mensajes entregados ni pedir acceso Supabase al usuario otra vez. Las cuentas/credenciales/instalación pertenecen al propietario autorizado.
+
+Leer `APPOINTMENTS-ARCHITECTURE`, `OPERATIONS`, `SECURITY`, `NOTIFICATIONS`, `TESTING` y `DELIVERY`. No habilitar fixtures en Vercel. Suites que compilan son secuenciales; Preview rechaza escrituras/envíos reales. Conservar modos separados y Thony público. Revisar remoto y pruebas antes de integrar.
+
+
 ## Continuidad vigente — dos identidades privadas, PR #12
 
 Tarea del 2026-10-20: preparar el modo empresarial sin cambiar producción ni sustituir diseño/panel. Rama `feat/private-dual-mode-platform`, base del PR #11 `3b1931f`, cuya atribución Claude/Yordi Lewis está confirmada por commits y descripción. Conserva la portada solo con fotografía/título y no recupera campos retirados. Main permanece `d427708` al iniciar; PR #11 sigue abierto. Revisar ambos PR y nuevos commits antes de integrar.

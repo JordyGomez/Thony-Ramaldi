@@ -11,7 +11,8 @@
     "test": "playwright test",
     "test:database": "node --test tests-db/*.test.mjs",
     "test:admin": "node scripts/test-admin.mjs",
-    "test:platform": "node scripts/test-platform.mjs"
+    "test:platform": "node scripts/test-platform.mjs",
+    "test:appointments": "node scripts/test-appointments.mjs"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -24,7 +25,8 @@
     "motion": "14.3.0",
     "next": "16.4.2",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "svix": "2.8.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

@@ -1,5 +1,16 @@
 # Transferencia de contexto
 
+## Trabajo vigente — citas y CRM privados, 2026-10-21
+
+- Codex/Yordi Gómez, rama `feat/thony-appointments-private-crm`, desde main `cb4e376`. PR #11 de Claude/Yordi Lewis y PR #12 ya fusionados; atribución contrastada con commits/documentación. No había implementación previa de agenda/CRM en la base. Las entradas siguientes describen entregas históricas, no el estado remoto actual.
+- Implementados reservas por pasos, disponibilidad PostgreSQL, exclusión con margen, pendientes/confirmación manual, propuestas reversibles, agenda día/semana/mes/lista, configuración, CRM privado y capacidades de cliente. Conservados diseño/hero/panel/editor/dual mode. Sin animaciones nuevas ni registro empresarial abierto.
+- Permisos por UID específicos del módulo; SUPERADMIN por sí solo no basta. RLS y RPC servidor, CRM/exportación/avisos/permisos separados. No hay `service_role` ni otro sistema de Auth/base de datos.
+- Meta oficial, Resend y cola persistente con Cron/pg_net preparados; validación de dominio/plantillas/firmas, aceptación distinta de entrega, reintento seguro y resultado incierto Meta. No hay credenciales activadas ni mensajes reales enviados.
+- SQL `20261021_appointments_crm.sql` y cuatro scripts `supabase/ops/*appointments*`: preflight, bootstrap de UID real, instalación Cron y pausa sin borrado. No se ejecutaron en Supabase real. Lectura anónima: properties disponible; platform_state/appointments/appointment_settings/leads no expuestos/PGRST205. Sin introspección privilegiada ni escrituras productivas. No volver a pedir al usuario acceso a Supabase ni secretos.
+- Hito `12fa765` publicado en [PR #13](https://github.com/JordyGomez/Thony-Ramaldi/pull/13): CI 39647376832 y Vercel Preview aprobados. Validación local completa: 214 comprobaciones (73 SQL, 84 web, 8 público, 13 admin, 17 plataforma, 19 agenda), sin fallos/omitidas; npm ci/lint/typecheck/builds aprobados. Capturas PC/móviles y axe revisados. Los checks del último commit deben comprobarse por separado.
+- Cierre/checks/PR y límites en [APPOINTMENTS-DELIVERY.md](APPOINTMENTS-DELIVERY.md). Instalar/activar exige propietario real, respaldo, jornadas reales, Vault, CAPTCHA y proveedores verificados; publicar código no abre reservas. Mantener Thony, CRM privado y Ramaldi desactivado.
+
+
 ## Entrega en revisión — plataforma de dos identidades, 2026-10-20
 
 - Rama `feat/private-dual-mode-platform`; PR #12 listo para revisión, sin integración a main ni despliegue de producción. Hitos `4612a88` (SQL/RLS) y `ca0cd1c` (implementación completa). La web publicada debe permanecer en Thony.
