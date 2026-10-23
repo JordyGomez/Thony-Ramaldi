@@ -1,5 +1,14 @@
 # Reglas de colaboración — Thony Ramaldi
 
+## Dirección vigente — TREO II, 2026-10-23
+
+El usuario autoriza una presentación con profundidad 3D **solo para la primera ficha TREO II**. No reactivar animaciones globales retiradas ni alterar portada/menú de Claude. Usar los renders originales facilitados; los isométricos son imágenes del proyecto, no un modelo/tour 3D ni prueba de obra terminada. Respetar movimiento reducido y mantener controles explícitos.
+
+Santiago/venta/USD confirmados por el usuario; sector desconocido. Guardar la ficha por Auth/Storage/RLS existentes, nunca habilitar fixtures, publicar un fallback estático o debilitar permisos para crearla. Preparación y preview en `/admin/proyectos/treo-ii`, sin SQL nuevo ni sobrescritura si ya existe. Unidades/precios públicos salen de Supabase y se editan desde el panel; conservar centavos y baños fraccionarios. Ver `docs/TREO-II.md`.
+
+PR #14 de Claude/Yordi Lewis (`137a0c0`, integrado en `3b71148`) documenta migraciones ya instaladas y acceso del otro colaborador al SQL Editor. Es el estado vigente; no repetir como actual la instalación pendiente de las entregas anteriores ni atribuir a esta tarea las operaciones que hizo él.
+
+
 ## Dirección vigente — agenda y CRM privados, 2026-10-21
 
 El módulo de citas se añade sobre main `cb4e376` (PR #11 y #12 ya integrados). Revisar commits/diffs/PR de Claude antes de cada integración; no reconstruir portada, menú, editor ni doble identidad. Mantener presentación estática. La petición actual permite desarrollar reservas/CRM, no activar Ramaldi ni compartir los clientes de Thony.

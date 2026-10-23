@@ -1,5 +1,14 @@
 # Thony Paulino · Ramaldi
 
+## TREO II — primera ficha preparada
+
+Se añade una presentación exclusiva de TREO II con renders originales, profundidad discreta, planos isométricos y comparación de las 16 unidades del listado suministrado. Santiago/venta/USD confirmados; sector, disponibilidad y condiciones pendientes de Thony. No se inventan fotografías, planos, dirección ni recorrido 3D.
+
+La ficha se prepara en `/admin/proyectos/treo-ii`, con preview privada y subida real de los 13 renders mediante los permisos y biblioteca existentes. Un administrador autorizado revisa y publica con el formulario habitual. **El código por sí solo no crea un registro en Supabase:** hasta guardar, la ruta pública sigue sin existir y el catálogo no usa un fallback estático. No requiere SQL nuevo. Ver [fuentes, diseño y publicación](docs/TREO-II.md).
+
+Estado actualizado por Claude en PR #14: las tres migraciones anteriores ya están instaladas en el proyecto real. Las notas posteriores de esta página que las describen pendientes corresponden a entregas anteriores; consultar HANDOFF para activaciones que aún faltan.
+
+
 ## Agenda y CRM privados de Thony — activación pendiente
 
 La ampliación añade `/citas` (solicitud por pasos y disponibilidad real), `/admin/citas`, `/admin/citas/configuracion` y `/admin/clientes-potenciales`. Usa Supabase Auth existente, permisos específicos por UID, reservas exclusivas con vencimiento y confirmación manual. No comparte clientes con los empleados Ramaldi ni cambia el modo público. La portada, menú y editor de Claude se conservan; solo se añaden una invitación y el enlace de visita en fichas reales.

@@ -83,6 +83,13 @@ export default async function AdminPage() {
             <Plus size={18} aria-hidden="true" /> Nueva propiedad
           </Link>
         </div>
+        {!error && !rows.some((row) => row.slug === "treo-ii-residences") && (
+          <p>
+            <Link href="/admin/proyectos/treo-ii">
+              Preparar la ficha de TREO II con el material recibido
+            </Link>
+          </p>
+        )}
         {error && (
           <p className={`${styles.notice} ${styles.error}`} role="alert">
             No se pudieron cargar las propiedades. Recarga la página; si sigue

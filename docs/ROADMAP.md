@@ -1,5 +1,13 @@
 # Roadmap
 
+## TREO II — ficha y publicación desde el panel, 2026-10-23
+
+- Presentación propia sobre la web actual, renders de fuente real, profundidad controlada, planos y comparación de 16 unidades.
+- Paquete de preparación con subida autorizada de imágenes y preview privada, sin añadir SQL, cuentas o catálogo paralelo.
+- Pendiente operativo: administrador existente revisa y guarda la ficha en Supabase; confirmar sector exacto, disponibilidad y condiciones con Thony. No declarar el registro público creado desde el entorno sin una sesión autorizada.
+- Mantener estado de migraciones actualizado según PR #14 de Claude, Thony activo, CRM privado y portal empresarial sin activar.
+
+
 ## Implementada en código — agenda y CRM privados, 2026-10-21
 
 - Reservas por pasos, disponibilidad en PostgreSQL, pendientes exclusivas con vencimiento, confirmación manual y propuestas seguras.

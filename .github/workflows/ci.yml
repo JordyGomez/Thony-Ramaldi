@@ -48,6 +48,12 @@ jobs:
       - run: npm run test:admin
         env:
           CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: treo-capturas
+          path: test-results/treo-*.png
+          retention-days: 7
       # La ampliación empresarial usa Auth/Storage locales y PostgreSQL/RLS real
       # embebido, sin usuarios ni propiedades en Supabase de producción.
       - run: npm run test:platform

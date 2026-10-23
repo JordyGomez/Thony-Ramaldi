@@ -1,0 +1,185 @@
+{
+  "status": "source-verified-ready-for-admin",
+  "projectName": "TREO II RESIDENCES",
+  "source": {
+    "kind": "user-supplied price-sheet screenshot",
+    "receivedOn": "2026-10-23",
+    "priceSymbol": "$",
+    "currency": "USD",
+    "areaUnit": "m²",
+    "confirmation": "El usuario confirmó Santiago, apartamentos en venta y precios USD en el chat; sector desconocido.",
+    "areaUnitBasis": "Convención métrica del catálogo; el asesor debe comprobarla al revisar el listado."
+  },
+  "pending": [
+    "El PDF PRESENTACION.pdf no se ha leído: excede 32 MiB y la ruta file:///C:/ pertenece al equipo del usuario. No se publican datos ni enlaces atribuidos a ese PDF.",
+    "Sector, disponibilidad actual, entrega y condiciones de compra por confirmar con Thony.",
+    "La creación real usa exclusivamente una sesión autorizada del panel y sus políticas de Supabase."
+  ],
+  "units": [
+    {
+      "buildingGroup": "G-H",
+      "unit": "G2",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "G-H",
+      "unit": "G3",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "G-H",
+      "unit": "H2",
+      "areaValue": 122,
+      "priceAsPrinted": "$220.013,15",
+      "priceMinorUnits": 22001315,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "G-H",
+      "unit": "H3",
+      "areaValue": 122,
+      "priceAsPrinted": "$223.217,22",
+      "priceMinorUnits": 22321722,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "G-H",
+      "unit": "G1",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "E-F",
+      "unit": "E6",
+      "areaValue": 119,
+      "priceAsPrinted": "$217.561,75",
+      "priceMinorUnits": 21756175,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "E-F",
+      "unit": "F1",
+      "areaValue": 122,
+      "priceAsPrinted": "$219.905,00",
+      "priceMinorUnits": 21990500,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "E-F",
+      "unit": "E5",
+      "areaValue": 119,
+      "priceAsPrinted": "$217.561,75",
+      "priceMinorUnits": 21756175,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "E-F",
+      "unit": "F2",
+      "areaValue": 122,
+      "priceAsPrinted": "$220.013,15",
+      "priceMinorUnits": 22001315,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "E-F",
+      "unit": "E2",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "C-D",
+      "unit": "D1",
+      "areaValue": 122,
+      "priceAsPrinted": "$219.905,00",
+      "priceMinorUnits": 21990500,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "C-D",
+      "unit": "C2",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "C-D",
+      "unit": "C1",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "C-D",
+      "unit": "C3",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "A-B",
+      "unit": "B1",
+      "areaValue": 122,
+      "priceAsPrinted": "$219.905,00",
+      "priceMinorUnits": 21990500,
+      "bedrooms": 3,
+      "bathrooms": 2.5,
+      "parkingSpaces": 2
+    },
+    {
+      "buildingGroup": "A-B",
+      "unit": "A1",
+      "areaValue": 119,
+      "priceAsPrinted": "$214.497,50",
+      "priceMinorUnits": 21449750,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parkingSpaces": 2
+    }
+  ],
+  "location": "Santiago",
+  "neighborhood": "",
+  "operation": "Venta",
+  "propertyType": "Apartamento",
+  "purpose": "Transcripción del material recibido; el estado de publicación real se consulta exclusivamente en Supabase."
+}

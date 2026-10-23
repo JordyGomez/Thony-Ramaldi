@@ -1,3 +1,4 @@
+import { projectUnits } from "@/lib/project-units";
 import {
   propertyOperations,
   propertyTypes,
@@ -94,6 +95,19 @@ export function validatePropertyInput(input: PropertyInput): string | null {
     return "Elige venta o alquiler.";
   if (input.price === null || !Number.isFinite(input.price) || input.price < 0)
     return "Escribe el precio en USD (solo el número).";
+  const units = projectUnits(input.projectTypologies);
+  if (
+    input.slug === "treo-ii-residences" &&
+    input.projectTypologies.length &&
+    !units.length
+  )
+    return "Revisa las unidades: cada línea debe conservar referencia única, edificio, superficie, precio USD con dos decimales, habitaciones, baños y parqueos.";
+  if (
+    units.length &&
+    Math.round(input.price * 100) !==
+      Math.min(...units.map((u) => u.priceMinorUnits))
+  )
+    return "El precio desde debe coincidir con la unidad de menor precio del listado. Revisa precio y unidades antes de guardar.";
   if (!input.location.trim()) return "Escribe la ciudad o zona.";
   if (!input.description.trim()) return "Escribe una descripción.";
   if (!input.images.length) return "Sube al menos una foto.";

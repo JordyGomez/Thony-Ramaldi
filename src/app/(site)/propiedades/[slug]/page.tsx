@@ -14,6 +14,8 @@ import { siteImage } from "@/lib/site-settings";
 import styles from "./property-detail.module.css";
 import { getPlatformSnapshot, corporateSettings } from "@/data/get-platform";
 import { CorporateProperty } from "@/components/corporate-portal";
+import { TreoShowcase } from "@/components/project/treo-showcase";
+import { projectUnits } from "@/lib/project-units";
 import { PublicModeContent } from "@/components/public-mode";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí). Las
@@ -117,6 +119,25 @@ export default async function PropertyPage({
   const status = listingStatus(property);
   const isDemo = status === "demo";
   const isRental = property.operation === "Alquiler";
+  if (
+    property.slug === "treo-ii-residences" &&
+    !isDemo &&
+    property.operation === "Venta" &&
+    property.type === "Apartamento" &&
+    property.images.length > 0 &&
+    property.imagesAreRenders &&
+    projectUnits(property.projectTypologies).length
+  ) {
+    return (
+      <PublicModeContent mode="thony" revision={platform?.revision || 0}>
+        <TreoShowcase
+          property={property}
+          whatsapp={t.whatsapp}
+          advisorName={t.name}
+        />
+      </PublicModeContent>
+    );
+  }
   const details = [
     ["Habitaciones", property.bedrooms],
     ["Baños", property.bathrooms],
