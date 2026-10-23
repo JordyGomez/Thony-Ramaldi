@@ -1,5 +1,15 @@
 # Transferencia de contexto
 
+## Trabajo vigente — TREO II, 2026-10-23
+
+- Codex/Yordi Gómez, rama `feat/treo-ii-property`, base main `3b71148`. Revisado PR #14 de Claude/Yordi Lewis (`137a0c0`), solo documentación; se conserva su estado de Supabase instalado y no se ejecutan nuevas migraciones.
+- Usuario confirmó Santiago, venta y USD. Sector desconocido. Tabla: 16 unidades, precios con centavos, 119/122 m², 3 habitaciones, 2/2.5 baños y 2 parqueos. Drive aporta renders reales del proyecto; no son fotos de obra terminada. PDF y ZIP >32 MiB; no se leyeron. No inventar dirección, promotor, entrega o asociación de planos A/B a unidades.
+- Preparación en `/admin/proyectos/treo-ii`, preview protegida y 13 WebP con procedencia. Se reutilizan Auth, `/api/admin/media`, PropertyForm/Save y RLS existentes; el catálogo sigue exclusivamente en Supabase. No hay sesión admin disponible en este entorno y no se afirma una publicación real antes del guardado autorizado.
+- Presentación especial solo para TREO, profundidad sin movimiento automático y selector basado en `project_typologies` guardado; edición por panel, centavos y control de mínimo. Cero cambios de roles/esquema o de la portada/menú/animación global de Claude.
+- Validación local: lint/tipos y 182 comprobaciones aprobadas (84 web, 8 públicas, 17 panel, 73 SQL); nuevas pruebas cubren permisos, preview sin escrituras, subida/guardado real contra fixture, precio/unidades, accesibilidad y PC/móvil. Capturas en `docs/screenshots/treo-ii-*`. CI añade regresiones empresariales y de agenda antes de integrar.
+- Fuentes, archivos, formato de líneas, publicación y límites en [TREO-II.md](TREO-II.md). PR y checks finales se registran al completar la integración. No pedir contraseñas ni eludir RLS para crear el registro.
+
+
 ## Estado de Supabase — migraciones instaladas, 2026-10-21 (Claude / Yordi Lewis)
 
 Estado real comprobado en Supabase (proyecto `uowylfdlirlfqksvdeer`) el 2026-10-21. Yordi Lewis **sí tiene acceso** al SQL Editor y ejecutó las migraciones con la guía de Claude; la nota anterior de que «el usuario no tiene acceso» se refiere a otra persona.

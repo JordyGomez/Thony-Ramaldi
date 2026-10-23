@@ -1,5 +1,14 @@
 # Contexto para Claude
 
+## Continuidad vigente — primera ficha TREO II, 2026-10-23
+
+Codex/Yordi Gómez trabaja desde main `3b71148`, conservando PR #14 de Claude/Yordi Lewis (`137a0c0`) y sus verificaciones de Supabase. No se ejecuta SQL ni se cambian roles en esta entrega.
+
+El usuario aportó listado de 16 unidades y carpetas Drive de renders; confirmó Santiago, apartamentos en venta y USD. Sector desconocido. El PDF adjunto excede 32 MiB y no se leyó; no atribuirle datos ni publicar rutas locales de Windows. Medios y hashes en `public/images/treo-ii/README.md`; fuente/transcripción en `src/data/treo-ii-source.json`.
+
+Ficha especial solo para `treo-ii-residences`: profundidad controlada, comparación de unidades y planos isométricos reales; sin movimiento automático/global ni tour 3D inventado. `project_typologies` conserva el listado editable y legible en Supabase; no hay catálogo paralelo ni tablas nuevas. Auth/Storage/PropertyForm/Save existentes se reutilizan desde `/admin/proyectos/treo-ii`; preview protegida, no publica mediante parámetros. Sin sesión autorizada no se afirma haber creado el registro real. Documentación y pruebas en TREO-II/HANDOFF.
+
+
 ## Continuidad vigente — agenda/CRM privados, 2026-10-21
 
 Codex/Yordi Gómez añade `feat/thony-appointments-private-crm` sobre main `cb4e376`. PR #11 de Claude/Yordi Lewis (`3b1931f`) y #12 de doble identidad (`3567f70`) ya están integrados: los párrafos anteriores de octubre 20 que los describen abiertos son históricos. No se detectó una agenda o CRM previo en esa base. Hero, menú, diseño estático, panel/editor y arquitectura de modalidades se conservan; invitación de citas y CTA de ficha son adiciones puntuales.

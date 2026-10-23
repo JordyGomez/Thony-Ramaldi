@@ -588,7 +588,9 @@ export function PropertyForm({
                 ? "Guardar borrador"
                 : initial.id
                   ? "Guardar cambios"
-                  : "Publicar propiedad"}
+                  : input.published
+                    ? "Publicar propiedad"
+                    : "Guardar borrador"}
           </button>
         </div>
       </div>

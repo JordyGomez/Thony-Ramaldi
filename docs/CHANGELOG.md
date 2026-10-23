@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 2026-10-23 — Codex / Yordi Gómez — Ficha TREO II
+
+- Revisados y conservados PR #14/commit `137a0c0` de Claude y estado de migraciones instalado; base main `3b71148`. Catálogo público inicial vacío, identidad Thony.
+- Material del usuario: transcripción de 16 referencias, Santiago/venta/USD confirmados y sector pendiente. Recuperados/inspeccionados 13 renders/planos originales de Drive y optimizados en WebP con procedencia/hash. PDF no leído por límite de transferencia; sin dirección o datos inventados.
+- Presentación exclusiva con profundidad discreta, planos y selector de unidades; respeta movimiento reducido y conserva portada, menú, editor, otras fichas y modos.
+- Preparación y preview privadas reutilizan sesión, subida y formulario existentes. La creación pública requiere guardado de un administrador autorizado; no hay fallback de catálogo, SQL nuevo o concesiones de roles. Las fichas existentes no se reemplazan.
+- Precios con centavos, mínimo coherente con unidades y etiqueta correcta al guardar borrador. Pruebas aisladas de datos/permisos/subida/publicación y diseño PC/móvil añadidas a la suite del panel. Detalle/resultados en TREO-II y HANDOFF.
+
+
 ## 2026-10-21 — Claude / Yordi Lewis — Migraciones instaladas en Supabase
 
 - Inventario de solo lectura en el proyecto real: solo existía el esquema base; faltaban las tres migraciones. `admin_users` ya incluía jordygtbusiness@gmail.com y yordilewis@gmail.com; 0 propiedades.

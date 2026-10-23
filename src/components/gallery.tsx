@@ -275,7 +275,7 @@ export function Gallery({
               }
             />
             <span className={styles.thumbIndex} aria-hidden="true">
-              0{i + 1}
+              {i + 1}
             </span>
           </button>
         ))}
