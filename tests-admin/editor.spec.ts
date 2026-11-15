@@ -510,3 +510,19 @@ test("publicar y borrar una ficha conserva sus fotos compartidas en la bibliotec
   await page.goto("/");
   await expect(page.locator(".footer-image")).toHaveCount(0);
 });
+
+test("el dashboard resume el inventario real y avisa de fichas incompletas", async ({
+  page,
+}) => {
+  await login(page);
+  await page.goto("/admin");
+  const summary = page.getByRole("region", { name: "Resumen del panel" });
+  await expect(summary).toBeVisible();
+  for (const label of ["Propiedades", "Publicadas en la web", "Ocultas", "Destacadas"])
+    await expect(summary.getByText(label, { exact: true })).toBeVisible();
+  // Sin concesión de agenda no se muestran datos de clientes.
+  await expect(summary).toContainText("Tu cuenta no tiene la agenda asignada");
+  await expect(
+    summary.getByRole("heading", { name: "Fichas publicadas por completar" }),
+  ).toBeVisible();
+});
