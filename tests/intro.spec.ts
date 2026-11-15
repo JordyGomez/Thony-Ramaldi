@@ -23,6 +23,8 @@ test("la puerta aparece en la primera visita y deja paso a la portada", async ({
 });
 
 test("solo se muestra una vez por sesión", async ({ page }) => {
+  // Sin texturas se usa la salida con imagen fija: esta prueba no necesita 3D.
+  await page.route("**/intro/caoba-*.webp", (route) => route.abort());
   await page.goto("/");
   await expect(page.locator(intro)).toHaveCount(0, { timeout: 6500 });
   const cookies = await page.context().cookies();

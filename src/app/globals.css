@@ -603,6 +603,66 @@ strong {
   color: var(--text);
   cursor: pointer;
 }
+.filter-grid input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.filter-grid input::placeholder {
+  color: var(--muted);
+}
+.filter-grid input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.property-actions {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+}
+.property-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.property-actions button[aria-pressed="true"] {
+  color: var(--accent);
+}
+.property-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.property-actions button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .filter-grid select option {
   background: var(--bg);
   color: var(--text);
