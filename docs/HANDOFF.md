@@ -1,5 +1,17 @@
 # Transferencia de contexto
 
+## Trabajo vigente — evolución integral, 2026-11-15 (Claude Code, PR #16)
+
+- Rama `claude/cool-curie-y1gjq3` sobre main `b03875d`. [PR #16](https://github.com/JordyGomez/Thony-Ramaldi/pull/16) abierto, **sin fusionar**: integrar a main publica en producción. Comprobar CI y Preview del último SHA.
+- **Dirección nueva del usuario:** se autoriza de nuevo una introducción, pero solo como pantalla de carga con la puerta de caoba 3D. Las animaciones globales retiradas siguen retiradas: `motion=off` y `entry=false` no cambian; la introducción vive en `experience.intro` (`door`/`off`) y `experience.introFrequency` (`session`/`always`). `preloader.tsx`, `architectural-door.*` y `motion-director.tsx` siguen siendo legado sin montar.
+- Introducción: `src/components/intro/*`, `src/lib/intro.ts`, recursos en `public/intro/`. Si se cambia la escena hay que regenerar los pósteres con `node scripts/render-intro-poster.mjs` (ver INTRO-3D); póster y lienzo comparten encuadre por diseño. Las suites de Playwright entran con la cookie `thony_intro`; `tests/intro.spec.ts` usa sesión nueva.
+- Reel: `settings.reel` en el CMS (sin SQL nuevo). Automático solo con `INSTAGRAM_ACCESS_TOKEN` en el servidor; **no verificado contra Meta con credenciales reales**. Sin token ni enlace el bloque no aparece.
+- Kapso: `WHATSAPP_TRANSPORT=kapso` + `KAPSO_API_KEY` + `KAPSO_WEBHOOK_SECRET`. Por defecto sigue Meta directa. Nunca dos transportes a la vez; el webhook de Meta responde 404 si el transporte es Kapso y el de Kapso 503 si no lo es. **No verificado con una cuenta Kapso real.**
+- SEO: las fichas reales disponibles ya son indexables. TREO II está publicada en producción: tras fusionar entrará en el sitemap si su estado es «Disponible».
+- Pendiente de esta petición, no implementado: sistema de tareas y centro de notificaciones propios, reportes con exportación, edición rápida y acciones masivas de propiedades, mapas, bandeja de WhatsApp, asistente IA y reservas por WhatsApp. No se afirma nada de ello como hecho.
+- Hallazgos sin corregir, a decidir por los propietarios: la portada es dinámica y sin caché de CDN (primer byte de 3–10 s en frío medido el 2026-11-13); AGENTS.md prohíbe una caché compartida del modo, así que no se tocó. CSP completa de scripts con nonces pendiente. Avisos axe `label-content-name-mismatch` en las pestañas del catálogo.
+
+
 ## Trabajo vigente — TREO II, 2026-10-23
 
 - Codex/Yordi Gómez, rama `feat/treo-ii-property`, base main `3b71148`. Revisado PR #14 de Claude/Yordi Lewis (`137a0c0`), solo documentación; se conserva su estado de Supabase instalado y no se ejecutan nuevas migraciones.

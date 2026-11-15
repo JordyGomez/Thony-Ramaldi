@@ -1,5 +1,19 @@
 # Roadmap
 
+## Implementada en rama — evolución integral, 2026-11-15 (PR #16)
+
+- Puerta de caoba 3D como pantalla de carga, con controles en el panel.
+- Reel de Instagram (oficial preparado + enlace manual), catálogo ampliado, favoritos, comparador y WhatsApp revisable.
+- Dashboard del panel, indexación de fichas reales, datos estructurados y cabeceras de seguridad.
+- Kapso como transporte alternativo de WhatsApp, desactivado.
+
+## Pendiente de autorización o credenciales — sin simular
+
+- Instagram: cuenta profesional, app de Meta y token de larga duración del propietario en `INSTAGRAM_ACCESS_TOKEN`; renovar antes de 60 días.
+- Kapso: cuenta, número remitente conectado, plantillas aprobadas, clave y webhook. Decidir si sustituye a Meta directa.
+- Siguientes entregas propuestas: tareas y notificaciones del panel, reportes, edición rápida, reservas y asistente por WhatsApp, caché pública compatible con el snapshot por petición.
+
+
 ## TREO II — ficha y publicación desde el panel, 2026-10-23
 
 - Presentación propia sobre la web actual, renders de fuente real, profundidad controlada, planos y comparación de 16 unidades.

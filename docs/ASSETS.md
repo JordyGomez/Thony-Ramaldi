@@ -1,5 +1,17 @@
 # Recursos visuales
 
+## Introducción 3D — puerta de caoba (2026-11-15)
+
+Dirección vigente: el usuario autorizó una introducción solo como pantalla de carga. La escena es geometría propia en Three.js y **es ilustrativa**: no representa ninguna propiedad del catálogo ni se presenta como tal.
+
+| Archivo | Origen | Licencia |
+| --- | --- | --- |
+| `public/intro/caoba-color.webp` | «Wood Table 001», Poly Haven (fotografía de Dimitrios Savva, procesado de Rico Cilliers), mapa Diffuse 1K reducido a 768 px | CC0 |
+| `public/intro/caoba-rugosidad.webp` | Mismo recurso, mapa Rough en escala de grises | CC0 |
+| `public/intro/puerta-horizontal.webp`, `puerta-vertical.webp` | Cuadro inicial de la propia escena, generado con `scripts/render-intro-poster.mjs` | Propio |
+
+Three.js 0.187.0 (MIT) es la única dependencia nueva. No se generó ninguna imagen ni vídeo de Thony: animar su fotografía exige su consentimiento expreso y se dejó fuera.
+
 Presentación vigente: estática, por petición posterior del propietario. La puerta y la introducción ya no se montan; el retrato oficial se conserva en Sobre Thony y las fotografías de portada/inventario mantienen sus usos y procedencia. El pie sigue esperando fotos de propiedades publicadas. Los registros de profundidad/3D siguientes son históricos y no autorizan reactivar esos efectos.
 
 ## Uso actual — pie sin fotografía ilustrativa

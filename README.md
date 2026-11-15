@@ -1,5 +1,10 @@
 # Thony Paulino · Ramaldi
 
+## Evolución integral — PR #16, 2026-11-15
+
+La portada puede abrirse con una puerta de caoba en 3D como pantalla de carga ([INTRO-3D](docs/INTRO-3D.md)); el resto de la web sigue siendo estático. Se añaden el Reel de Instagram ([INSTAGRAM](docs/INSTAGRAM.md)), búsqueda y filtros ampliados con URL compartible, favoritos, comparador, mensaje de WhatsApp revisable, dashboard del panel, indexación de fichas reales con datos estructurados, cabeceras de seguridad y Kapso como transporte alternativo de WhatsApp ([KAPSO](docs/KAPSO.md)). Three.js 0.187.0 es la única dependencia nueva y solo se descarga al reproducir la introducción. Las notas siguientes que hablan de una presentación sin introducción ni Three.js son anteriores a esta entrega.
+
+
 ## TREO II — primera ficha preparada
 
 Se añade una presentación exclusiva de TREO II con renders originales, profundidad discreta, planos isométricos y comparación de las 16 unidades del listado suministrado. Santiago/venta/USD confirmados; sector, disponibilidad y condiciones pendientes de Thony. No se inventan fotografías, planos, dirección ni recorrido 3D.

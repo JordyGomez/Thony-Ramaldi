@@ -1,5 +1,12 @@
 # Contexto para Claude
 
+## Continuidad vigente — evolución integral, 2026-11-15 (PR #16)
+
+Rama `claude/cool-curie-y1gjq3` desde main `b03875d`; PR #16 abierto, sin fusionar. El usuario autorizó de nuevo una introducción **solo como pantalla de carga**: puerta de caoba en Three.js (`src/components/intro`, `docs/INTRO-3D.md`). No reactivar las animaciones globales: `motion=off`/`entry=false` siguen fijos; la introducción usa `experience.intro` e `introFrequency`. Regenerar pósteres con `scripts/render-intro-poster.mjs` si cambia la escena.
+
+También: Reel (`docs/INSTAGRAM.md`), catálogo con URL compartible, favoritos y comparador, WhatsApp revisable, dashboard, SEO de fichas reales, cabeceras de seguridad y Kapso como transporte alternativo desactivado (`docs/KAPSO.md`). Instagram automático y Kapso no están verificados con credenciales reales: no afirmarlo. Sin SQL nuevo ni escrituras en Supabase. Pendientes reales en HANDOFF.
+
+
 ## Continuidad vigente — primera ficha TREO II, 2026-10-23
 
 Codex/Yordi Gómez trabaja desde main `3b71148`, conservando PR #14 de Claude/Yordi Lewis (`137a0c0`) y sus verificaciones de Supabase. No se ejecuta SQL ni se cambian roles en esta entrega.
