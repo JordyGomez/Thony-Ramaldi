@@ -74,7 +74,7 @@ export function ReelSettingsFields({
             value={value.url}
             onChange={(event) => onChange({ ...value, url: event.target.value })}
           />
-          <small role="status">
+          <small aria-live="polite">
             {!value.url
               ? value.mode === "manual"
                 ? "Pega el enlace del reel para poder guardarlo."
@@ -98,7 +98,7 @@ export function ReelSettingsFields({
         </p>
       )}
       {status && (
-        <p className={styles.hint} role="status" data-reel-status>
+        <p className={styles.hint} aria-live="polite" data-reel-status>
           {status}
         </p>
       )}

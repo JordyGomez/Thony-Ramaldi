@@ -76,7 +76,7 @@ export function IntroCheck() {
         </a>
       </p>
       {results && (
-        <ul className={styles.hint} role="status" data-intro-check>
+        <ul className={styles.hint} aria-live="polite" data-intro-check>
           {results.map((result) => (
             <li key={result.label}>
               {result.ok ? "✓" : "✗"} {result.label}: {result.detail}

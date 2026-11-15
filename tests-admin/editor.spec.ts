@@ -331,7 +331,31 @@ test("publicar actualiza portada, contactos, secciones y SEO; conserva presentac
   await page
     .getByRole("button", { name: "Marca y presentación", exact: true })
     .click();
-  await expect(page.getByText("Presentación estática", { exact: false })).toBeVisible();
+  // Dirección vigente: la única introducción es la puerta 3D de la pantalla de
+  // carga, activable desde aquí; el resto de la web sigue siendo estático.
+  const intro = page.getByLabel("Introducción 3D con la puerta de caoba");
+  await expect(intro).toBeChecked();
+  await expect(page.getByLabel("Cuándo se muestra")).toHaveValue("session");
+  await page
+    .getByRole("button", { name: "Verificar recursos de la introducción" })
+    .click();
+  const check = page.locator("[data-intro-check]");
+  await expect(check).toContainText("✓ Textura de caoba: disponible");
+  await expect(check).toContainText("✓ Imagen inicial horizontal: disponible");
+  await expect(
+    page.getByRole("link", { name: "Previsualizar la introducción" }),
+  ).toHaveAttribute("href", "/admin/vista-previa?intro=1");
+  await intro.uncheck();
+  await expect(page.getByText("Entrada directa", { exact: false })).toBeVisible();
+  // Reel de Instagram con enlace manual: se valida y se normaliza.
+  await page.getByLabel("Qué mostrar").selectOption("manual");
+  const reelUrl = page.getByLabel("Enlace del reel");
+  await reelUrl.fill("https://example.com/reel/abc");
+  await expect(page.getByText("No es un enlace de reel de instagram.com.")).toBeVisible();
+  await reelUrl.fill("https://www.instagram.com/reels/DAbc123_xY/?igsh=1");
+  await expect(
+    page.getByText("Enlace válido: https://www.instagram.com/reel/DAbc123_xY/"),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Publicar cambios", exact: true })
     .click();
@@ -341,7 +365,19 @@ test("publicar actualiza portada, contactos, secciones y SEO; conserva presentac
     "Encuentra tu nueva historia.",
   );
   expect(state.history).toHaveLength(1);
+  expect(state.publication.content.experience.intro).toBe("off");
+  expect(state.publication.content.experience.motion).toBe("off");
+  expect(state.publication.content.reel).toEqual({
+    mode: "manual",
+    url: "https://www.instagram.com/reel/DAbc123_xY/",
+  });
+  await page.context().clearCookies({ name: "thony_intro" });
   await page.goto("/");
+  // Entrada directa: con la introducción desactivada no hay puerta.
+  await expect(page.locator("[data-door-intro]")).toHaveCount(0);
+  const reel = page.locator('[data-reel-source="manual"]');
+  await expect(reel.getByRole("button", { name: "Ver reel" })).toBeVisible();
+  await expect(reel.locator("iframe")).toHaveCount(0);
   await expect(page.locator("#hero-title")).toContainText(
     "Encuentra tu nueva historia.",
   );
