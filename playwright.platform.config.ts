@@ -10,6 +10,23 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: "http://127.0.0.1:3400",
+    // Las regresiones entran con la introducción 3D ya vista en la sesión;
+    // tests/intro.spec.ts la comprueba aparte con una sesión nueva.
+    storageState: {
+      cookies: [
+        {
+          name: "thony_intro",
+          value: "1",
+          domain: "127.0.0.1",
+          path: "/",
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: "Lax",
+        },
+      ],
+      origins: [],
+    },
     viewport: { width: 1440, height: 1000 },
     trace: "retain-on-failure",
     launchOptions: {

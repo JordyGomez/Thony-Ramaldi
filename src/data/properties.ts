@@ -307,6 +307,12 @@ export type PropertyFilters = {
   location: string;
   price: string;
   bedrooms: string;
+  /** Texto libre: nombre, sector, ciudad o código. */
+  query: string;
+  priceMin: string;
+  bathrooms: string;
+  parking: string;
+  areaMin: string;
 };
 export const emptyFilters: PropertyFilters = {
   type: "",
@@ -314,20 +320,72 @@ export const emptyFilters: PropertyFilters = {
   location: "",
   price: "",
   bedrooms: "",
+  query: "",
+  priceMin: "",
+  bathrooms: "",
+  parking: "",
+  areaMin: "",
 };
+
+const fold = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+/** Los datos desconocidos o provisionales nunca satisfacen un filtro numérico. */
+const atLeast = (value: number | null, minimum: string) =>
+  !minimum || (value !== null && value >= Number(minimum));
 
 export function filterProperties(
   list: Property[],
   filters: PropertyFilters,
 ) {
-  return list.filter(
-    (p) =>
+  const words = fold(filters.query).split(/\s+/).filter(Boolean);
+  return list.filter((p) => {
+    const text = fold(
+      [p.title, p.location, p.neighborhood, p.reference, p.type, p.projectName]
+        .filter(Boolean)
+        .join(" "),
+    );
+    return (
       (!filters.type || p.type === filters.type) &&
       (!filters.operation || p.operation === filters.operation) &&
       (!filters.location || p.location === filters.location) &&
       (!filters.price ||
         (!p.priceProvisional && p.price <= Number(filters.price))) &&
-      (!filters.bedrooms ||
-        (p.bedrooms !== null && p.bedrooms >= Number(filters.bedrooms))),
-  );
+      (!filters.priceMin ||
+        (!p.priceProvisional && p.price >= Number(filters.priceMin))) &&
+      atLeast(p.bedrooms, filters.bedrooms) &&
+      atLeast(p.bathrooms, filters.bathrooms) &&
+      atLeast(p.parking, filters.parking) &&
+      atLeast(p.area, filters.areaMin) &&
+      words.every((word) => text.includes(word))
+    );
+  });
+}
+
+export type PropertySort = "" | "price-asc" | "price-desc" | "area-desc";
+export const propertySorts: [PropertySort, string][] = [
+  ["", "Orden del asesor"],
+  ["price-asc", "Precio: menor a mayor"],
+  ["price-desc", "Precio: mayor a menor"],
+  ["area-desc", "Superficie: mayor a menor"],
+];
+/** Orden estable; precios provisionales y superficies desconocidas, al final. */
+export function sortProperties(list: Property[], sort: PropertySort) {
+  if (!sort) return list;
+  const key = (p: Property) =>
+    sort === "area-desc" ? p.area : p.priceProvisional ? null : p.price;
+  const direction = sort === "price-asc" ? 1 : -1;
+  return list
+    .map((property, index) => ({ property, index }))
+    .sort((a, b) => {
+      const x = key(a.property);
+      const y = key(b.property);
+      if (x === null || y === null)
+        return x === y ? a.index - b.index : x === null ? 1 : -1;
+      return (x - y) * direction || a.index - b.index;
+    })
+    .map((item) => item.property);
 }

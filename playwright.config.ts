@@ -9,6 +9,23 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: "http://127.0.0.1:3100",
+    // Las regresiones entran con la introducción 3D ya vista en la sesión;
+    // tests/intro.spec.ts la comprueba aparte con una sesión nueva.
+    storageState: {
+      cookies: [
+        {
+          name: "thony_intro",
+          value: "1",
+          domain: "127.0.0.1",
+          path: "/",
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: "Lax",
+        },
+      ],
+      origins: [],
+    },
     trace: "retain-on-failure",
     launchOptions: {
       ...(existsSync("/usr/bin/chromium")

@@ -1,5 +1,17 @@
 # Registro de cambios
 
+## 2026-11-15 — Claude Code (sesión del usuario del repositorio) — Evolución integral, PR #16
+
+Base main `b03875d`, rama `claude/cool-curie-y1gjq3`. Sin cambios remotos de otros colaboradores durante la tarea. No se ejecutó SQL, no se activó ningún proveedor y no se escribió en Supabase real.
+
+- **Puerta de caoba 3D como pantalla de carga** (`fa5bcc5`): escena Three.js propia, póster real del primer cuadro enviado por el servidor, una vez por sesión, saltable, movimiento reducido, sin JS/WebGL, guarda de rendimiento, límite de 5 s y liberación de GPU. Controles en `/admin/web`. `motion` sigue en `off`. Ver INTRO-3D.
+- **SEO y seguridad** (`10b8cb5`): robots.txt bloqueaba `/propiedades/` y todas las fichas llevaban `noindex`; ahora solo las reales y disponibles son indexables y entran en el sitemap. Canonical por página, JSON-LD y cabeceras de seguridad.
+- **Reel de Instagram** (`a017bd5`): API oficial preparada (token solo en servidor) y enlace manual con embed oficial. Ver INSTAGRAM.
+- **Catálogo** (`081ebef`): búsqueda, precio mínimo, baños, parqueos, superficie, orden, URL compartible, favoritos y comparador de 2 a 4. Las elecciones previas a la hidratación ya no se pierden.
+- **WhatsApp revisable en fichas** (`45dd680`), **dashboard del panel** (`9529a68`) y **Kapso como transporte alternativo desactivado** (`0912b8c`). Ver KAPSO.
+- Pruebas locales: lint, tipos y builds; 124 regresiones, 8 públicas, 18 panel, 17 plataforma, 20 agenda y 73 SQL: **260 aprobadas**, sin omitidas.
+
+
 ## 2026-10-23 — Codex / Yordi Gómez — Ficha TREO II
 
 - Revisados y conservados PR #14/commit `137a0c0` de Claude y estado de migraciones instalado; base main `3b71148`. Catálogo público inicial vacío, identidad Thony.

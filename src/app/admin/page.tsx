@@ -14,6 +14,8 @@ import { AdminBar } from "./admin-bar";
 import { DeleteButton } from "./list-actions";
 import styles from "./admin.module.css";
 import { readAppointmentAccess } from "@/lib/appointments/access";
+import { Dashboard } from "./dashboard";
+import { loadAgendaSummary } from "@/lib/appointments/summary";
 import { readPlatformAccess } from "@/lib/platform-access";
 
 export default async function AdminPage() {
@@ -65,6 +67,7 @@ export default async function AdminPage() {
     .order("sort_order", { ascending: true, nullsFirst: false })
     .order("created_at", { ascending: false });
   const rows = (data ?? []) as PropertyRow[];
+  const agenda = await loadAgendaSummary(supabase);
 
   return (
     <>
@@ -83,6 +86,7 @@ export default async function AdminPage() {
             <Plus size={18} aria-hidden="true" /> Nueva propiedad
           </Link>
         </div>
+        {!error && <Dashboard rows={rows} agenda={agenda} />}
         {!error && !rows.some((row) => row.slug === "treo-ii-residences") && (
           <p>
             <Link href="/admin/proyectos/treo-ii">

@@ -16,14 +16,25 @@ import { Hero } from "./hero";
 import { DepthPlane } from "./depth-plane";
 import { AppointmentInvitation } from "./appointments/invitation";
 import { PersonalSearch } from "./personal-search";
+import { DoorIntro } from "./intro/door-intro";
+import { InstagramReel } from "./instagram-reel";
+import type { PublicReel } from "@/lib/instagram";
 
 export function HomeContent({
   properties,
   settings,
+  intro = false,
+  forceIntro = false,
+  reel = null,
 }: {
   properties: Property[];
   settings: SiteSettings;
   preview?: boolean;
+  /** El servidor decide si envía la pantalla de carga (portada, no vista aún). */
+  intro?: boolean;
+  forceIntro?: boolean;
+  /** Reel ya resuelto en el servidor; `null` oculta el bloque. */
+  reel?: PublicReel | null;
 }) {
   const t = settings.texts;
   const wa = whatsappUrl(undefined, {
@@ -74,6 +85,7 @@ export function HomeContent({
           >
             {t.aboutCta} <ArrowUpRight size={16} strokeWidth={1.25} />
           </a>
+          {reel && <InstagramReel reel={reel} handle={t.instagramHandle} />}
         </Reveal>
         <Reveal className="about-visual" variant="image">
           <DepthPlane className="about-portrait-plane">
@@ -133,6 +145,13 @@ export function HomeContent({
     ),
   };
   return (
+    <>
+    {(intro || forceIntro) && settings.experience.intro === "door" && (
+      <DoorIntro
+        frequency={settings.experience.introFrequency}
+        force={forceIntro}
+      />
+    )}
     <main id="contenido">
       <Hero settings={settings} />
       {settings.sections
@@ -159,5 +178,6 @@ export function HomeContent({
         </a>
       )}
     </main>
+    </>
   );
 }

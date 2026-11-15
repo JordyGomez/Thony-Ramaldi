@@ -22,7 +22,9 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       allow: "/",
       disallow: settings.experience.indexable
         ? [
-            "/propiedades/",
+            // Las fichas se rastrean: cada una declara si es indexable
+            // (solo las reales y disponibles). Bloquearlas aquí impedía
+            // posicionar el inventario publicado.
             "/admin",
             "/api/admin/",
             "/api/citas/",

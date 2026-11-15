@@ -5,7 +5,6 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url || "http://localhost:3000"),
-  ...(site.url ? { alternates: { canonical: site.url } } : {}),
   title: "Thony Paulino · Ramaldi | Tu próximo espacio",
   description:
     "Asesoría inmobiliaria con Thony Paulino, Ramaldi en República Dominicana. Propiedades para vivir o invertir, en venta y alquiler.",

@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { getSiteSettings } from "@/data/get-site-settings";
 import { getPlatformSnapshot } from "@/data/get-platform";
+import { getProperties } from "@/data/get-properties";
+import { listingStatus } from "@/data/properties";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -24,7 +26,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : [];
   const settings = await getSiteSettings();
   const agenda = await publicAgenda().catch(() => null);
-  // Las fichas ficticias permanecen fuera del índice de búsqueda.
+  // Solo fichas reales y disponibles; demostraciones y fichas en preparación
+  // permanecen fuera del índice de búsqueda.
+  const listings = (await getProperties().catch(() => [])).filter(
+    (property) => listingStatus(property) === "available",
+  );
   return site.url && settings.experience.indexable
     ? [
         { url: site.url, changeFrequency: "monthly", priority: 1 },
@@ -37,6 +43,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               },
             ]
           : []),
+        ...listings.map((property) => ({
+          url: `${site.url}/propiedades/${property.slug}`,
+          changeFrequency: "weekly" as const,
+          priority: 0.8,
+        })),
       ]
     : [];
 }

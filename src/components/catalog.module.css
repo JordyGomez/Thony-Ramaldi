@@ -103,3 +103,10 @@
     font-size: 13px;
   }
 }
+
+.resultActions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 24px;
+}

@@ -6,13 +6,17 @@ import { SiteFrame } from "@/components/site-frame";
 import { HomeContent } from "@/components/home-content";
 import { footerPropertyImage } from "@/lib/footer-property-image";
 import "@/components/cinematic.css";
+import { parseReelUrl } from "@/lib/instagram";
 
 export function WebsitePreview({
   initial,
   properties,
+  forceIntro = false,
 }: {
   initial: SiteSettings;
   properties: Property[];
+  /** «Previsualizar introducción» del editor: la reproduce sin marcarla vista. */
+  forceIntro?: boolean;
 }) {
   const [settings, setSettings] = useState(initial);
   useEffect(() => {
@@ -32,9 +36,19 @@ export function WebsitePreview({
     window.addEventListener("message", receive);
     return () => window.removeEventListener("message", receive);
   }, []);
+  // La vista previa muestra el enlace manual; la sincronización automática
+  // solo se resuelve en el servidor de la web publicada.
+  const manual =
+    settings.reel.mode === "off" ? null : parseReelUrl(settings.reel.url);
   return (
     <SiteFrame settings={settings} footerImage={footerPropertyImage(properties)}>
-      <HomeContent settings={settings} properties={properties} preview />
+      <HomeContent
+        settings={settings}
+        properties={properties}
+        preview
+        forceIntro={forceIntro}
+        reel={manual ? { source: "manual", ...manual } : null}
+      />
     </SiteFrame>
   );
 }

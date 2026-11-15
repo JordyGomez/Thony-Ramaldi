@@ -1,0 +1,127 @@
+.tray {
+  position: sticky;
+  bottom: 16px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 32px;
+  padding: 14px 20px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--bg-deep), transparent 6%);
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+}
+.tray p {
+  margin: 0;
+  color: var(--text-soft);
+}
+.tray > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.tray :global(.button) {
+  min-height: 44px;
+}
+.clear {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.dialog {
+  width: min(1100px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text);
+}
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.7);
+}
+.dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.dialog h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 300;
+}
+.dialog header button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.scroll {
+  overflow-x: auto;
+  padding: 0 24px;
+}
+.dialog table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.dialog th,
+.dialog td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  font-weight: 300;
+}
+.dialog tbody th {
+  width: 130px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.dialog thead th a {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+}
+.dialog thead th button {
+  min-height: 32px;
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.note {
+  margin: 0;
+  padding: 16px 24px 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.dialog button:focus-visible,
+.dialog a:focus-visible,
+.scroll:focus-visible,
+.clear:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

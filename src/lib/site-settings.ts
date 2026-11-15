@@ -2,6 +2,7 @@ import heroPhoto from "../../public/images/portada.jpg";
 import footerPhoto from "../../public/images/villa.jpg";
 import portraitPhoto from "../../public/images/thony-paulino.jpg";
 import { supabaseUrl } from "./supabase/env";
+import { parseReelUrl, type ReelSettings } from "./instagram";
 
 export const defaultTexts = {
   name: "Thony Paulino",
@@ -97,10 +98,15 @@ export type SiteSettings = {
   experience: {
     motion: "expressive" | "subtle" | "off";
     entry: boolean;
+    /** Pantalla de carga con la puerta de caoba en 3D. */
+    intro: "door" | "off";
+    introFrequency: "session" | "always";
     floatingContact: boolean;
     footer: boolean;
     indexable: boolean;
   };
+  /** Reel de Instagram junto a la presentación de Thony. */
+  reel: ReelSettings;
   sections: { id: SectionId; visible: boolean }[];
   steps: { title: string; detail: string }[];
 };
@@ -117,10 +123,15 @@ export const defaultSettings: SiteSettings = {
   experience: {
     motion: "off",
     entry: false,
+    intro: "door",
+    introFrequency: "session",
     floatingContact: true,
     footer: true,
     indexable: true,
   },
+  // «auto» usa la API oficial si el propietario la conectó; sin conexión ni
+  // URL manual el bloque no aparece.
+  reel: { mode: "auto", url: "" },
   sections: (Object.keys(sectionNames) as SectionId[]).map((id) => ({
     id,
     visible: true,
@@ -280,11 +291,33 @@ export function parseSiteSettings(value: unknown): SiteSettings {
   };
   if (
     !["expressive", "subtle", "off"].includes(experience.motion) ||
+    !["door", "off"].includes(experience.intro) ||
+    !["session", "always"].includes(experience.introFrequency) ||
     !["entry", "floatingContact", "footer", "indexable"].every(
       (key) => typeof experience[key as keyof typeof experience] === "boolean",
     )
   )
     throw new Error("Revisa las opciones de la experiencia.");
+  const rawReel = input.reel === undefined ? {} : record(input.reel);
+  const reel: ReelSettings = { ...defaultSettings.reel };
+  if (rawReel.mode !== undefined) {
+    if (!["auto", "manual", "off"].includes(rawReel.mode as string))
+      throw new Error("Revisa la opción del reel de Instagram.");
+    reel.mode = rawReel.mode as ReelSettings["mode"];
+  }
+  if (rawReel.url !== undefined) {
+    if (typeof rawReel.url !== "string" || rawReel.url.length > 300)
+      throw new Error("Revisa el enlace del reel de Instagram.");
+    const trimmed = rawReel.url.trim();
+    const parsed = trimmed ? parseReelUrl(trimmed) : null;
+    if (trimmed && !parsed)
+      throw new Error(
+        "El reel debe ser un enlace de instagram.com con la forma /reel/…",
+      );
+    reel.url = parsed ? parsed.permalink : "";
+  }
+  if (reel.mode === "manual" && !reel.url)
+    throw new Error("Pega el enlace del reel o elige otra opción.");
   const sections = input.sections ?? defaultSettings.sections;
   if (
     !Array.isArray(sections) ||
@@ -327,10 +360,14 @@ export function parseSiteSettings(value: unknown): SiteSettings {
       // Compatibilidad con ediciones antiguas, sin reactivar el movimiento retirado.
       motion: "off",
       entry: false,
+      // La única introducción vigente es la puerta 3D de la pantalla de carga.
+      intro: experience.intro,
+      introFrequency: experience.introFrequency,
       floatingContact: experience.floatingContact,
       footer: experience.footer,
       indexable: experience.indexable,
     },
+    reel,
     sections: sections.map((section) => ({
       id: section.id as SectionId,
       visible: section.visible as boolean,

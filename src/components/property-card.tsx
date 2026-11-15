@@ -7,6 +7,7 @@ import {
   listingStatusLabel,
   type Property,
 } from "@/data/properties";
+import { CardActions } from "./card-actions";
 
 export function PropertyCard({
   property,
@@ -54,6 +55,7 @@ export function PropertyCard({
             ? `${property.bedrooms} hab. · ${property.bathrooms} baños · ${property.area} m²`
             : "Unidad por confirmar"}
         </p>
+        <CardActions slug={property.slug} title={property.title} />
         <div className="property-bottom">
           <div>
             <p className="property-price">

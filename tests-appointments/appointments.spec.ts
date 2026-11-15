@@ -914,3 +914,22 @@ test("429 reintenta con la misma clave y un mensaje Meta aceptado sin respuesta 
     snapshot.jobs.filter((j: { status: string }) => j.status === "uncertain"),
   ).toHaveLength(2);
 });
+
+test("el webhook de Kapso permanece cerrado mientras no sea el transporte activo", async ({
+  request,
+}) => {
+  const body = JSON.stringify({ object: "whatsapp_business_account", entry: [] });
+  const attempts: Record<string, string>[] = [
+    {},
+    { "x-webhook-signature": "0".repeat(64) },
+    { "x-hub-signature-256": "sha256=" + "0".repeat(64) },
+  ];
+  for (const headers of attempts) {
+    const response = await request.post("/api/webhooks/appointments/kapso", {
+      data: body,
+      headers: { "content-type": "application/json", ...headers },
+    });
+    // Sin WHATSAPP_TRANSPORT=kapso y su secreto no se procesa ningún evento.
+    expect(response.status()).toBe(503);
+  }
+});
