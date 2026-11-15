@@ -38,7 +38,7 @@ export function parseReelUrl(
   )
     return null;
   const match = url.pathname.match(
-    /^(?:\/[A-Za-z0-9._]{1,30})?\/(reel|reels|p|tv)\/([A-Za-z0-9_-]{5,40})\/?$/,
+    /^(?:\/[A-Za-z0-9._]{1,30})?\/(reel|reels|p)\/([A-Za-z0-9_-]{5,40})\/?$/,
   );
   if (!match) return null;
   const kind = match[1] === "reels" ? "reel" : match[1];

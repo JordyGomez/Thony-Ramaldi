@@ -1,5 +1,7 @@
 # Reel de Instagram
 
+**Uso decidido por el usuario (2026-11-15): enlace manual.** En `/admin/web` → Marca y presentación → Reel de Instagram se pega el enlace del reel (Instagram → Compartir → Copiar enlace) y se publica. No hace falta API ni token. Solo se admiten enlaces `/reel/` y `/p/`, que son los que documenta Meta para incrustar. oEmbed se evaluó y se descartó: exige token y no aporta miniatura ni el último reel.
+
 Bloque pequeño y vertical junto a la presentación de Thony. Sin scraping.
 
 ## Modos (`/admin/web` → Marca y presentación)

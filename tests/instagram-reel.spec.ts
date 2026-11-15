@@ -28,6 +28,7 @@ test("rechaza enlaces que no son de Instagram o no son reels", () => {
     "https://www.instagram.com:8443/reel/DAbc123/",
     "https://www.instagram.com/thonypaulino_ramaldi/",
     "https://www.instagram.com/reel/<script>/",
+    "https://www.instagram.com/tv/DAbc123/",
     "javascript:alert(1)",
   ])
     expect(parseReelUrl(url), url).toBeNull();

@@ -47,9 +47,9 @@ export function ReelSettingsFields({
     <fieldset className={styles.fieldset}>
       <legend>Reel de Instagram</legend>
       <p className={styles.hint}>
-        Se muestra pequeño y sin sonido junto a la presentación. La opción
-        automática usa la API oficial de Instagram y requiere que el
-        propietario conecte la cuenta; el enlace manual funciona siempre.
+        Se muestra pequeño junto a la presentación de Thony. Abre el reel en
+        Instagram, pulsa Compartir, elige Copiar enlace y pégalo aquí. Para
+        cambiarlo, pega el enlace del reel nuevo y publica.
       </p>
       <label className={styles.field}>
         <span>Qué mostrar</span>
@@ -59,8 +59,10 @@ export function ReelSettingsFields({
             onChange({ ...value, mode: event.target.value as ReelSettings["mode"] })
           }
         >
-          <option value="auto">Último reel automático (con enlace de reserva)</option>
-          <option value="manual">Solo el enlace que indique</option>
+          <option value="manual">El reel del enlace</option>
+          <option value="auto">
+            Automático si la cuenta está conectada; si no, el del enlace
+          </option>
           <option value="off">No mostrar ningún reel</option>
         </select>
       </label>
@@ -78,7 +80,7 @@ export function ReelSettingsFields({
             {!value.url
               ? value.mode === "manual"
                 ? "Pega el enlace del reel para poder guardarlo."
-                : "Opcional: se usa si la conexión automática no está disponible."
+                : "Pega el enlace del reel para que aparezca en la web."
               : parsed
                 ? `Enlace válido: ${parsed.permalink}`
                 : "No es un enlace de reel de instagram.com."}
