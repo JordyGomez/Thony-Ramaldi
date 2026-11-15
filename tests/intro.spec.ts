@@ -18,6 +18,9 @@ test("la puerta aparece en la primera visita y deja paso a la portada", async ({
   await expect(page.locator(intro)).toHaveCount(0, { timeout: 6500 });
   await expect(page.locator("h1")).toBeVisible();
   expect(errors).toEqual([]);
+  // Los navegadores de prueba renderizan por software, así que aquí se
+  // ejercita la salida con imagen fija; la escena 3D se revisa con
+  // scripts/render-intro-poster.mjs --frames.
   // Liberación de la GPU: no queda ningún lienzo en el documento.
   await expect(page.locator("canvas")).toHaveCount(0);
 });

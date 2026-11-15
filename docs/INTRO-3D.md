@@ -18,7 +18,7 @@ Duración nominal: 2,78 s desde que la escena está lista. Límite absoluto: 5 s
 | Llegada por una ficha y vuelta a la portada | No aparece |
 | `prefers-reduced-motion` | No aparece |
 | Sin JavaScript | No aparece (`@media (scripting: none)`) |
-| Sin WebGL, ahorro de datos, 2G o poca memoria | Póster y disolución, sin 3D |
+| Sin WebGL o sin aceleración por hardware, ahorro de datos, 2G o poca memoria | Póster y disolución, sin 3D |
 | Escena no lista en 2,1 s o primer cuadro de más de 160 ms | Póster y disolución |
 | Tecla, clic, toque, rueda o pestaña oculta | Se retira al instante |
 
@@ -40,4 +40,4 @@ El póster y la cámara mantienen visible una caja de 1,9 × 3,3 m. Cambiar `int
 
 ## Comprobado y no comprobado
 
-Comprobado en Chromium con render por software, escritorio y móvil: 14 pruebas en `tests/intro.spec.ts`. No comprobado: Safari, teléfonos físicos, consumo de batería ni fluidez en GPU reales. No se evaluó postprocesado (bloom) para no añadir coste de GPU.
+Comprobado en Chromium, escritorio y móvil: 14 pruebas en `tests/intro.spec.ts`. Los navegadores de prueba y de CI renderizan por software, de modo que esas pruebas ejercitan el ciclo de vida y la salida con imagen fija; la escena 3D se revisó visualmente con los cuadros de `scripts/render-intro-poster.mjs --frames`, no con un navegador con GPU real. No comprobado: Safari, teléfonos físicos, consumo de batería ni fluidez en GPU reales. No se evaluó postprocesado (bloom) para no añadir coste de GPU.

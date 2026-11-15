@@ -41,6 +41,29 @@ export function webglAvailable() {
   }
 }
 
+/**
+ * Solo se monta la escena con aceleración por hardware. Con render por
+ * software, preparar la escena ya bloquea la página varios segundos, antes de
+ * que pueda medirse ningún cuadro; ahí se usa la imagen fija.
+ */
+function hardwareAccelerated() {
+  try {
+    const canvas = document.createElement("canvas");
+    const options = { failIfMajorPerformanceCaveat: true };
+    const gl = (canvas.getContext("webgl2", options) ||
+      canvas.getContext("webgl", options)) as WebGLRenderingContext | null;
+    if (!gl) return false;
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = info
+      ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL))
+      : "";
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return !/swiftshader|llvmpipe|software|basic render/i.test(renderer);
+  } catch {
+    return false;
+  }
+}
+
 function constrainedDevice() {
   const nav = navigator as Navigator & {
     connection?: { saveData?: boolean; effectiveType?: string };
@@ -126,7 +149,7 @@ export function DoorIntro({
     const canvas = canvasRef.current;
     if (
       !canvas ||
-      !webglAvailable() ||
+      !hardwareAccelerated() ||
       constrainedDevice() ||
       elapsed() > introTiming.lateMount
     ) {
