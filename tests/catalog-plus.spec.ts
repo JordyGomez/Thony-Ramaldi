@@ -105,3 +105,25 @@ test("comparador de dos a cuatro propiedades", async ({ page }) => {
   await tray.getByRole("button", { name: "Vaciar" }).click();
   await expect(tray).toHaveCount(0);
 });
+
+test("la ficha deja revisar y editar el mensaje de WhatsApp", async ({ page }) => {
+  await page.goto("/propiedades/apartamento-brisa");
+  const composer = page.locator("details", {
+    hasText: "Revisar el mensaje antes de abrir WhatsApp",
+  });
+  await composer.locator("summary").click();
+  const message = composer.getByLabel("Mensaje");
+  await expect(message).toHaveValue(/Apartamento Brisa \(código [^)]+\), en venta/);
+  await expect(message).toHaveValue(/ficha de demostración/);
+  await composer.getByLabel("Qué quieres consultar").selectOption("visit");
+  await expect(message).toHaveValue(/coordinar una visita/);
+  await message.fill("Hola Thony, texto propio & con símbolos.");
+  await composer.getByLabel("Qué quieres consultar").selectOption("price");
+  await expect(message).toHaveValue("Hola Thony, texto propio & con símbolos.");
+  const link = composer.getByRole("link", { name: /Abrir WhatsApp con este mensaje/ });
+  await expect(link).toHaveAttribute(
+    "href",
+    `https://wa.me/18294045770?text=${encodeURIComponent("Hola Thony, texto propio & con símbolos.")}`,
+  );
+  await expect(composer).toContainText("solo se envía cuando lo confirmes allí");
+});

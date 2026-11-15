@@ -18,6 +18,7 @@ import { TreoShowcase } from "@/components/project/treo-showcase";
 import { projectUnits } from "@/lib/project-units";
 import { PublicModeContent } from "@/components/public-mode";
 import { JsonLd, listingJsonLd } from "@/lib/structured-data";
+import { WhatsAppComposer } from "@/components/whatsapp-composer";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí). Las
 // fichas nuevas del panel se generan bajo demanda (dynamicParams por defecto).
@@ -350,6 +351,19 @@ export default async function PropertyPage({
                 >
                   <WhatsAppIcon width={18} height={18} /> Consultar a Thony
                 </a>
+                <WhatsAppComposer
+                  number={t.whatsapp}
+                  advisor={t.name.split(" ")[0]}
+                  property={{
+                    title: property.title,
+                    reference: property.reference,
+                    operation: property.operation,
+                    url: site.url
+                      ? `${site.url}/propiedades/${property.slug}`
+                      : "",
+                    demo: isDemo,
+                  }}
+                />
                 {!isDemo && status === "available" && (
                   <Link
                     className="button"

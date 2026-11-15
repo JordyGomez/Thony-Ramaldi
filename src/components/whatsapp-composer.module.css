@@ -1,0 +1,68 @@
+.composer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 14px;
+}
+.composer summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--text-soft);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  list-style: none;
+}
+.composer summary::-webkit-details-marker {
+  display: none;
+}
+.composer[open] {
+  gap: 14px;
+}
+.composer label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+.composer label span {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.composer select,
+.composer textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+.composer select option {
+  background: var(--bg);
+}
+.composer textarea {
+  resize: vertical;
+}
+.composer :global(.button) {
+  margin-top: 14px;
+}
+.composer small {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.composer summary:focus-visible,
+.composer select:focus-visible,
+.composer textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
