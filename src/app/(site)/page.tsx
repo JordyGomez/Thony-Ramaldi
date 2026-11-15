@@ -6,7 +6,14 @@ import { CorporateHome } from "@/components/corporate-portal";
 import { PublicModeContent } from "@/components/public-mode";
 import { cookies } from "next/headers";
 import { INTRO_COOKIE } from "@/lib/intro";
+import type { Metadata } from "next";
+import { site } from "@/lib/site";
+import { agentJsonLd, JsonLd } from "@/lib/structured-data";
 export const revalidate = 60;
+// El canonical pertenece a cada página: antes lo heredaban todas desde la raíz.
+export const metadata: Metadata = site.url
+  ? { alternates: { canonical: site.url } }
+  : {};
 export default async function Home() {
   const platform = await getPlatformSnapshot();
   if (platform?.mode === "ramaldi")
@@ -30,6 +37,7 @@ export default async function Home() {
       !jar.has(INTRO_COOKIE));
   return (
     <PublicModeContent mode="thony" revision={platform?.revision || 0}>
+      {site.url && <JsonLd data={agentJsonLd(settings, site.url)} />}
       <HomeContent properties={properties} settings={settings} intro={intro} />
     </PublicModeContent>
   );

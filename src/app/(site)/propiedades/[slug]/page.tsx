@@ -17,6 +17,7 @@ import { CorporateProperty } from "@/components/corporate-portal";
 import { TreoShowcase } from "@/components/project/treo-showcase";
 import { projectUnits } from "@/lib/project-units";
 import { PublicModeContent } from "@/components/public-mode";
+import { JsonLd, listingJsonLd } from "@/lib/structured-data";
 
 // Mantener igual a PROPERTIES_REVALIDATE (Next exige un literal aquí). Las
 // fichas nuevas del panel se generan bajo demanda (dynamicParams por defecto).
@@ -46,7 +47,10 @@ export async function generateMetadata({
         }
       : { title: "Propiedad no encontrada", robots: { index: false } };
   }
-  const properties = await getProperties();
+  const [properties, settings] = await Promise.all([
+    getProperties(),
+    getSiteSettings(),
+  ]);
   const property = properties.find((p) => p.slug === slug);
   const status = property && listingStatus(property);
   const operation = property?.operation.toLowerCase();
@@ -64,7 +68,11 @@ export async function generateMetadata({
             : status === "preparation"
               ? `${property.type} en ${operation} en ${property.title}, ${property.location}. Ficha en preparación con precio y unidad por confirmar${property.imagesAreRenders ? "; renders del proyecto" : ""}.`
               : `${property.type} en ${operation} en ${property.location}. ${property.neighborhood}.`,
-        robots: { index: false, follow: true },
+        // Solo las fichas reales y disponibles se ofrecen a los buscadores.
+        robots: {
+          index: status === "available" && settings.experience.indexable,
+          follow: true,
+        },
         ...(baseSite.url
           ? {
               alternates: {
@@ -130,6 +138,7 @@ export default async function PropertyPage({
   ) {
     return (
       <PublicModeContent mode="thony" revision={platform?.revision || 0}>
+        {site.url && <JsonLd data={listingJsonLd(property, site.url)} />}
         <TreoShowcase
           property={property}
           whatsapp={t.whatsapp}
@@ -146,6 +155,7 @@ export default async function PropertyPage({
   ];
   return (
     <PublicModeContent mode="thony" revision={platform?.revision || 0}>
+      {site.url && <JsonLd data={listingJsonLd(property, site.url)} />}
       <main className={`property-page ${styles.page}`} id="contenido">
         <Gallery
           images={property.images}
