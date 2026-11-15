@@ -30,8 +30,33 @@ function fixtureBase() {
     return value;
   return null;
 }
+/**
+ * Transporte de WhatsApp. Por defecto, Meta Cloud API directa. Con
+ * WHATSAPP_TRANSPORT=kapso los mismos mensajes y plantillas viajan por el
+ * proxy oficial de Kapso (misma carga de Meta, cabecera X-API-Key). Solo hay
+ * un transporte activo: nunca se envía el mismo aviso por dos vías.
+ */
+export function whatsappTransport(): "meta" | "kapso" {
+  return process.env.WHATSAPP_TRANSPORT === "kapso" ? "kapso" : "meta";
+}
+function whatsappCredential() {
+  return whatsappTransport() === "kapso"
+    ? process.env.KAPSO_API_KEY
+    : process.env.WHATSAPP_ACCESS_TOKEN;
+}
+function whatsappRequest(path: string) {
+  const kapso = whatsappTransport() === "kapso";
+  return {
+    url: providerUrl(kapso ? "kapso" : "meta", path),
+    headers: (kapso
+      ? { "X-API-Key": process.env.KAPSO_API_KEY || "" }
+      : {
+          Authorization: "Bearer " + process.env.WHATSAPP_ACCESS_TOKEN,
+        }) as Record<string, string>,
+  };
+}
 export function providerUrl(
-  provider: "resend" | "meta" | "turnstile",
+  provider: "resend" | "meta" | "kapso" | "turnstile",
   path = "",
 ) {
   const test = fixtureBase();
@@ -40,6 +65,8 @@ export function providerUrl(
     ? "https://api.resend.com" + path
     : provider === "meta"
       ? "https://graph.facebook.com" + path
+      : provider === "kapso"
+        ? "https://api.kapso.ai/meta/whatsapp" + path
       : "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 }
 export function publicAppointmentOrigin() {
@@ -113,15 +140,18 @@ async function emailStatus(verify: boolean): Promise<ProviderStatus> {
 }
 async function whatsappStatus(verify: boolean): Promise<ProviderStatus> {
   const e = process.env;
+  const kapso = whatsappTransport() === "kapso";
   const required = [
-    e.WHATSAPP_ACCESS_TOKEN,
+    whatsappCredential(),
     e.WHATSAPP_PHONE_NUMBER_ID,
     e.WHATSAPP_BUSINESS_ACCOUNT_ID,
     e.WHATSAPP_API_VERSION,
     e.WHATSAPP_TEMPLATE_OWNER,
     e.WHATSAPP_TEMPLATE_CLIENT,
-    e.WHATSAPP_APP_SECRET,
-    e.WHATSAPP_VERIFY_TOKEN,
+    // Cada transporte firma sus webhooks con su propio secreto.
+    ...(kapso
+      ? [e.KAPSO_WEBHOOK_SECRET]
+      : [e.WHATSAPP_APP_SECRET, e.WHATSAPP_VERIFY_TOKEN]),
   ];
   if (required.some((v) => !v))
     return missing(
@@ -144,10 +174,11 @@ async function whatsappStatus(verify: boolean): Promise<ProviderStatus> {
       "Credenciales presentes; remitente y plantillas aún no comprobados.",
     );
   const get = async (path: string) => {
+    const target = whatsappRequest(`/${e.WHATSAPP_API_VERSION}/${path}`);
     const r = await fetch(
-      providerUrl("meta", `/${e.WHATSAPP_API_VERSION}/${path}`),
+      target.url,
       {
-        headers: { Authorization: "Bearer " + e.WHATSAPP_ACCESS_TOKEN },
+        headers: target.headers,
         cache: "no-store",
         signal: AbortSignal.timeout(7000),
       },
@@ -296,14 +327,13 @@ export async function sendNotification(
       });
     else
       r = await fetch(
-        providerUrl(
-          "meta",
+        whatsappRequest(
           `/${process.env.WHATSAPP_API_VERSION}/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
-        ),
+        ).url,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + process.env.WHATSAPP_ACCESS_TOKEN,
+            ...whatsappRequest("").headers,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
