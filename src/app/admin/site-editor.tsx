@@ -20,6 +20,7 @@ import type { EditorState } from "@/lib/admin-site";
 import { textGroups } from "./site-fields";
 import { ImageSetting } from "./media-library";
 import styles from "./admin.module.css";
+import { IntroCheck } from "./intro-check";
 
 export function SiteEditor({ initial }: { initial: EditorState }) {
   const [settings, setSettings] = useState(initial.settings);
@@ -539,9 +540,60 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
             <fieldset className={styles.fieldset}>
               <legend>Experiencia y publicación</legend>
               <p className={styles.hint}>
-                Presentación estática, sin introducción ni efectos de movimiento.
-                El menú, los filtros y la galería responden de inmediato.
+                La portada puede abrirse con una puerta de caoba en 3D como
+                pantalla de carga. Dura unos tres segundos, se puede saltar y
+                nunca supera los cinco. El resto de la web permanece estático.
               </p>
+              <label className={styles.check}>
+                <input
+                  type="checkbox"
+                  checked={settings.experience.intro === "door"}
+                  onChange={(event) =>
+                    setSettings((previous) => ({
+                      ...previous,
+                      experience: {
+                        ...previous.experience,
+                        intro: event.target.checked ? "door" : "off",
+                      },
+                    }))
+                  }
+                />
+                <span>Introducción 3D con la puerta de caoba</span>
+              </label>
+              {settings.experience.intro === "door" ? (
+                <>
+                  <label className={styles.field}>
+                    <span>Cuándo se muestra</span>
+                    <select
+                      value={settings.experience.introFrequency}
+                      onChange={(event) =>
+                        setSettings((previous) => ({
+                          ...previous,
+                          experience: {
+                            ...previous.experience,
+                            introFrequency:
+                              event.target.value === "always"
+                                ? "always"
+                                : "session",
+                          },
+                        }))
+                      }
+                    >
+                      <option value="session">
+                        Una vez por sesión (recomendado)
+                      </option>
+                      <option value="always">
+                        Cada vez que se abre la portada
+                      </option>
+                    </select>
+                  </label>
+                  <IntroCheck />
+                </>
+              ) : (
+                <p className={styles.hint}>
+                  Entrada directa: la portada aparece sin introducción.
+                </p>
+              )}
               {(
                 [
                   ["floatingContact", "Botón flotante de WhatsApp"],

@@ -10,9 +10,12 @@ import "@/components/cinematic.css";
 export function WebsitePreview({
   initial,
   properties,
+  forceIntro = false,
 }: {
   initial: SiteSettings;
   properties: Property[];
+  /** «Previsualizar introducción» del editor: la reproduce sin marcarla vista. */
+  forceIntro?: boolean;
 }) {
   const [settings, setSettings] = useState(initial);
   useEffect(() => {
@@ -34,7 +37,12 @@ export function WebsitePreview({
   }, []);
   return (
     <SiteFrame settings={settings} footerImage={footerPropertyImage(properties)}>
-      <HomeContent settings={settings} properties={properties} preview />
+      <HomeContent
+        settings={settings}
+        properties={properties}
+        preview
+        forceIntro={forceIntro}
+      />
     </SiteFrame>
   );
 }

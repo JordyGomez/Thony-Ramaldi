@@ -97,6 +97,9 @@ export type SiteSettings = {
   experience: {
     motion: "expressive" | "subtle" | "off";
     entry: boolean;
+    /** Pantalla de carga con la puerta de caoba en 3D. */
+    intro: "door" | "off";
+    introFrequency: "session" | "always";
     floatingContact: boolean;
     footer: boolean;
     indexable: boolean;
@@ -117,6 +120,8 @@ export const defaultSettings: SiteSettings = {
   experience: {
     motion: "off",
     entry: false,
+    intro: "door",
+    introFrequency: "session",
     floatingContact: true,
     footer: true,
     indexable: true,
@@ -280,6 +285,8 @@ export function parseSiteSettings(value: unknown): SiteSettings {
   };
   if (
     !["expressive", "subtle", "off"].includes(experience.motion) ||
+    !["door", "off"].includes(experience.intro) ||
+    !["session", "always"].includes(experience.introFrequency) ||
     !["entry", "floatingContact", "footer", "indexable"].every(
       (key) => typeof experience[key as keyof typeof experience] === "boolean",
     )
@@ -327,6 +334,9 @@ export function parseSiteSettings(value: unknown): SiteSettings {
       // Compatibilidad con ediciones antiguas, sin reactivar el movimiento retirado.
       motion: "off",
       entry: false,
+      // La única introducción vigente es la puerta 3D de la pantalla de carga.
+      intro: experience.intro,
+      introFrequency: experience.introFrequency,
       floatingContact: experience.floatingContact,
       footer: experience.footer,
       indexable: experience.indexable,

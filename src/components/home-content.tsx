@@ -16,14 +16,20 @@ import { Hero } from "./hero";
 import { DepthPlane } from "./depth-plane";
 import { AppointmentInvitation } from "./appointments/invitation";
 import { PersonalSearch } from "./personal-search";
+import { DoorIntro } from "./intro/door-intro";
 
 export function HomeContent({
   properties,
   settings,
+  intro = false,
+  forceIntro = false,
 }: {
   properties: Property[];
   settings: SiteSettings;
   preview?: boolean;
+  /** El servidor decide si envía la pantalla de carga (portada, no vista aún). */
+  intro?: boolean;
+  forceIntro?: boolean;
 }) {
   const t = settings.texts;
   const wa = whatsappUrl(undefined, {
@@ -133,6 +139,13 @@ export function HomeContent({
     ),
   };
   return (
+    <>
+    {(intro || forceIntro) && settings.experience.intro === "door" && (
+      <DoorIntro
+        frequency={settings.experience.introFrequency}
+        force={forceIntro}
+      />
+    )}
     <main id="contenido">
       <Hero settings={settings} />
       {settings.sections
@@ -159,5 +172,6 @@ export function HomeContent({
         </a>
       )}
     </main>
+    </>
   );
 }
