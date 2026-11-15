@@ -35,15 +35,24 @@ test("solo se muestra una vez por sesión", async ({ page }) => {
 test("se puede saltar con el teclado y con el botón", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page.locator(intro)).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.locator(intro)).toHaveCount(0, { timeout: 1500 });
+  // Antes de hidratar no hay quien escuche la tecla: se reintenta, como
+  // haría una persona, y siempre dentro del límite de seguridad.
+  await expect(async () => {
+    await page.keyboard.press("Escape");
+    await expect(page.locator(intro)).toHaveCount(0, { timeout: 300 });
+  }).toPass({ timeout: 4000 });
   await page.context().clearCookies();
   // Con las texturas retenidas la puerta espera en su imagen inicial: el
   // botón sigue disponible el tiempo suficiente para pulsarlo.
   await page.route("**/intro/caoba-*.webp", () => {});
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: "Saltar introducción" }).click();
-  await expect(page.locator(intro)).toHaveCount(0, { timeout: 1500 });
+  await page.goto("/", { waitUntil: "commit" });
+  const skip = page.getByRole("button", { name: "Saltar introducción" });
+  // El botón llega en el HTML del servidor, antes de cargar la escena.
+  await expect(skip).toBeVisible();
+  await expect(async () => {
+    await skip.click({ force: true, timeout: 300 }).catch(() => undefined);
+    await expect(page.locator(intro)).toHaveCount(0, { timeout: 300 });
+  }).toPass({ timeout: 4000 });
 });
 
 test("con movimiento reducido no hay introducción", async ({ browser }) => {

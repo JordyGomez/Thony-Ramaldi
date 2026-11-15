@@ -9,6 +9,7 @@ import { INTRO_COOKIE } from "@/lib/intro";
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { agentJsonLd, JsonLd } from "@/lib/structured-data";
+import { getPublicReel } from "@/data/get-instagram-reel";
 export const revalidate = 60;
 // El canonical pertenece a cada página: antes lo heredaban todas desde la raíz.
 export const metadata: Metadata = site.url
@@ -35,10 +36,14 @@ export default async function Home() {
     settings.experience.intro === "door" &&
     (settings.experience.introFrequency === "always" ||
       !jar.has(INTRO_COOKIE));
+  const reel = await getPublicReel(settings.reel);
   return (
     <PublicModeContent mode="thony" revision={platform?.revision || 0}>
       {site.url && <JsonLd data={agentJsonLd(settings, site.url)} />}
-      <HomeContent properties={properties} settings={settings} intro={intro} />
+      <HomeContent properties={properties} settings={settings}
+        intro={intro}
+        reel={reel}
+      />
     </PublicModeContent>
   );
 }

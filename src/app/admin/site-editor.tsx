@@ -21,6 +21,7 @@ import { textGroups } from "./site-fields";
 import { ImageSetting } from "./media-library";
 import styles from "./admin.module.css";
 import { IntroCheck } from "./intro-check";
+import { ReelSettingsFields } from "./reel-settings";
 
 export function SiteEditor({ initial }: { initial: EditorState }) {
   const [settings, setSettings] = useState(initial.settings);
@@ -537,6 +538,12 @@ export function SiteEditor({ initial }: { initial: EditorState }) {
                 ))}
               </div>
             </fieldset>
+            <ReelSettingsFields
+              value={settings.reel}
+              onChange={(reel) =>
+                setSettings((previous) => ({ ...previous, reel }))
+              }
+            />
             <fieldset className={styles.fieldset}>
               <legend>Experiencia y publicación</legend>
               <p className={styles.hint}>
